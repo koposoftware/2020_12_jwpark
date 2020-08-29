@@ -101,6 +101,55 @@
 		height : 100%;
 		width : 100%;
 	}
+	
+	#modal {
+		display:none;
+		position:fixed;
+		width:100%;
+		height:100%;
+		z-index:1;
+	}
+
+	#modal h2 {
+		margin:0;
+	}
+
+	#modal button {
+		display:inline-block;
+		width:100px;
+		margin-left:calc(100% - 100px - 10px);
+	}
+
+	#modal .modal_content {
+		position : relative;
+		width:500px;
+		padding:20px 10px;
+		background:#fff;
+		border:2px solid #ffffff;
+		left:50%;
+		top:40%;
+		font-size:x-large;
+		transform:translate(-50%, -50%);
+		border-radius: 10px 10px 10px 10px;
+	}
+
+	#modal .modal_layer {
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background:rgba(0, 0, 0, 0.5);
+		z-index:-1;
+	}
+	
+	#modal_close_btn {
+		border-color: white;
+		border-width: inherit;
+		background-color: lightgray;
+		border-radius: 10px 10px 10px 10px;
+		font-size: large;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -115,6 +164,18 @@
 	<header>
 		<%@include file="/WEB-INF/jsp/include/header.jsp" %>
 	</header>
+	
+	<div id="modal">
+			<div class="modal_content">
+			
+				<div id="workModal" align="center" style="width:100%; height:100%; text-align:center; font-size: large; color:black; font-weight:bold;">
+					
+				</div>
+				<button type="button" id="modal_close_btn">취소하기</button>
+    			
+    		</div>
+    	<div class="modal_layer"></div>    	
+    </div>
 	
 	<div id="main">
 		<div id="tellerVideoDiv" >
@@ -158,6 +219,8 @@
 	$(document).ready(function() {
 		
 		console.log('${userVO.id}')
+		
+		workType = '';
 		
 		//var url = 'https://192.168.217.52:1337';
 		var url = 'https://localhost:1337';
@@ -391,6 +454,29 @@
 						isInitiator = false;
 					}
 				});
+				
+				socket.on('work', function(msg){
+					
+					var cmd = msg.split(':')[0];
+					
+					if(cmd == 'accountPwChange') {
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '<input type="password" name="password" id="password" maxlength="4" placeholder="계좌 비밀번호 4자리를 입력해주세요." class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">';
+						content += '<div id="pw_check"></div>';
+						content += '<button id="changePassword">설정하기</button>';
+						
+						$('#workModal').append(content);
+						
+						workType = 'pwChange';
+						
+						$("#modal").fadeIn();
+					} 
+					
+					
+					
+				})
 				
 			///////////////////// socket server로부터의 이벤트 정의 //////////////////
 				
@@ -687,8 +773,71 @@
 				$('#message').val('');
 			}
 			
-			
 		})
+		
+		
+		$(document).on('click', "#changePassword", function(event) {
+			if(!checkPasswordPattern($('#password').val())) {
+				$("#pw_check").text("비밀번호는 4자리의 숫자로 구성해주세요.");
+				$("#pw_check").css("color", "red");
+			} else {
+				$("#pw_check").text("사용 가능한 비밀번호입니다.");
+				$("#pw_check").css("color", "green");
+				socket.emit('work', 'passwordChangeComp:' + encoding($('#password').val()));
+				$("#modal").fadeOut();
+			}
+		})
+		
+		document.getElementById("modal_close_btn").onclick = function() {
+			
+			if(workType = 'pwChange'){
+				socket.emit('work', 'pwClose');
+			}
+			
+			$("#modal").fadeOut();
+			
+    	}   
+		
+		function checkPasswordPattern(str) {
+			var pattern1 = /[0-9]/; // 숫자
+			if(!pattern1.test(str) || str.length != 4)
+				return false;
+			else
+				return true;
+		}
+		
+		function encoding(text) {
+			output = new String;
+			temp = new Array();
+			temp2 = new Array();
+			textSize = text.length;
+			for(i = 0; i< textSize; i++) {
+				rnd = Math.round(Math.random() * 122) + 68;
+				temp[i] = text.charCodeAt(i) + rnd;
+				temp2[i] = rnd;
+			}
+			for(i = 0; i < textSize; i++) {
+				output += String.fromCharCode(temp[i], temp2[i]);
+			}
+			return output;
+		}
+		
+		function decoding(text) {
+			output = new String;
+			temp = new Array();
+			temp2 = new Array();
+			textSize = text.length;
+			
+			for(i = 0; i< textSize; i++) {
+				temp[i] = text.charCodeAt(i);
+				temp2[i] = text.charCodeAt(i+1);
+			}
+			for(i = 0; i < textSize; i = i+2) {
+				output += String.fromCharCode(temp[i] - temp2[i]);
+			}
+			return output;
+		}
+		
 	});
 	
 	window.onbeforeunload = function() {

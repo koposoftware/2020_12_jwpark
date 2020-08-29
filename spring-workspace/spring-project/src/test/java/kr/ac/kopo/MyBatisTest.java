@@ -71,5 +71,18 @@ public class MyBatisTest {
 		
 	}
 	
+	@Ignore
+	@Test
+	public void 계좌비밀번호변경() throws Exception {
+		
+		AccountVO account = new AccountVO();
+		account.setAccountNo("45891034853507");
+		account.setPassword("5555");
+		
+		session.update("account.dao.AccountDAO.updateAccountPassword", account);
+		
+		//List<AccountVO> accountList = ad.selctAccountByUserRegNo(user);
+		
+	}
 	
 }

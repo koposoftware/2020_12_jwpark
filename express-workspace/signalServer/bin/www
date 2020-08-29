@@ -253,7 +253,11 @@ io.sockets.on('connection', function(socket) {
 	  socket.broadcast.to(room).emit('chat', msg)
   });
   
-  
+  socket.on('work', function(msg) {
+	  
+	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
+	  socket.broadcast.to(room).emit('work', msg)
+  });
   
   socket.on('clientDisconnect', function() {
 

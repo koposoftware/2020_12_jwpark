@@ -22,6 +22,11 @@ public class AccountServiceImpl implements AccountService {
 		
 		return accountVO;
 	}
-	
+
+	@Override
+	public void updateAccountPassword(AccountVO account) {
+		
+		accountDAO.updateAccountPassword(account);
+	}
 	
 }

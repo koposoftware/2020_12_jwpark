@@ -87,6 +87,76 @@
 	#workDiv #workName {
 		font-size:x-large;
 	}
+	
+		#modal {
+		display:none;
+		position:fixed;
+		width:100%;
+		height:100%;
+		z-index:1;
+	}
+
+	#modal h2 {
+		margin:0;
+	}
+
+	#modal button {
+		display:inline-block;
+		width:100px;
+		margin-left:calc(100% - 100px - 10px);
+	}
+
+	#modal .modal_content {
+		position : relative;
+		width:500px;
+		padding:20px 10px;
+		background:#fff;
+		border:2px solid #ffffff;
+		left:50%;
+		top:40%;
+		font-size:x-large;
+		transform:translate(-50%, -50%);
+		border-radius: 10px 10px 10px 10px;
+	}
+
+	#modal .modal_layer {
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background:rgba(0, 0, 0, 0.5);
+		z-index:-1;
+	}
+	
+	#modal_close_btn {
+		border-color: white;
+		border-width: inherit;
+		background-color: lightgray;
+		border-radius: 10px 10px 10px 10px;
+		font-size: large;
+	}
+	
+	#mi-modal {
+		text-align : center;
+		
+		left:50%;
+		top:50%;
+		font-size:large;
+		transform:translate(-50%, -50%);
+		border-radius: 10px 10px 10px 10px;
+	}
+	
+	#modal-btn-si {
+		float : right;
+	}
+	#modal-btn-si {
+		float : right;
+	}
+	
+	div .modal-content {
+		width : 500px;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -101,72 +171,95 @@
 	<header>
 		<%@include file="/WEB-INF/jsp/include/header_teller.jsp" %>
 	</header>
-	
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header" style="display:block;">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="modal-btn-si">확인</button>&nbsp;&nbsp;
+					<button type="button" class="btn btn-primary" id="modal-btn-no">취소</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div id="modal">
+		<div class="modal_content">
+			<div id="workModal" align="center" style="width:100%; height:100%; text-align:center; font-size: large; color:black; font-weight:bold;">
+				
+			</div>
+			<button type="button" id="modal_close_btn">확인</button>
+    			
+    	</div>
+    	<div class="modal_layer"></div>    	
+    </div>
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar -->
     	<div class="bg-light border-right" id="sidebar-wrapper">
-    		<div class="sidebar-heading">
-    			업무 목록
-    			<input type="text" id="workCode" >
-    		</div>
-    		<div class="list-group list-group-flush">
-	    		<!-- <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>  -->
-	    		<a id="work_selectAccount1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1100)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">예금 가입(1103)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">적금 가입(1104)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">계좌 이체(1105)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">계좌 제신고(1106)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">카드 조회(1107)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">체크 카드 가입(1108)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">신용 카드 가입(1109)</a>
-    			<a href="#" class="list-group-item list-group-item-action bg-light">카드 제신고(1110)</a>
-    		</div>
+    	<div class="sidebar-heading">
+    		업무 목록
+    		<input type="text" id="workCode" >
     	</div>
-    	<!-- /#sidebar-wrapper -->
+    	<div class="list-group list-group-flush">
+	   		<!-- <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>  -->
+	   		<a id="work_selectAccount1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1100)</a>
+    		<a class="list-group-item list-group-item-action bg-light">예금 가입(1103)</a>
+    		<a class="list-group-item list-group-item-action bg-light">적금 가입(1104)</a>
+    		<a class="list-group-item list-group-item-action bg-light">계좌 이체(1105)</a>
+    		<a id="work_selectAccount1006" class="list-group-item list-group-item-action bg-light">계좌 제신고(1106)</a>
+    		<a class="list-group-item list-group-item-action bg-light">카드 조회(1107)</a>
+    		<a class="list-group-item list-group-item-action bg-light">체크 카드 가입(1108)</a>
+    		<a class="list-group-item list-group-item-action bg-light">신용 카드 가입(1109)</a>
+    		<a class="list-group-item list-group-item-action bg-light">카드 제신고(1110)</a>
+   		</div>
+   	</div>
+   	<!-- /#sidebar-wrapper -->
 
-    	<!-- Page Content -->
-    	<div id="page-content-wrapper">
-    		<div class="container-fluid">
-    			<div id="clientVideoDiv">
-    				<video id="remoteVideo" autoplay playsinline>
-    					<source style="width: 100%">
-    				</video>
-    			</div>
-    			
-    			<div id="chatDiv">
-    				<div id="chat">
-    					<strong>텔러 : 반갑습니다 손님! 영상, 음성이 불안정한 경우 채팅을 이용해주세요.</strong>
-    					<br>
-    				</div>
-    				<input type="text" id="message">
-    				<button class="btn btn-primary" id="sendChat">전 송</button>
-    			</div>
-    			
-    			<div id="tellerVideoDiv">
-    				<video id="localVideo" autoplay muted playsinline>
-    					<source style="width: 100%">
-    				</video>
-    			</div>
-    			
-    			<div id="client-info">
-    				${clientVO.name } 손님
-    				<button id="screenShareBtn">화면 공유</button>	
-    			
-    			</div>
-    			
-    			<div id="shareVideoDiv">
-    				<video id="screenShareVideo" poster="${ pageContext.request.contextPath }/resources/images/tellerSharePoster.png" autoplay playsinline muted>
-    					<source style="width: 100%">
-    				</video>
-    			</div>
-    			
-    			<div id="workDiv">
-    				
-				</div>
-				
+   	<!-- Page Content -->
+    <div id="page-content-wrapper">
+    	<div class="container-fluid">
+    		<div id="clientVideoDiv">
+    			<video id="remoteVideo" autoplay playsinline>
+    				<source style="width: 100%">
+    			</video>
     		</div>
-    	</div>
-    </div>
+    			
+    		<div id="chatDiv">
+    			<div id="chat">
+    				<strong>텔러 : 반갑습니다 손님! 영상, 음성이 불안정한 경우 채팅을 이용해주세요.</strong>
+    				<br>
+    			</div>
+    			<input type="text" id="message">
+    			<button class="btn btn-primary" id="sendChat">전 송</button>
+    		</div>
+    			
+    		<div id="tellerVideoDiv">
+    			<video id="localVideo" autoplay muted playsinline>
+    				<source style="width: 100%">
+    			</video>
+    		</div>
+    			
+    		<div id="client-info">
+    			${clientVO.name } 손님
+    			<button id="screenShareBtn">화면 공유</button>	
+    			
+    		</div>
+    			
+    		<div id="shareVideoDiv">
+    			<video id="screenShareVideo" poster="${ pageContext.request.contextPath }/resources/images/tellerSharePoster.png" autoplay playsinline muted>
+    				<source style="width: 100%">
+    			</video>
+    		</div>
+    			
+    		<div id="workDiv">
+    			
+			</div>
+				
+   		</div>
+   	</div>
+	</div>
     <!-- /#page-content-wrapper -->
 
 	<footer>
@@ -228,6 +321,9 @@
 		// shareVideo
 		let shareStream;
 		//////////////
+		
+		// work /////
+		var passChangeAccount
 		
 		function requestTurn(/*turnURL*/) {
 			var turnExists = false;
@@ -339,6 +435,54 @@
 					str += '<br>'
 					$('#chat').append(str);
 				}) 
+				
+				socket.on('work', function(msg){
+					
+					var cmd = msg.split(':')[0];
+					
+					if(cmd == 'pwClose') {
+						alert('손님이 입력을 완료하지 않은채로 비밀번호 입력창을 닫았습니다.');
+					} 
+					else if(cmd == 'passwordChangeComp') {
+						
+						//alert(decoding(msg.split(':')[1]));
+						
+						$('.modal-header').empty();
+						let content = '';
+						content += '<div>손님이 비밀번호 입력을 완료했습니다.</div>';
+						content += '<div>변경을 진행하시겠습니까?</div>';
+						
+						$('.modal-header').append(content);
+
+						$("#mi-modal").modal('show');
+						
+						$("#modal-btn-si").on("click", function(){
+							
+							$.ajax({
+								url : '${pageContext.request.contextPath}/account/password',
+								type : 'post',
+								data : {
+									accountNo : passChangeAccount,
+									password : decoding(msg.split(':')[1])
+								},
+								success : function() {
+									console.log('dd');
+								}, error : function() {
+									console.log('ff');
+								}
+								
+							})
+							
+							$("#mi-modal").modal('hide');
+						});
+						
+						$("#modal-btn-no").on("click", function(){
+							$("#mi-modal").modal('hide');
+						});
+					}
+					
+				})
+				
 				
 				// 들어가려는 방이 이미 만들어져 있고 내가 그 방에 들어갔을 때에 나에게만 날아오는 이벤트. // ChannelReady상태 set
 				socket.on('joined', function(room) {
@@ -482,7 +626,6 @@
 					$('#chatDiv').height($('#tellerVideoDiv').height());
 					$('#client-info').height($('#clientVideoDiv').height()/2);
 					
-					
 					/* 요게 원래거.
 					remoteVideo.srcObject = event.streams[0];
 					*/
@@ -531,20 +674,11 @@
 					console.log('(share)remote Stream add.')
 
 					println('공유 성공!');
-					/*
-					println('(share)ontrack event')
-					remoteStream = new MediaStream();
-					remoteStream.addTrack(event.track, remoteStream);
 					
-					remoteVideo.srcObject = remoteStream;
-					*/
-					/* 요게 원래거.
-					remoteVideo.srcObject = event.streams[0];
-					*/
 				};
 				
 				// remove 이벤트는 아직 정의하지 말자.
-				//pc.onremovestream = handleRemoteStreamRemoved;
+				
 				console.log('(share)Created RTCPeerConnection');
 			} catch(e) {
 				console.log('Failed to create PeerConnection, exception: ' + e.message);
@@ -868,6 +1002,8 @@
 							content +=                 '<th scope="col">상품명</th>';
 							content +=                 '<th scope="col">잔액</th>';
 							content +=                 '<th scope="col">출금가능액</th>';
+							content +=                 '<th scope="col" style="width:8%">휴면 상태</th>';
+							content +=                 '<th scope="col" style="width:10%">분실 신고 상태</th>';
 							content +=                 '<th scope="col">생성일</th>';
 							content +=                 '<th scope="col">최종 거래일</th>';
 							content +=             '</tr>';
@@ -883,8 +1019,10 @@
 								content +=             '<td>' + data[i].type + '</td>';
 								content +=             '<td>' + data[i].accountNo + '</td>';
 								content +=             '<td>' + data[i].productName + '</td>';
-								content +=             '<td>' + data[i].balance + '원</td>';
-								content +=             '<td>' + data[i].withdrawableBalance + '원</td>';
+								content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
+								content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
+								content +=             '<td>' + data[i].dormant + '</td>';
+								content +=             '<td>' + data[i].lost + '</td>';
 								content +=             '<td>' + data[i].regDate + '</td>';
 								content +=             '<td>' + data[i].recentlyUseDate + '</td>';
 								content +=         '</tr>';
@@ -904,7 +1042,102 @@
 				})
 				
 			})
-			/////////////////////////////////////////////
+			
+			$("#work_selectAccount1006").bind('click', function(event) {
+				
+				$('#workDiv').empty();
+				let content = '';
+				
+				content += '<div id="workName">계좌 제신고</div>';
+				content += '<button id="changePasswordBtn">계좌 비밀번호 변경</button>';
+				
+				$('#workDiv').append(content)
+				
+			})
+			
+			$(document).on('click', "#changePasswordBtn", function(event) {
+				
+				$('#workModal').empty();
+				$.ajax({
+					url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
+					type : 'get',
+					success : function(data) {
+						$('#workDiv').empty();
+						
+						let content = '';
+						content += '<div id="workName">계좌 비밀번호 변경</div>';
+						
+						if(data.length != 0) {
+							content += '<div style="width:100%; height:200px; overflow:auto">';
+							content +=     '<table class="table table-hover" style="text-align:center">';
+							content +=         '<thead>';
+							content +=             '<tr>'
+							content +=                 '<th scope="col">종류</th>';
+							content +=                 '<th scope="col">계좌번호</th>';
+							content +=                 '<th scope="col">상품명</th>';
+							content +=                 '<th scope="col">잔액</th>';
+							content +=                 '<th scope="col">출금가능액</th>';
+							content +=                 '<th scope="col" style="width:8%">휴면 상태</th>';
+							content +=                 '<th scope="col" style="width:10%">분실 신고 상태</th>';
+							content +=                 '<th scope="col">생성일</th>';
+							content +=                 '<th scope="col">선택</th>';
+							content +=             '</tr>';
+							content +=         '</thead>';
+							content +=         '<tbody>';
+							
+							for(i = 0; i<data.length; i++) {
+								data[i].accountNo = makeHyphen(data[i].accountNo, 4);
+								data[i].balance = comma(data[i].balance);
+								data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
+								
+								content +=         '<tr>';
+								content +=             '<td>' + data[i].type + '</td>';
+								content +=             '<td>' + data[i].accountNo + '</td>';
+								content +=             '<td>' + data[i].productName + '</td>';
+								content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
+								content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
+								content +=             '<td>' + data[i].dormant + '</td>';
+								content +=             '<td>' + data[i].lost + '</td>';
+								content +=             '<td>' + data[i].regDate + '</td>';
+								content +=             '<td><button class="chooseChangePassAccount" id="' + data[i].accountNo + '">비밀번호 변경</button></td>';
+								content +=         '</tr>';
+							}
+							
+							content +=         '</tbody>';
+							content +=     '</table>';
+							content += '</div>';
+						} else {
+							content += '<div>손님의 계좌가 존재하지 않습니다.</div>';
+						}	
+						$('#workDiv').append(content);
+					},error : function() {
+						alert('실패');
+					}
+					
+				})
+				
+			})
+			
+			$(document).on('click', ".chooseChangePassAccount", function() {
+				
+				$('#workModal').empty();
+				let content = '';
+				content += '손님에게 비밀번호 입력 화면을 출력하였습니다.';
+				$('#workModal').append(content);
+				$("#modal").fadeIn();
+				
+				passChangeAccount = $(this).attr('id');
+				
+				socket.emit('work', 'accountPwChange:');
+			})
+			
+			
+			document.getElementById("modal_close_btn").onclick = function() {
+			
+				$("#modal").fadeOut();
+			
+    		}
+			
 		
 		});
 	
@@ -937,6 +1170,39 @@
 		}
 		return str;
 	}
+	
+	function encoding(text) {
+		output = new String;
+		temp = new Array();
+		temp2 = new Array();
+		textSize = text.length;
+		for(i = 0; i< textSize; i++) {
+			rnd = Math.round(Math.random() * 122) + 68;
+			temp[i] = text.charCodeAt(i) + rnd;
+			temp2[i] = rnd;
+		}
+		for(i = 0; i < textSize; i++) {
+			output += String.fromCharCode(temp[i], temp2[i]);
+		}
+		return output;
+	}
+	
+	function decoding(text) {
+		output = new String;
+		temp = new Array();
+		temp2 = new Array();
+		textSize = text.length;
+		
+		for(i = 0; i< textSize; i++) {
+			temp[i] = text.charCodeAt(i);
+			temp2[i] = text.charCodeAt(i+1);
+		}
+		for(i = 0; i < textSize; i = i+2) {
+			output += String.fromCharCode(temp[i] - temp2[i]);
+		}
+		return output;
+	}
+	
 	
 </script>
 </html>

@@ -8,4 +8,5 @@ import kr.ac.kopo.client.user.vo.UserVO;
 public interface AccountDAO {
 
 	List<AccountVO> selctAccountByUserRegNo(UserVO user);
+	void updateAccountPassword(AccountVO account);
 }

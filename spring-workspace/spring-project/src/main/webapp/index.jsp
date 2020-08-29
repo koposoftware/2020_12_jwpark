@@ -44,8 +44,6 @@
 			border-radius: 20px 20px 20px 20px
 		}
 		
-
-		
 		.covervid-video {
 			z-index : 9997;
     		position: absolute;

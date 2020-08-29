@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.ac.kopo.account.service.AccountService;
@@ -17,8 +20,6 @@ public class WorkController {
 
 	@Autowired
 	private AccountService accountService;
-	@Autowired
-	private UserService userService;
 	
 	/*
 	@GetMapping("/user/{userID}")
@@ -28,6 +29,14 @@ public class WorkController {
 		
 	}
 	*/
+	public String fromCharCode(int... codePoints) {
+	    return new String(codePoints, 0, codePoints.length);
+	}
+	
+	public int charCodeAt(char c) {
+        int x;
+        return x = (int) c;
+	}
 	
 	@GetMapping("/account/{userRegNo}")
 	public List<AccountVO> getAccount(@PathVariable("userRegNo") String regNo) {
@@ -38,6 +47,16 @@ public class WorkController {
 		List<AccountVO> accountList = accountService.selctAccountByUserRegNo(user);
 		
 		return accountList;
+	}
+	
+	@PostMapping("/account/password")
+	public void modifyPassword(AccountVO account) {
+		
+		account.setAccountNo(account.getAccountNo().replace("-", ""));
+		
+		System.out.println(account);
+		accountService.updateAccountPassword(account);
+		
 	}
 	
 }

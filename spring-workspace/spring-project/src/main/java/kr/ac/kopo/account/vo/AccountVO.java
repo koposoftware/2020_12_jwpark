@@ -8,6 +8,9 @@ public class AccountVO {
 	private String productName;
 	private int balance;
 	private int withdrawableBalance;
+	private String password;
+	private String dormant;
+	private String lost;
 	private String regDate;
 	private String recentlyUseDate;
 	public String getType() {
@@ -46,6 +49,24 @@ public class AccountVO {
 	public void setWithdrawableBalance(int withdrawableBalance) {
 		this.withdrawableBalance = withdrawableBalance;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getDormant() {
+		return dormant;
+	}
+	public void setDormant(String dormant) {
+		this.dormant = dormant;
+	}
+	public String getLost() {
+		return lost;
+	}
+	public void setLost(String lost) {
+		this.lost = lost;
+	}
 	public String getRegDate() {
 		return regDate;
 	}
@@ -62,8 +83,11 @@ public class AccountVO {
 	@Override
 	public String toString() {
 		return "AccountVO [type=" + type + ", accountNo=" + accountNo + ", regNo=" + regNo + ", productName="
-				+ productName + ", balance=" + balance + ", withdrawableBalance=" + withdrawableBalance + ", regDate="
-				+ regDate + ", recentlyUseDate=" + recentlyUseDate + "]";
+				+ productName + ", balance=" + balance + ", withdrawableBalance=" + withdrawableBalance + ", password="
+				+ password + ", dormant=" + dormant + ", lost=" + lost + ", regDate=" + regDate + ", recentlyUseDate="
+				+ recentlyUseDate + "]";
 	}
+	
+	
 	
 }

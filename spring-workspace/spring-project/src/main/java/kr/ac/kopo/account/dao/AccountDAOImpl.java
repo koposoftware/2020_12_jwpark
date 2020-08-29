@@ -21,6 +21,9 @@ public class AccountDAOImpl implements AccountDAO {
 		List<AccountVO> accountList = sqlSession.selectList("account.dao.AccountDAO.selctAccountByUserRegNo", user);
 		return accountList;
 	}
-	
-	
+
+	@Override
+	public void updateAccountPassword(AccountVO account) {
+		sqlSession.update("account.dao.AccountDAO.updateAccountPassword", account);
+	}
 }

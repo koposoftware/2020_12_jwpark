@@ -10,7 +10,6 @@
 		<result column="reg_no" property="regNo"/>
 		<result column="withdrawable_balance" property="withdrawableBalance"/>
 		<result column="product_name" property="productName"/>
-		
 	</resultMap>  
 	
 	<select id="selctAccountByUserRegNo" resultMap="accountMap" resultType="AccountVO" parameterType="userVO">
@@ -19,12 +18,19 @@
 			account_no, 
 			product_name, 
 			balance, 
-			withdrawable_balance, 
+			withdrawable_balance,
+			password, 
+			dormant, 
+			lost,  
 			to_char(reg_date, 'yyyy-mm-dd') as regDate, 
 			to_char(recently_use_date, 'yyyy-mm-dd') as recentlyUseDate 
-			from T_HANA_ACOCUNT 
+			from T_HANA_ACCOUNT 
     		where reg_no = (select reg_no from t_hana_user where reg_no = #{regNo}) 
     		order by recentlyUseDate desc
 	</select>
+	
+	<update id="updateAccountPassword" parameterType="AccountVO">
+			update T_HANA_ACCOUNT set password=#{password} where account_no = ${accountNo}
+	</update>
 	
 </mapper>
