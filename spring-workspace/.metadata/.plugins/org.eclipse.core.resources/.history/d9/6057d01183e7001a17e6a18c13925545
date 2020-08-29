@@ -1,0 +1,11 @@
+package kr.ac.kopo.user.vo;
+
+public class UserVO {
+
+	private String id;
+	private String password;
+	private String name;
+	private String regNo;
+	private String tel;
+	private String regDate;
+}

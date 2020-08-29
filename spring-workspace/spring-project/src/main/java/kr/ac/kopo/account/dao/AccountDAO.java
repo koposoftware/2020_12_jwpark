@@ -1,0 +1,11 @@
+package kr.ac.kopo.account.dao;
+
+import java.util.List;
+
+import kr.ac.kopo.account.vo.AccountVO;
+import kr.ac.kopo.client.user.vo.UserVO;
+
+public interface AccountDAO {
+
+	List<AccountVO> selctAccountByUserRegNo(UserVO user);
+}

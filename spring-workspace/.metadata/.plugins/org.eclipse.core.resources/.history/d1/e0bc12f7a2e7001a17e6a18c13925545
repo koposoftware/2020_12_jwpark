@@ -1,0 +1,5 @@
+package kr.ac.kopo.teller.teller.dao;
+
+public class TellerDAOImpl {
+
+}

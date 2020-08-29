@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<context:component-scan base-package="kr.ac.kopo" />
+	
+	<mvc:annotation-driven >
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<property name="supportedMediaTypes">
+				<list>
+					<value>text/html; charset=utf-8</value>
+					<value>application/json; charset=utf-8</value>
+				</list>
+			</property>
+			</bean>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html; charset=utf-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+    <mvc:annotation-driven />
+    
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+    	<property name="maxUploadSize" value="10485760"></property>
+    </bean>
+    
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+    	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="jinwoo" />
+    	<property name="password" value="1111" />
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource" />
+    	<property name="configLocation" value="classpath:config/mybatis/sqlMapConfig.xml" />
+    	<property name="mapperLocations" value="classpath:config/sqlmap/oracle/*.xml" />
+    </bean>
+    
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+    	<constructor-arg ref="sqlSessionFactory" />
+    </bean>
+    
+	<mvc:default-servlet-handler />
+	
+	<!-- 컨트롤러 없이 로워드 하는 내용 -->
+	<mvc:view-controller path="/file/uploadForm.do" view-name="file/fileUploadForm" />
+	
+	<mvc:view-resolvers>
+		<mvc:jsp prefix="/WEB-INF/jsp/" suffix=".jsp" />
+	</mvc:view-resolvers>
+
+
+	<!-- /board/write url 호출되기 전에 실행되는 애가 LoginInterceptor의 preHandle -->
+	<!-- /board/write url 호출 후 메소드가 끝나고 postHandle 호출 -->
+	<!-- 그 후 페이지 호출되고  -->
+	<!-- 응답이 다 끝난 후 afterCompletion 호출 -->
+	<!-- <mvc:mapping path="/board/*"/>  -->
+			<!-- depth 2개 -->
+			<!-- 로그인 뎁스는 제외 -->
+	<!-- 
+	<bean class="kr.ac.kopo.interceptor.LoginInterceptor" id="loginInterceptor" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			
+			<mvc:mapping path="/**/"/>
+			<mvc:exclude-mapping path="/login"/>
+			<mvc:exclude-mapping path="/board"/>
+			<mvc:exclude-mapping path="/resources/**"/>
+			<ref bean="loginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	 -->
+</beans>

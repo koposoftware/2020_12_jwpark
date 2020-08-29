@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+chrome.desktopCapture.chooseDesktopMedia(
+	    ['screen', 'window'],
+	    port.sender.tab,
+	    onResponse
+	);
+</script>
+</head>
+<body>
+	<h1>Hello Extensions</h1>
+</body>
+</html>

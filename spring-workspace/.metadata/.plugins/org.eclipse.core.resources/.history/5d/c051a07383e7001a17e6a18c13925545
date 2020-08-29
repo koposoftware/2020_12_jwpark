@@ -1,0 +1,21 @@
+package kr.ac.kopo.user.dao;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import kr.ac.kopo.user.vo.UserVO;
+
+public class UserDAOImpl implements UserDAO {
+
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
+	@Override
+	public UserVO login(UserVO user) {
+		
+		UserVO userVO = sqlSession.selectOne("user.dao.UserDAO.login", user);
+		
+		return null;
+	}
+
+}

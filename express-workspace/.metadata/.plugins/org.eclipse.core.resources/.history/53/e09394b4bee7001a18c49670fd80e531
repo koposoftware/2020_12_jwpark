@@ -1,0 +1,352 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+//var app = require('../app');
+var debug = require('debug')('web-rtc:server');
+
+// jinwoo
+//var http = require('http');
+var https = require('https');
+
+var os = require('os');
+var nodeStatic = require('node-static');
+var socketIO = require('socket.io');
+
+// jinwoo
+var fs = require('fs');
+
+var clients = new Array();
+var clientsIDs = new Array();
+var clientSocketID = new Array();
+var tellers = new Array();
+var tellerSocketID = new Array();
+
+
+
+//var socketIO=require('socket.io');
+
+const option = {
+		ca : fs.readFileSync('D:/hanaProject-workspace/bin/openssl/openssl-1.0.2j-fips-x86_64/OpenSSL/bin/rootca.pem'),
+		key : fs.readFileSync('D:/hanaProject-workspace/bin/openssl/openssl-1.0.2j-fips-x86_64/OpenSSL/bin/localhost_private.pem'),
+		cert : fs.readFileSync('D:/hanaProject-workspace/bin/openssl/openssl-1.0.2j-fips-x86_64/OpenSSL/bin/localhost.pem')
+}
+
+var fileServer = new(nodeStatic.Server)();
+
+// jinwoo
+//var app = http.createServer(function(req, res) {
+//	console.log("Express 시작");
+//	fileServer.serve(req, res);
+//}).listen(1337);
+
+var app = https.createServer(option, function(req, res) {
+	console.log("Express 시작");
+	fileServer.serve(req, res);
+}).listen(1337);
+
+var io = socketIO.listen(app);
+io.sockets.on('connection', function(socket) {
+
+  console.log('새로운 접속 : ' + socket);
+  
+  socket.emit('check','checkConnect');
+  
+  // convenience function to log server messages on the client
+  function log() {
+    var array = ['Message from server:'];
+    array.push.apply(array, arguments);
+    socket.emit('log', array);
+  }
+
+  socket.on('type', function(type) {
+	  
+	  var str = type.slice(0, 6);
+	  console.log(str);
+	  
+	  if(str == 'client') {
+		  
+		  var clientID = type.split(':')[1]
+		  
+		  console.log(clientID);
+		  
+		  //console.dir(type);
+		  clients.push(socket);
+		  clientsIDs.push(clientID)
+		  clientSocketID.push(socket.id);
+		  if(tellers.length > 0) {
+			  
+			  var teller = tellers.shift();
+			  tellerSocketID.shift();
+			  
+			  //clients.shift();
+			  //clientsIDs.shift();
+			  //clientSocketID.shift();
+			  
+			  console.log('client event | teller length : ' + tellers.length)
+			  
+			  //teller.join(clientID);
+			  //socket.join(clientID);
+			  
+			  teller.emit('ready', clientID);
+			  
+			  
+			  //io.sockets.in(clientID).emit('ready');
+			  
+		  } else 
+			  console.log('no teller')
+			   
+	  }
+	  
+	  if(type == 'teller') {
+		  
+		  console.log('type : teller');
+		  console.dir(type);
+		  tellers.push(socket);
+		  tellerSocketID.push(socket.id);
+		  if(clients.length > 0) {
+			  
+			  console.log('client exists');
+			  //let client = clients.shift();
+			  //let clientID = clientsIDs.shift();
+			  //clientSocketID.shift();
+			  
+			  tellers.shift();
+			  tellerSocketID.shift();
+			  
+			  console.log('teller event | clientIDs length : ' + clientsIDs.length)
+			  console.log('teller event | clients length : ' + clients.length)
+			  
+			  //socket.join(clientID);
+			  //client.join(clientID);
+			  
+			  
+			  socket.emit('ready', clientID);
+			  
+			  //io.sockets.in(clientID).emit('ready');
+			  
+		      log('Teller ID ' + socket.id + ' created room ' + clientID);
+		      //socket.emit('created', room, socket.id);
+			  
+			  ////////////////////
+		  } else {
+			  console.log('no client')
+		  }
+	  } 
+	  
+	  //console.dir('나를 포함한 모든 클라이언트에게 메시지 이벤트 전송.')
+	  
+	  // 나중에 상대방에게 넘겨주는 걸로 바꿔야함.
+	  //io.sockets.emit('message', message);
+	  //socket.broadcast.emit('message', message);
+  })
+  
+  
+  socket.on('message', function(message) {
+	  console.log('message 이벤트를 받았습니다.');
+	  console.dir(message);
+	  
+	  console.dir('나를 포함한 모든 클라이언트에게 메시지 이벤트 전송.')
+	  
+	  // 나중에 상대방에게 넘겨주는 걸로 바꿔야함.
+	  //socket.broadcast.emit('message', message);
+	  
+	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
+	  socket.broadcast.to(room).emit('message', message)
+  })
+  
+  socket.on('shareVideoMsg', function(message) {
+	  
+	  console.log('message 이벤트를 받았습니다.');
+	  console.dir(message);
+	  
+	  console.dir('나를 포함한 모든 클라이언트에게 메시지 이벤트 전송.');
+	  
+	  // 나중에 상대방에게 넘겨주는 걸로 바꿔야함.
+	  //io.sockets.emit('message', message);
+	  //socket.broadcast.emit('shareVideoMsg', message);
+	  //console.log(io.sockets.manager.roomClients[socket.id])
+	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
+	  socket.broadcast.to(room).emit('shareVideoMsg', message)
+	  
+  })
+
+  socket.on('teller', function(room) {
+	  
+	  console.log('teller go.')
+	  
+	  socket.join(room);
+	  log('Client ID ' + socket.id + ' created room ' + room);
+	  socket.emit('created', room, socket.id);
+	  
+	  //////////// 클라이언트 한테 ready 메시지
+	  let index = clientsIDs.indexOf(room);
+	  let client = clients.splice(index, 1);
+	  clientsIDs.splice(index, 1);
+	  clientSocketID.splice(index, 1); 
+	  
+	  client[0].emit('ready');
+	  
+  });
+  
+  socket.on('client', function(room) {
+	  
+	  let clientsInRoom = io.sockets.adapter.rooms[room];
+	  let numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
+	  
+	  while(numClients == 0) {
+		  clientsInRoom = io.sockets.adapter.rooms[room];
+		  numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
+	  }
+	  
+	  log('Client ID ' + socket.id + ' joined room ' + room);
+	  io.sockets.in(room).emit('join', room);
+	  socket.join(room);
+	  socket.emit('joined', room, socket.id);
+	  io.sockets.in(room).emit('roomReady');
+  });
+
+  socket.on('ipaddr', function() {
+    var ifaces = os.networkInterfaces();
+    for (var dev in ifaces) {
+      ifaces[dev].forEach(function(details) {
+        if (details.family === 'IPv4' && details.address !== '127.0.0.1') {
+          socket.emit('ipaddr', details.address);
+        }
+      });
+    }
+  });
+  
+  socket.on('chat', function(msg) {
+	  
+	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
+	  socket.broadcast.to(room).emit('chat', msg)
+  });
+  
+  
+  
+  socket.on('clientDisconnect', function() {
+
+	  let index = clientSocketID.indexOf(socket.id);
+	  
+	  if(index != -1)  {
+		  clients.splice(index, 1);
+		  clientsIDs.splice(index, 1);
+		  clientSocketID.splice(index, 1); 
+	  } else {
+		  index = tellerSocketID.indexOf(socket.id);
+		  
+		  tellers.splice(index, 1);
+		  tellerSocketID.splice(index, 1);
+	  }
+	  
+	  socket.disconnect();
+  });
+  
+  socket.on('disconnect', function() {
+	  console.log("SOCKETIO disconnect EVENT: ", socket.id, " client disconnect");
+	  
+	  let index = clientSocketID.indexOf(socket.id);
+	  
+	  if(index != -1)  {
+		  clients.splice(index, 1);
+		  clientsIDs.splice(index, 1);
+		  clientSocketID.splice(index, 1); 
+	  } else {
+		  index = tellerSocketID.indexOf(socket.id);
+		  
+		  tellers.splice(index, 1);
+		  tellerSocketID.splice(index, 1);
+	  }
+	  
+  });
+
+  socket.on('bye', function(){
+    console.log('received bye');
+  });
+
+});
+
+/**
+ * Get port from environment and store in Express.
+ */
+/*
+//var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+*/
+/**
+ * Create HTTP server.
+ */
+/*
+var server = http.createServer(app);
+*/
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+/*
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+*/
+/**
+ * Normalize a port into a number, string, or false.
+ */
+/*
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+*/
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+/*
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+*/

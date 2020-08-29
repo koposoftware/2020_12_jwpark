@@ -1,0 +1,23 @@
+package kr.ac.kopo.teller.teller.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.ac.kopo.teller.teller.dao.TellerDAO;
+import kr.ac.kopo.teller.teller.vo.TellerVO;
+
+@Service
+public class TellerServiceImpl implements TellerService{
+
+	@Autowired
+	TellerDAO tellerDAO;
+	
+	@Override
+	public TellerVO login(TellerVO tellerVO) {
+		
+		
+		return tellerDAO.login(teller);
+	}
+
+	
+}

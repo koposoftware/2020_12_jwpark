@@ -1,0 +1,22 @@
+package kr.ac.kopo.user.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import kr.ac.kopo.user.service.UserService;
+
+@SessionAttributes("userVO")
+@Controller
+public class UserController {
+
+	@Autowired
+	private UserService userService;
+	
+	@GetMapping("/login")
+	public String loginForm() {
+		return "/login/login";
+	}
+	
+}

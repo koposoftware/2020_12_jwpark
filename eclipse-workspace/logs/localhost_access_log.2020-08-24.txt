@@ -1,0 +1,7 @@
+127.0.0.1 - - [24/Aug/2020:18:37:18 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [24/Aug/2020:18:37:20 +0900] "GET /spring-project/index.html HTTP/1.1" 200 3866
+0:0:0:0:0:0:0:1 - - [24/Aug/2020:18:37:20 +0900] "GET /spring-project/css/simple-sidebar.css HTTP/1.1" 200 964
+0:0:0:0:0:0:0:1 - - [24/Aug/2020:18:37:20 +0900] "GET /spring-project/vendor/bootstrap/css/bootstrap.min.css HTTP/1.1" 200 160403
+0:0:0:0:0:0:0:1 - - [24/Aug/2020:18:37:20 +0900] "GET /spring-project/vendor/jquery/jquery.min.js HTTP/1.1" 200 89476
+0:0:0:0:0:0:0:1 - - [24/Aug/2020:18:37:20 +0900] "GET /spring-project/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 81084
+0:0:0:0:0:0:0:1 - - [24/Aug/2020:18:37:20 +0900] "GET /favicon.ico HTTP/1.1" 404 818

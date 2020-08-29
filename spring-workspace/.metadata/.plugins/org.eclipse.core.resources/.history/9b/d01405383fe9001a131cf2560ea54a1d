@@ -1,0 +1,34 @@
+package kr.ac.kopo.account.dao;
+
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import kr.ac.kopo.account.vo.AccountVO;
+import kr.ac.kopo.client.user.vo.UserVO;
+
+@Repository
+public class AccountDAOImpl implements AccountDAO {
+
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+
+	@Override
+	public List<AccountVO> selctAccountByUserRegNo(UserVO user) {
+		
+		List<AccountVO> accountList = sqlSession.selectList("account.dao.AccountDAO.selctAccountByUserRegNo", user);
+		
+		if(accountList == null) {
+			System.out.println("null");
+		} else {
+			System.out.println(accountList);
+			
+		}
+		
+		return accountList;
+	}
+	
+	
+}

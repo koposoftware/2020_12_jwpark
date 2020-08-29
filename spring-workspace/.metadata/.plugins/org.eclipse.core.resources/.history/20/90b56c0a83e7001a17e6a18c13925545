@@ -1,0 +1,5 @@
+package kr.ac.kopo.user.vo;
+
+public class UserVO {
+
+}

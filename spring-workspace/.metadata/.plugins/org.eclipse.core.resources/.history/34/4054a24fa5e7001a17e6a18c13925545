@@ -1,0 +1,21 @@
+package kr.ac.kopo.teller.teller.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import kr.ac.kopo.teller.teller.service.TellerService;
+
+@SessionAttributes("tellerVO")
+@Controller
+public class TellerController {
+	
+	@Autowired
+	private TellerService tellerService;
+
+	@GetMapping("/teller/login")
+	public String loginForm() {
+		return "/teller/login/login";
+	}
+}

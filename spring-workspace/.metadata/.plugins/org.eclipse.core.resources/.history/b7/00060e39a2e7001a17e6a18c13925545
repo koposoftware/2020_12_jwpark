@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teller.teller.dao.TellerDAO">
+
+	<resultMap type="TellerVO" id="tellerMap">
+	<!-- 같은 애들은 안써도 된다. 즉 밑에 4개 안써도 됨. -->
+		<result column="reg_date" property="regDate"/>
+	</resultMap>
+	
+	<select id="login" resultMap="userMap" parameterType="UserVO" resultType="UserVO">
+		select id, password, name, reg_no, tel, reg_date
+			from t_hana_user
+			where id = #{id} and password = #{password}
+	</select>
+	
+</mapper>

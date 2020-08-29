@@ -1,0 +1,58 @@
+package kr.ac.kopo.teller.teller.controller;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
+
+import kr.ac.kopo.teller.teller.service.TellerService;
+import kr.ac.kopo.teller.teller.vo.TellerVO;
+
+@SessionAttributes("tellerVO")
+@Controller
+public class TellerController {
+	
+	@Autowired
+	private TellerService tellerService;
+
+	@GetMapping("/teller")
+	public String tellerMain() {
+		return "index_teller";
+	}
+			
+	
+	@GetMapping("/teller/login")
+	public String loginForm() {
+		return "/teller/login/login";
+	}
+	
+	@PostMapping("/teller/login")
+	public ModelAndView login(TellerVO teller, HttpSession session ){
+		
+		TellerVO tellerVO = tellerService.login(teller);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		if(tellerVO == null) {
+			mav.setViewName("redirect:/teller/login");
+		} else {
+			mav.setViewName("redirect:/teller");
+			mav.addObject("tellerVO", tellerVO);
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping("/teller/logout")
+	public String logout(SessionStatus status) {
+		status.setComplete();
+		
+		return "redirect:/index_teller";
+	}
+}

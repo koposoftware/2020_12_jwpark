@@ -1,0 +1,6 @@
+package kr.ac.kopo.user.dao;
+
+public interface UserDAO {
+
+	UserVO login(UserVO user);
+}

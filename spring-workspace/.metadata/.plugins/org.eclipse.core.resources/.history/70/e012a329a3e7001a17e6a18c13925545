@@ -1,0 +1,13 @@
+package kr.ac.kopo.teller.teller.dao;
+
+import kr.ac.kopo.teller.teller.vo.TellerVO;
+
+public class TellerDAOImpl implements TellerDAO {
+
+	@Override
+	public TellerVO login(TellerVO teller) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}

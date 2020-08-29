@@ -1,0 +1,16 @@
+package kr.ac.kopo.teller.teller.service;
+
+import kr.ac.kopo.teller.teller.vo.TellerVO;
+
+@Service
+public class TellerServiceImpl implements TellerService{
+
+	
+	@Override
+	public TellerVO login(TellerVO tellerVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+}

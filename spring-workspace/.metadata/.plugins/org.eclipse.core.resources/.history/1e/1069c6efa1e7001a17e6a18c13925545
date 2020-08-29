@@ -1,0 +1,9 @@
+package kr.ac.kopo.teller.teller.vo;
+
+public class TellerVO {
+
+	private String empNo;
+	private String password;
+	private String name;
+	private String regDate;
+}

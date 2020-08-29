@@ -1,0 +1,5 @@
+package kr.ac.kopo.teller.teller.vo;
+
+public class TellerVO {
+
+}

@@ -1,0 +1,11 @@
+package kr.ac.kopo.client.waitRoom.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
+public class WaitRoomController {
+
+	@GetMapping("/waitRoom")
+	public String loginForm() {
+		return "/client/waitRoom/waitRoom-client";
+	}
+}

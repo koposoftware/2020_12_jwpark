@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="covervid">
+        <property name="context-root" value="covervid"/>
+        <property name="java-output-path" value="/covervid/build/classes"/>
+    </wb-module>
+</project-modules>

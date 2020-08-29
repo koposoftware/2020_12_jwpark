@@ -1,0 +1,5 @@
+package kr.ac.kopo.client.waitRoom.controller;
+
+public class WaitRoomController {
+
+}

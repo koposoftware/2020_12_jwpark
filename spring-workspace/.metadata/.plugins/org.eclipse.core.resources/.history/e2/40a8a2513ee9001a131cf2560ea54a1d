@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="account.dao.AccountDAO">
+	<resultMap type="AccountVO" id="accountMap">
+	<!-- 같은 애들은 안써도 된다. 즉 밑에 4개 안써도 됨. -->
+		<result column="account_no" property="accountNo"/>
+		<result column="reg_no" property="regNo"/>
+		<result column="withdrawable_balance" property="withdrawableBalance"/>
+		<result column="product_name" property="productName"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="recently_use_date" property="recentlyUseDate"/>
+	</resultMap>  
+	
+	<select id="selctAccountByUserRegNo" resultMap="accountMap" parameterType="UserVO" resultType="TellerVO">
+		select 
+			(select code_val  from t_hana_code_table where code_key = type and code_category = 1) as account_type, 
+			account_no, 
+			product_name, 
+			balance, 
+			withdrawable_balance, 
+			reg_date, 
+			recently_use_date 
+		from T_HANA_ACOCUNT
+	</select>
+  
+</mapper>

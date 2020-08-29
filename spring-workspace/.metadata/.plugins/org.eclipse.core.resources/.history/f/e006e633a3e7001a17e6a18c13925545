@@ -1,0 +1,27 @@
+package kr.ac.kopo.teller.teller.dao;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import kr.ac.kopo.client.user.vo.UserVO;
+import kr.ac.kopo.teller.teller.vo.TellerVO;
+
+public class TellerDAOImpl implements TellerDAO {
+
+	@Override
+	public TellerVO login(TellerVO teller) {
+		
+		@Autowired
+		private SqlSessionTemplate sqlSession;
+		
+		
+		
+		@Override
+		public TellerVO login(TellerVO teller) {
+			
+			TellerVO tellerVO = sqlSession.selectOne("teller.teller.dao.TellerDAO.login", teller);
+			return tellerVO;
+		}
+	}
+	
+}

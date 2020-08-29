@@ -1,0 +1,5 @@
+package kr.ac.kopo.client.controller;
+
+public class ClientController {
+
+}

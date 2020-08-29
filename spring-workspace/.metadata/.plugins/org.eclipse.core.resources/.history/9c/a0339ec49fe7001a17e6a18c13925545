@@ -1,0 +1,8 @@
+package kr.ac.kopo.user.service;
+
+import kr.ac.kopo.client.user.vo.UserVO;
+
+public interface UserService {
+
+	UserVO login(UserVO user);
+}
