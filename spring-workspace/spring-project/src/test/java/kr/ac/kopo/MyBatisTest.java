@@ -18,6 +18,7 @@ import kr.ac.kopo.account.dao.AccountDAO;
 import kr.ac.kopo.account.dao.AccountDAOImpl;
 import kr.ac.kopo.account.vo.AccountVO;
 import kr.ac.kopo.client.user.vo.UserVO;
+import kr.ac.kopo.depositProduct.vo.DepositProductVO;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,7 +83,32 @@ public class MyBatisTest {
 		session.update("account.dao.AccountDAO.updateAccountPassword", account);
 		
 		//List<AccountVO> accountList = ad.selctAccountByUserRegNo(user);
+	}
+	
+	@Ignore
+	@Test
+	public void 예금상품목록조회() throws Exception {
 		
+		List<DepositProductVO> list = session.selectList("depositProduct.dao.DepositProductDAO.selectAllDepositProduct"); 
+		
+		System.out.println(list);
+		
+	}
+	
+	@Ignore
+	@Test
+	public void 예금상품조회() throws Exception {
+		
+		DepositProductVO depositProductVO = session.selectOne("depositProduct.dao.DepositProductDAO.selectDepositProduct", "하나머니세상 정기예금"); 
+		System.out.println(depositProductVO);
+	}
+	
+	@Ignore
+	@Test
+	public void 계좌비밀번호확인() throws Exception {
+		
+		AccountVO account = session.selectOne("account.dao.AccountDAO.selectAccountByPassword", "1123"); 
+		System.out.println(account);
 	}
 	
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="depositProduct.dao.DepositProductDAO">
+
+	<resultMap type="DepositProductVO" id="depositProductMap">
+		<result column="name_code" property="nameCode"/>
+		<result column="max_interest" property="maxInterest"/>
+		<result column="min_period" property="minPeriod"/>
+		<result column="max_period" property="maxPeriod"/>
+		<result column="min_ammount" property="minAmmount"/>
+		<result column="max_ammount" property="maxAmmount"/>
+		<result column="leaflet_url" property="leafletUrl"/>
+	</resultMap>  
+
+	<select id="selectAllDepositProduct" resultMap="depositProductMap" resultType="DepositProductVO">
+		select 
+			(select code_val  from t_hana_code_table where code_key = name_code and code_category = 2) as name_code, 
+			 max_interest, 
+			 min_period, 
+			 max_period, 
+			 min_ammount, 
+			 max_ammount, 
+			 leaflet_url 
+			 from T_HANA_DEPOSIT_PRODUCT
+	</select>
+
+	<select id="selectDepositProduct" resultMap="depositProductMap" resultType="DepositProductVO" parameterType="String">
+		select  
+				(select code_val  from t_hana_code_table where code_key = name_code and code_category = 2) as name_code,
+				max_interest, 
+				min_period, 
+				max_period, 
+				min_ammount, 
+				max_ammount, 
+				leaflet_url 
+				from T_HANA_DEPOSIT_PRODUCT 
+				where name_code = (select code_key  from t_hana_code_table where code_val = #{codeVal} and code_category = 2)
+	</select>
+
+</mapper>

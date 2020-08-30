@@ -270,8 +270,7 @@
    		</div>
    	</div>
 	</div>
-    <!-- /#page-content-wrapper -->
-
+    <!-- /#page-content-wrapper -->	
 	<footer>
 		<%@include file="/WEB-INF/jsp/include/footer.jsp" %>
 	</footer>
@@ -281,7 +280,6 @@
  * 
  */
  	
- 
 //for server
 	$(document).ready(function() {
 		
@@ -334,6 +332,9 @@
 		
 		// work /////
 		var passChangeAccount
+		
+		var chkPassword = false;
+		var chkDepositAgree = false;
 		
 		function requestTurn(/*turnURL*/) {
 			var turnExists = false;
@@ -452,7 +453,11 @@
 					
 					if(cmd == 'pwClose') {
 						alert('손님이 입력을 완료하지 않은채로 비밀번호 입력창을 닫았습니다.');
+					}
+					else if(cmd == 'depositAgreeClose') {
+						alert('손님이 동의를 완료하지 않은채로 동의 화면을 닫았습니다.');
 					} 
+					
 					else if(cmd == 'passwordChangeComp') {
 						
 						//alert(decoding(msg.split(':')[1]));
@@ -489,6 +494,33 @@
 						$("#modal-btn-no").on("click", function(){
 							$("#mi-modal").modal('hide');
 						});
+					}
+					else if(cmd =='checkPasswordComp') {
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '손님이 비밀번호 인증을 완료하였습니다.';
+						
+						$("#chkPass").text("비밀번호 인증 완료");
+						$("#chkPass").css("color", "green");
+						
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+						
+						chkPassword = true;
+					}
+					else if(cmd == 'depositAgreeComp') {
+						$('#workModal').empty();
+						let content = '';
+						content += '손님이 동의항목 동의를 완료하였습니다.';
+						
+						$("#chkDepositAgree").text("사용자 동의 완료");
+						$("#chkDepositAgree").css("color", "green");
+						
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+						
+						chkDepositAgree = true;
 					}
 					
 				})
@@ -976,6 +1008,7 @@
 				}
 			}
 			
+			
 			$("#sendChat").bind('click', function(event) {
 				
 				let msg = $('#message').val();
@@ -1076,10 +1109,9 @@
 				
 				content += '<div id="workName">예금 가입</div>';
 				content += '<div id="workSpace">';
-				content +=     '<button class="btn btn-info" id="refDepositList">예금 상품 목록 링크</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+				content +=     '<button class="btn btn-info" id="refDepositList">예금 상품 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 				content +=     '<button class="btn btn-info" id="depositSignUp">예금 가입</button>';
 				content += '</div>';
-				
 				
 				$('#workDiv').append(content)
 				
@@ -1146,8 +1178,8 @@
 					}
 					
 				})
-				
 			})
+			
 			
 			$(document).on('click', "#LostReport", function(event) {
 				
@@ -1308,7 +1340,7 @@
 						$("#modal").fadeIn();
 						socket.emit('work', 'lostReport');
 						
-					},error : function() {
+					}, error : function() {
 						
 						$('#workModal').empty();
 						let content = '';
@@ -1323,7 +1355,6 @@
 			
 			$(document).on('click', ".chooseCancleLostReport", function() {
 				
-				
 				let lostAccount = $(this).attr('id');
 				
 				$.ajax({
@@ -1332,6 +1363,7 @@
 					success : function(data) {
 						
 						$('#workModal').empty();
+						
 						$.ajax({
 							url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
 							type : 'get',
@@ -1360,6 +1392,7 @@
 									content +=         '<tbody>';
 									
 									for(i = 0; i<data.length; i++) {
+										
 										data[i].accountNo = makeHyphen(data[i].accountNo, 4);
 										data[i].balance = comma(data[i].balance);
 										data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
@@ -1414,18 +1447,316 @@
 			
 			
 			$(document).on('click', "#refDepositList", function() {
+
+				$('#workDiv').empty();
 				
+				let content = '';
+				
+				content += '<div id="workName">예금 가입</div>';
+				content += '<div id="workSpace">';
+				content +=     '<button class="btn btn-info" id="showAllDepositLink">예금 전체 상품 목록 링크</button>';
+				
+				$.ajax({
+					url : '${pageContext.request.contextPath}/depositProducts',
+					type : 'get',
+					success : function(data) {
+						
+						if(data.length != 0) {
+							content += '<div style="width:100%; height:200px; overflow:auto">';
+							content +=     '<table class="table table-hover" style="text-align:center">';
+							content +=         '<thead>';
+							content +=             '<tr>'
+							content +=                 '<th scope="col">상품명</th>';
+							content +=                 '<th scope="col">최고 이율</th>';
+							content +=                 '<th scope="col">최저 가입 기간</th>';
+							content +=                 '<th scope="col">최대 가입 기간</th>';
+							content +=                 '<th scope="col">최저 가입 금액</th>';
+							content +=                 '<th scope="col">최대 가입 금액</th>';
+							content +=                 '<th scope="col">리플렛</th>';
+							content +=             '</tr>';
+							content +=         '</thead>';
+							content +=         '<tbody>';
+							
+							for(i = 0; i < data.length; i++) {
+								
+								content +=         '<tr>';
+								content +=             '<td>' + data[i].nameCode + '</td>';
+								content +=             '<td>' + data[i].maxInterest + '%</td>';
+								
+								if(data[i].minPeriod != 0){
+									content +=             '<td>' + data[i].minPeriod + '개월</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}
+								if(data[i].maxPeriod != 0){
+									content +=             '<td>' + data[i].maxPeriod + '개월</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}	
+								if(data[i].minAmmount != 0){
+									content +=             '<td>' + comma(data[i].minAmmount * 10000) + '원</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}
+								if(data[i].maxAmmount != 0){
+									content +=             '<td>' + comma(data[i].maxAmmount * 10000) + '원</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}
+								content +=             '<td><button class="depositLeaflet" id="' + data[i].leafletUrl + '">열기</button></td>';	
+								content +=         '</tr>';
+							}							
+							content +=         '</tbody>';
+							content +=     '</table>';
+							content += '</div>';
+							console.log(content);
+							$('#workDiv').append(content);
+							
+						}
+						else {
+							content += '존재하는 예금상품이 없습니다.';
+							$('#workDiv').append(content);
+						}
+						
+					},error : function() {
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '예금상품 조회에 실패했습니다.';
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+					}
+				})
+			})
+			
+			$(document).on('click', "#depositSignUp", function() {
+
+				$('#workDiv').empty();
+				
+				let content = '';
+				
+				content += '<div id="workName">예금 가입</div>';
+				content += '<div id="workSpace">';
+				
+				$.ajax({
+					url : '${pageContext.request.contextPath}/depositProducts',
+					type : 'get',
+					success : function(data) {
+						
+						if(data.length != 0) {
+							content += '<div style="width:100%; height:200px; overflow:auto">';
+							content +=     '<table class="table table-hover" style="text-align:center">';
+							content +=         '<thead>';
+							content +=             '<tr>'
+							content +=                 '<th scope="col">상품명</th>';
+							content +=                 '<th scope="col">최고 이율</th>';
+							content +=                 '<th scope="col">최저 가입 기간</th>';
+							content +=                 '<th scope="col">최대 가입 기간</th>';
+							content +=                 '<th scope="col">최저 가입 금액</th>';
+							content +=                 '<th scope="col">최대 가입 금액</th>';
+							content +=                 '<th scope="col">리플렛</th>';
+							content +=             '</tr>';
+							content +=         '</thead>';
+							content +=         '<tbody>';
+							
+							for(i = 0; i < data.length; i++) {
+								
+								content +=         '<tr>';
+								content +=             '<td>' + data[i].nameCode + '</td>';
+								content +=             '<td>' + data[i].maxInterest + '%</td>';
+								
+								if(data[i].minPeriod != 0){
+									content +=             '<td>' + data[i].minPeriod + '개월</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}
+								if(data[i].maxPeriod != 0){
+									content +=             '<td>' + data[i].maxPeriod + '개월</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}	
+								if(data[i].minAmmount != 0){
+									content +=             '<td>' + comma(data[i].minAmmount * 10000) + '원</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}
+								if(data[i].maxAmmount != 0){
+									content +=             '<td>' + comma(data[i].maxAmmount * 10000) + '원</td>';
+								} else {
+									content +=             '<td>제한 없음</td>';
+								}
+								content +=             '<td><button class="depositSignUpBtn" id="' + data[i].nameCode + '">가입하기</button></td>';	
+								content +=         '</tr>';
+							}							
+							content +=         '</tbody>';
+							content +=     '</table>';
+							content += '</div>';
+							
+							$('#workDiv').append(content);
+							
+						}
+						else {
+							content += '존재하는 예금상품이 없습니다.';
+							$('#workDiv').append(content);
+						}
+						
+					},error : function() {
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '예금상품 조회에 실패했습니다.';
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+					}
+				})
+			})
+			
+			
+			$(document).on('click', "#showAllDepositLink", function() {
+
 				var openNewWindow = window.open("about:blank");
 				openNewWindow.location.href = "https://www.kebhana.com/cont/mall/mall08/mall0805/index.jsp";
+			})
+			
+			$(document).on('click', ".depositLeaflet", function() {
+
+				let url = $(this).attr('id');
+				var openNewWindow = window.open("about:blank");
+				openNewWindow.location.href = url;
+			})
+
+			$(document).on('click', ".depositSignUpBtn", function() {
+				
+				$('#workDiv').empty();
+				
+				let content = '';
+				
+				content += '<div id="workName">예금 가입</div>';
+				content += '<div id="workSpace">';
+				content += '<div style="font-size:x-large;">상품명 : ' + $(this).attr('id') + '</div>';
+				
+				let result = false;
+				
+				let deposit;
+				chkPassword = false;
+				chkDepositAgree = false;
+				$.ajax({
+					url : '${pageContext.request.contextPath}/depositProductOne/' + $(this).attr('id'),
+					type : 'get',
+					success : function(data) {
+						
+						if(data.length != 0) {
+							let deposit = data;
+							
+							//////////////////////////////////////////
+							$.ajax({
+								url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
+								type : 'get',
+								success : function(data) {
+									
+									if(data.length != 0) {
+										
+										content += '<select name="account" id="accountSelect" style="text-align-last:center;width:500px;height:50px;font-size:22px;">'
+										for(let i = 0; i < data.length; i++) {
+											if(i == 0) {
+												content += '<option class="accountlist" value=' + data[i].accountNo + ' selected>' + makeHyphen(data[i].accountNo, 4) +', ' +  comma(data[i].withdrawableBalance) +'원</option>'
+											} else {
+												content += '<option class="accountlist" value=' + data[i].accountNo + '>' + makeHyphen(data[i].accountNo, 4) +', ' +  comma(data[i].withdrawableBalance) +'원</option>'
+											}
+										}
+										content +=	'</select>';
+										content +=		'<div id="depositSignUpSpace">'
+										content +=			'<div id="chkPass"></div>';
+										content +=			'<button id="askPassword">비밀번호 입력받기</button>';
+										content +=			'<div>신규 금액 <input type="text" autocomplete="off" id="depositAmmount">';
+										
+										if(deposit.minAmmount != 0)
+											content += 			'최소 ' + comma(deposit.minAmmount * 10000) + '원 ';
+										else
+											content += 			'최소 ' + comma(10000) + '원';
+										if(deposit.maxAmmount != 0)
+											content += 			'최대 ' + comma(deposit.maxAmmount * 10000) + '원 ';
+										else
+											content += 			'최대 제한 없음';
+										content +=			'</div>';
+										content +=			'<div>가입 기간 <input type="text" autocomplete="off" id="depositPeriod">'
+										if(deposit.minPeriod != 0)
+											content += 			'최소 ' + deposit.minPeriod + '개월'
+										else
+											content += 			'최소 1개월'
+										if(deposit.maxPeriod != 0)
+											content += ' 최대 ' + deposit.maxPeriod +'개월'
+										else
+											content += ' 최대 제한없음'
+										
+										content += 		'</div>';
+										content += '</div>';
+										
+										content +=	'<button id="depositAgree">동의서 전송하기</button>';
+										content +=	'<div id="chkDepositAgree"></div>';
+										
+									}
+									else {
+										content += '존재하는 사용자 계좌가 없습니다.';
+										$('#workDiv').append(content);
+									}
+									
+									$('#workDiv').append(content);
+									
+									$("#chkPass").text("비밀번호 인증 미완료");
+									$("#chkPass").css("color", "red");		
+									
+									$("#chkDepositAgree").text("사용자 동의서 작성 미완료");
+									$("#chkDepositAgree").css("color", "red");		
+								},error : function() {
+										
+									$('#workModal').empty();
+									let content = '';
+									content += '예금상품 조회에 실패했습니다.';
+									$('#workModal').append(content);
+										$("#modal").fadeIn();
+								}
+							})
+							//////////////////////////////////////////
+							
+						}
+						else {
+							content += '존재하는 예금상품이 없습니다.';
+							$('#workDiv').append(content);
+							
+						}
+						
+					},error : function() {
+							
+						$('#workModal').empty();
+						let content = '';
+						content += '예금상품 조회에 실패했습니다.';
+						$('#workModal').append(content);
+							$("#modal").fadeIn();
+					}
+				})
+			})
+			
+			$(document).on('click', "#askPassword", function() {
+				
+				var accountSelect = document.getElementById("accountSelect");
+				  
+				// select element에서 선택된 option의 value가 저장된다.
+				var selectValue = accountSelect.options[accountSelect.selectedIndex].value;
+				
+				socket.emit('work', 'askPassword:'+selectValue);
+			})
+			
+			$(document).on('click', "#depositAgree", function() {
+				
+				socket.emit('work', 'depositAgree');
 			})
 			
 			
 			document.getElementById("modal_close_btn").onclick = function() {
 			
 				$("#modal").fadeOut();
-			
     		}
-			
 		
 		});
 	

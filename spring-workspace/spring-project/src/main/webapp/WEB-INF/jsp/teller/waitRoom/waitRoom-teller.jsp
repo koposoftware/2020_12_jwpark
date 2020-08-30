@@ -153,8 +153,8 @@
 			
 				<div align="center" id="loading_image" style="width:100%; height:100%; text-align:center; font-size: large; color:black; font-weight:bold;">
 								<img src="${ pageContext.request.contextPath }/resources/images/loading.gif"><br>
-								손님, 잠시만 기다려주세요.<br>
-								텔러와 연결중입니다.
+								직원님, 잠시만 기다려주세요.<br>
+								손님과 연결중입니다.
 				</div>
 				<button type="button" id="modal_close_btn">취소하기</button>
     			<!-- 
@@ -178,6 +178,7 @@
 							</svg>
 						</div>
 						<div id="info">
+							오늘의 기준금리 : 0.50%<br>
 							오늘 맞이한 손님 1명<br>
 							<div id="clientCount">상담 대기 손님 0명</div>
 						</div>

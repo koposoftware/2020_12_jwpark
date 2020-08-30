@@ -14,13 +14,16 @@ import kr.ac.kopo.account.service.AccountService;
 import kr.ac.kopo.account.vo.AccountVO;
 import kr.ac.kopo.client.user.service.UserService;
 import kr.ac.kopo.client.user.vo.UserVO;
+import kr.ac.kopo.depositProduct.service.DepositProductService;
+import kr.ac.kopo.depositProduct.vo.DepositProductVO;
 
 @RestController
 public class WorkController {
 
 	@Autowired
 	private AccountService accountService;
-	
+	@Autowired
+	private DepositProductService depositProductService;
 	/*
 	@GetMapping("/user/{userID}")
 	public UserVO getUserInfo(@PathVariable("userID") String id) {
@@ -75,6 +78,25 @@ public class WorkController {
 		account.setAccountNo(accountNo.replace("-", ""));
 		System.out.println(account);
 		accountService.updateCancleAccountLostReport(account);
+	}
+	
+	@PostMapping("/account/password/{accountNo}")
+	public boolean checkPassword(@PathVariable("accountNo") String accountNo, @RequestParam("password") String password) {
+		
+		return accountService.checkAccountNoByPassword(accountNo, password);
+	}
+	
+	@GetMapping("/depositProducts")
+	public List<DepositProductVO> getDepositProduct() {
+		List<DepositProductVO> list = depositProductService.selectAllProductList();
+		return list;
+	}
+	
+	@GetMapping("/depositProductOne/{productName}")
+	public DepositProductVO getDepositProductOne(@PathVariable("productName")String codeVal) {
+		
+		DepositProductVO depositProduct = depositProductService.selectDepositProduct(codeVal);
+		return depositProduct;
 	}
 	
 }

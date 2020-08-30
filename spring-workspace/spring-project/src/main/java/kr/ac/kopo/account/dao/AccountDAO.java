@@ -11,4 +11,7 @@ public interface AccountDAO {
 	void updateAccountPassword(AccountVO account);
 	void updateAccountLostReport(AccountVO account);
 	void updateCancleAccountLostReport(AccountVO account);
+	
+	
+	AccountVO selctAccountByPassword(String password);
 }

@@ -18,7 +18,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public List<AccountVO> selctAccountByUserRegNo(UserVO user) {
 		
-		List<AccountVO> accountList = sqlSession.selectList("account.dao.AccountDAO.selctAccountByUserRegNo", user);
+		List<AccountVO> accountList = sqlSession.selectList("account.dao.AccountDAO.selectAccountByUserRegNo", user);
 		return accountList;
 	}
 
@@ -36,5 +36,18 @@ public class AccountDAOImpl implements AccountDAO {
 	public void updateCancleAccountLostReport(AccountVO account) {
 		sqlSession.update("account.dao.AccountDAO.updateCancleAccountLostReport", account); 
 	}
+
+	
+	@Override
+	public AccountVO selctAccountByPassword(String password) {
+		
+		
+		AccountVO accountVO = sqlSession.selectOne("account.dao.AccountDAO.selectAccountByPassword", password);
+		
+		return accountVO;
+	}
+
+	
+
 	
 }

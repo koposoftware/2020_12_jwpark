@@ -41,8 +41,30 @@ public class AccountServiceImpl implements AccountService {
 		
 		accountDAO.updateCancleAccountLostReport(account);
 	}
+
+	@Override
+	public boolean checkAccountNoByPassword(String accountNo, String password) {
+		
+		boolean bool;
+		
+		AccountVO account = accountDAO.selctAccountByPassword(password);
+		
+		
+		if(account != null) {
+			if(account.getAccountNo().equals(accountNo)) {
+				bool = true;
+			} else {
+				bool = false;
+			}
+		} else {
+			bool = false;
+		}
+
+		return bool;
+	}
+
 	
-	
+
 	
 	
 }

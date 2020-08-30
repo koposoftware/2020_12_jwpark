@@ -7,6 +7,7 @@
 		<typeAlias type="kr.ac.kopo.client.user.vo.UserVO" alias="userVO" />
 		<typeAlias type="kr.ac.kopo.teller.teller.vo.TellerVO" alias="tellerVO" />
 		<typeAlias type="kr.ac.kopo.account.vo.AccountVO" alias="accountVO" />
+		<typeAlias type="kr.ac.kopo.depositProduct.vo.DepositProductVO" alias="depositProductVO" />
 	</typeAliases>
    
 </configuration>

@@ -11,4 +11,6 @@ public interface AccountService {
 	void updateAccountPassword(AccountVO account);
 	void updateAccountLostReport(AccountVO account);
 	void updateCancleAccountLostReport(AccountVO account);
+	
+	boolean checkAccountNoByPassword(String accountNo, String password);
 }

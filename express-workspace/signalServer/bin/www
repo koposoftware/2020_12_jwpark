@@ -156,7 +156,7 @@ io.sockets.on('connection', function(socket) {
 		  } else {
 			  console.log('no client')
 		  }
-	  } 
+	  }
 	  
 	  
 	  //console.dir('나를 포함한 모든 클라이언트에게 메시지 이벤트 전송.')

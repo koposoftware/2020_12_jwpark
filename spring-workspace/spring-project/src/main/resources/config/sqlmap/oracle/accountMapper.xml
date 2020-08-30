@@ -12,7 +12,7 @@
 		<result column="product_name" property="productName"/>
 	</resultMap>  
 	
-	<select id="selctAccountByUserRegNo" resultMap="accountMap" resultType="AccountVO" parameterType="userVO">
+	<select id="selectAccountByUserRegNo" resultMap="accountMap" resultType="AccountVO" parameterType="userVO">
 		select 
 			(select code_val  from t_hana_code_table where code_key = type and code_category = 1) as type, 
 			account_no, 
@@ -27,6 +27,13 @@
 			from T_HANA_ACCOUNT 
     		where reg_no = (select reg_no from t_hana_user where reg_no = #{regNo}) 
     		order by recentlyUseDate desc
+	</select>
+	
+	<select id="selectAccountByPassword" resultMap="accountMap" resultType="AccountVO" parameterType="string">
+		select 
+			account_no
+			from T_HANA_ACCOUNT 
+    		where password = #{password} 
 	</select>
 	
 	<update id="updateAccountPassword" parameterType="AccountVO">
