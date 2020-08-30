@@ -157,6 +157,16 @@
 	div .modal-content {
 		width : 500px;
 	}
+	
+	#workSpace {
+		text-align : center;
+	}
+	
+	.btn-info {
+		width : 200px;
+		height : 50px;
+	}
+	
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -204,15 +214,15 @@
     	</div>
     	<div class="list-group list-group-flush">
 	   		<!-- <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>  -->
-	   		<a id="work_selectAccount1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1100)</a>
-    		<a class="list-group-item list-group-item-action bg-light">예금 가입(1103)</a>
-    		<a class="list-group-item list-group-item-action bg-light">적금 가입(1104)</a>
-    		<a class="list-group-item list-group-item-action bg-light">계좌 이체(1105)</a>
-    		<a id="work_selectAccount1006" class="list-group-item list-group-item-action bg-light">계좌 제신고(1106)</a>
-    		<a class="list-group-item list-group-item-action bg-light">카드 조회(1107)</a>
-    		<a class="list-group-item list-group-item-action bg-light">체크 카드 가입(1108)</a>
-    		<a class="list-group-item list-group-item-action bg-light">신용 카드 가입(1109)</a>
-    		<a class="list-group-item list-group-item-action bg-light">카드 제신고(1110)</a>
+	   		<a id="work_selectAccount1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1000)</a>
+    		<a id="work_selectAccount1003" class="list-group-item list-group-item-action bg-light">예금 가입(1003)</a>
+    		<a class="list-group-item list-group-item-action bg-light">적금 가입(1004)</a>
+    		<a class="list-group-item list-group-item-action bg-light">계좌 이체(1005)</a>
+    		<a id="work_selectAccount1006" class="list-group-item list-group-item-action bg-light">계좌 제신고(1006)</a>
+    		<a class="list-group-item list-group-item-action bg-light">카드 조회(1007)</a>
+    		<a class="list-group-item list-group-item-action bg-light">체크 카드 가입(1008)</a>
+    		<a class="list-group-item list-group-item-action bg-light">신용 카드 가입(1009)</a>
+    		<a class="list-group-item list-group-item-action bg-light">카드 제신고(1010)</a>
    		</div>
    	</div>
    	<!-- /#sidebar-wrapper -->
@@ -1049,11 +1059,32 @@
 				let content = '';
 				
 				content += '<div id="workName">계좌 제신고</div>';
-				content += '<button id="changePasswordBtn">계좌 비밀번호 변경</button>';
+				content += '<div id="workSpace">';
+				content +=     '<button class="btn btn-info" id="changePasswordBtn">계좌 비밀번호 변경</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+				content +=     '<button class="btn btn-info" id="LostReport">분실 신고/해제</button>';
+				content += '</div>';
+				
 				
 				$('#workDiv').append(content)
 				
 			})
+			
+			$("#work_selectAccount1003").bind('click', function(event) {
+				
+				$('#workDiv').empty();
+				let content = '';
+				
+				content += '<div id="workName">예금 가입</div>';
+				content += '<div id="workSpace">';
+				content +=     '<button class="btn btn-info" id="refDepositList">예금 상품 목록 링크</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+				content +=     '<button class="btn btn-info" id="depositSignUp">예금 가입</button>';
+				content += '</div>';
+				
+				
+				$('#workDiv').append(content)
+				
+			})
+			
 			
 			$(document).on('click', "#changePasswordBtn", function(event) {
 				
@@ -1118,6 +1149,74 @@
 				
 			})
 			
+			$(document).on('click', "#LostReport", function(event) {
+				
+				$('#workModal').empty();
+				$.ajax({
+					url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
+					type : 'get',
+					success : function(data) {
+						$('#workDiv').empty();
+						
+						let content = '';
+						content += '<div id="workName">분실 신고/해제</div>';
+						
+						if(data.length != 0) {
+							content += '<div style="width:100%; height:200px; overflow:auto">';
+							content +=     '<table class="table table-hover" style="text-align:center">';
+							content +=         '<thead>';
+							content +=             '<tr>'
+							content +=                 '<th scope="col">종류</th>';
+							content +=                 '<th scope="col">계좌번호</th>';
+							content +=                 '<th scope="col">상품명</th>';
+							content +=                 '<th scope="col">잔액</th>';
+							content +=                 '<th scope="col">출금가능액</th>';
+							content +=                 '<th scope="col" style="width:8%">휴면 상태</th>';
+							content +=                 '<th scope="col" style="width:10%">분실 신고 상태</th>';
+							content +=                 '<th scope="col">생성일</th>';
+							content +=                 '<th scope="col">선택</th>';
+							content +=             '</tr>';
+							content +=         '</thead>';
+							content +=         '<tbody>';
+							
+							for(i = 0; i<data.length; i++) {
+								data[i].accountNo = makeHyphen(data[i].accountNo, 4);
+								data[i].balance = comma(data[i].balance);
+								data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
+								
+								content +=         '<tr>';
+								content +=             '<td>' + data[i].type + '</td>';
+								content +=             '<td>' + data[i].accountNo + '</td>';
+								content +=             '<td>' + data[i].productName + '</td>';
+								content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
+								content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
+								content +=             '<td>' + data[i].dormant + '</td>';
+								content +=             '<td>' + data[i].lost + '</td>';
+								content +=             '<td>' + data[i].regDate + '</td>';
+								if(data[i].lost == 'T') {
+									content +=             '<td><button class="chooseCancleLostReport" id="' + data[i].accountNo + '">분실 해제</button></td>';	
+								} else {
+									content +=             '<td><button class="chooseLostReport" id="' + data[i].accountNo + '">분실 신고</button></td>';
+								}
+								content +=         '</tr>';
+							}
+							
+							content +=         '</tbody>';
+							content +=     '</table>';
+							content += '</div>';
+						} else {
+							content += '<div>손님의 계좌가 존재하지 않습니다.</div>';
+						}	
+						$('#workDiv').append(content);
+						
+					},error : function() {
+						alert('실패');
+					}
+					
+				})
+				
+			})
+			
 			$(document).on('click', ".chooseChangePassAccount", function() {
 				
 				$('#workModal').empty();
@@ -1128,7 +1227,196 @@
 				
 				passChangeAccount = $(this).attr('id');
 				
-				socket.emit('work', 'accountPwChange:');
+				socket.emit('work', 'accountPwChange');
+			})
+			
+			$(document).on('click', ".chooseLostReport", function() {
+				
+				let lostAccount = $(this).attr('id');
+				
+				$.ajax({
+					url : '${pageContext.request.contextPath}/account/lostReport/' + lostAccount,
+					type : 'get',
+					success : function(data) {
+						
+						$('#workModal').empty();
+						$.ajax({
+							url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
+							type : 'get',
+							success : function(data) {
+								$('#workDiv').empty();
+								
+								let content = '';
+								content += '<div id="workName">계좌 비밀번호 변경</div>';
+								
+								if(data.length != 0) {
+									content += '<div style="width:100%; height:200px; overflow:auto">';
+									content +=     '<table class="table table-hover" style="text-align:center">';
+									content +=         '<thead>';
+									content +=             '<tr>'
+									content +=                 '<th scope="col">종류</th>';
+									content +=                 '<th scope="col">계좌번호</th>';
+									content +=                 '<th scope="col">상품명</th>';
+									content +=                 '<th scope="col">잔액</th>';
+									content +=                 '<th scope="col">출금가능액</th>';
+									content +=                 '<th scope="col" style="width:8%">휴면 상태</th>';
+									content +=                 '<th scope="col" style="width:10%">분실 신고 상태</th>';
+									content +=                 '<th scope="col">생성일</th>';
+									content +=                 '<th scope="col">선택</th>';
+									content +=             '</tr>';
+									content +=         '</thead>';
+									content +=         '<tbody>';
+									
+									for(i = 0; i<data.length; i++) {
+										data[i].accountNo = makeHyphen(data[i].accountNo, 4);
+										data[i].balance = comma(data[i].balance);
+										data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
+										
+										content +=         '<tr>';
+										content +=             '<td>' + data[i].type + '</td>';
+										content +=             '<td>' + data[i].accountNo + '</td>';
+										content +=             '<td>' + data[i].productName + '</td>';
+										content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
+										content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
+										content +=             '<td>' + data[i].dormant + '</td>';
+										content +=             '<td>' + data[i].lost + '</td>';
+										content +=             '<td>' + data[i].regDate + '</td>';
+										if(data[i].lost == 'T') {
+											content +=             '<td><button class="chooseCancleLostReport" id="' + data[i].accountNo + '">분실 해제</button></td>';	
+										} else {
+											content +=             '<td><button class="chooseLostReport" id="' + data[i].accountNo + '">분실 신고</button></td>';
+										}
+										content +=         '</tr>';
+									}
+									
+									content +=         '</tbody>';
+									content +=     '</table>';
+									content += '</div>';
+								} else {
+									content += '<div>손님의 계좌가 존재하지 않습니다.</div>';
+								}	
+								$('#workDiv').append(content);
+							},error : function() {
+								alert('실패');
+							}
+						})
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '분실신고를 완료하였습니다.';
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+						socket.emit('work', 'lostReport');
+						
+					},error : function() {
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '분실신고에 실패했습니다.';
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+					}
+					
+				})
+			})
+			
+			
+			$(document).on('click', ".chooseCancleLostReport", function() {
+				
+				
+				let lostAccount = $(this).attr('id');
+				
+				$.ajax({
+					url : '${pageContext.request.contextPath}/account/cancleLostReport/' + lostAccount,
+					type : 'get',
+					success : function(data) {
+						
+						$('#workModal').empty();
+						$.ajax({
+							url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
+							type : 'get',
+							success : function(data) {
+								$('#workDiv').empty();
+								
+								let content = '';
+								content += '<div id="workName">계좌 비밀번호 변경</div>';
+								
+								if(data.length != 0) {
+									content += '<div style="width:100%; height:200px; overflow:auto">';
+									content +=     '<table class="table table-hover" style="text-align:center">';
+									content +=         '<thead>';
+									content +=             '<tr>'
+									content +=                 '<th scope="col">종류</th>';
+									content +=                 '<th scope="col">계좌번호</th>';
+									content +=                 '<th scope="col">상품명</th>';
+									content +=                 '<th scope="col">잔액</th>';
+									content +=                 '<th scope="col">출금가능액</th>';
+									content +=                 '<th scope="col" style="width:8%">휴면 상태</th>';
+									content +=                 '<th scope="col" style="width:10%">분실 신고 상태</th>';
+									content +=                 '<th scope="col">생성일</th>';
+									content +=                 '<th scope="col">선택</th>';
+									content +=             '</tr>';
+									content +=         '</thead>';
+									content +=         '<tbody>';
+									
+									for(i = 0; i<data.length; i++) {
+										data[i].accountNo = makeHyphen(data[i].accountNo, 4);
+										data[i].balance = comma(data[i].balance);
+										data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
+										
+										content +=         '<tr>';
+										content +=             '<td>' + data[i].type + '</td>';
+										content +=             '<td>' + data[i].accountNo + '</td>';
+										content +=             '<td>' + data[i].productName + '</td>';
+										content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
+										content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
+										content +=             '<td>' + data[i].dormant + '</td>';
+										content +=             '<td>' + data[i].lost + '</td>';
+										content +=             '<td>' + data[i].regDate + '</td>';
+										if(data[i].lost == 'T') {
+											content +=             '<td><button class="chooseCancelLostReport" id="' + data[i].accountNo + '">분실 해제</button></td>';	
+										} else {
+											content +=             '<td><button class="chooseLostReport" id="' + data[i].accountNo + '">분실 신고</button></td>';
+										}
+										content +=         '</tr>';
+									}
+									
+									content +=         '</tbody>';
+									content +=     '</table>';
+									content += '</div>';
+								} else {
+									content += '<div>손님의 계좌가 존재하지 않습니다.</div>';
+								}	
+								$('#workDiv').append(content);
+							},error : function() {
+								alert('실패');
+							}
+						})
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '분실신고 해제를 성공하였습니다.';
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+						socket.emit('work', 'cancleLostReport');
+						
+					},error : function() {
+						
+						$('#workModal').empty();
+						let content = '';
+						content += '분실신고 해제에 실패했습니다.';
+						$('#workModal').append(content);
+						$("#modal").fadeIn();
+					}
+					
+				})
+			})
+			
+			
+			$(document).on('click', "#refDepositList", function() {
+				
+				var openNewWindow = window.open("about:blank");
+				openNewWindow.location.href = "https://www.kebhana.com/cont/mall/mall08/mall0805/index.jsp";
 			})
 			
 			

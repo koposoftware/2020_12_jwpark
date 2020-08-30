@@ -467,14 +467,39 @@
 						content += '<div id="pw_check"></div>';
 						content += '<button id="changePassword">설정하기</button>';
 						
+						$('#modal_close_btn').empty();
+						$('#modal_close_btn').append('취소하기');
+						
 						$('#workModal').append(content);
 						
 						workType = 'pwChange';
 						
 						$("#modal").fadeIn();
 					} 
-					
-					
+					else if(cmd == 'lostReport') {
+						$('#workModal').empty();
+						let content = '';
+						content += '<div>분실신고가 완료되었습니다.</div>';
+						$('#workModal').append(content);
+						workType = 'lostReport';
+						
+						$('#modal_close_btn').empty();
+						$('#modal_close_btn').append('확인');
+						
+						$("#modal").fadeIn();
+					}
+					else if(cmd == 'cancleLostReport') {
+						$('#workModal').empty();
+						let content = '';
+						content += '<div>분실신고해제가 완료되었습니다.</div>';
+						$('#workModal').append(content);
+						workType = 'cancleLostReport';
+						
+						$('#modal_close_btn').empty();
+						$('#modal_close_btn').append('확인');
+						
+						$("#modal").fadeIn();
+					}
 					
 				})
 				
@@ -790,7 +815,7 @@
 		
 		document.getElementById("modal_close_btn").onclick = function() {
 			
-			if(workType = 'pwChange'){
+			if(workType == 'pwChange'){
 				socket.emit('work', 'pwClose');
 			}
 			

@@ -28,5 +28,21 @@ public class AccountServiceImpl implements AccountService {
 		
 		accountDAO.updateAccountPassword(account);
 	}
+
+	@Override
+	public void updateAccountLostReport(AccountVO account) {
+		
+		accountDAO.updateAccountLostReport(account);
+		
+	}
+
+	@Override
+	public void updateCancleAccountLostReport(AccountVO account) {
+		
+		accountDAO.updateCancleAccountLostReport(account);
+	}
+	
+	
+	
 	
 }

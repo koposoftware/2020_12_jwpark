@@ -26,4 +26,15 @@ public class AccountDAOImpl implements AccountDAO {
 	public void updateAccountPassword(AccountVO account) {
 		sqlSession.update("account.dao.AccountDAO.updateAccountPassword", account);
 	}
+
+	@Override
+	public void updateAccountLostReport(AccountVO account) {
+		sqlSession.update("account.dao.AccountDAO.updateAccountLostReport", account);
+	}
+
+	@Override
+	public void updateCancleAccountLostReport(AccountVO account) {
+		sqlSession.update("account.dao.AccountDAO.updateCancleAccountLostReport", account); 
+	}
+	
 }

@@ -33,4 +33,12 @@
 			update T_HANA_ACCOUNT set password=#{password} where account_no = ${accountNo}
 	</update>
 	
+	<update id="updateAccountLostReport" parameterType="AccountVO">
+			update T_HANA_ACCOUNT set lost='T' where account_no = ${accountNo}
+	</update>
+	
+	<update id="updateCancleAccountLostReport" parameterType="AccountVO">
+			update T_HANA_ACCOUNT set lost='F' where account_no = ${accountNo}
+	</update>
+	
 </mapper>

@@ -59,4 +59,22 @@ public class WorkController {
 		
 	}
 	
+	@GetMapping("/account/lostReport/{lostAccount}")
+	public void lostReport(@PathVariable("lostAccount") String accountNo) {
+		
+		AccountVO account = new AccountVO();
+		account.setAccountNo(accountNo.replace("-", ""));
+		System.out.println(account);
+		accountService.updateAccountLostReport(account);
+	}
+	
+	@GetMapping("/account/cancleLostReport/{lostAccount}")
+	public void cancleLostReport(@PathVariable("lostAccount") String accountNo) {
+		
+		AccountVO account = new AccountVO();
+		account.setAccountNo(accountNo.replace("-", ""));
+		System.out.println(account);
+		accountService.updateCancleAccountLostReport(account);
+	}
+	
 }

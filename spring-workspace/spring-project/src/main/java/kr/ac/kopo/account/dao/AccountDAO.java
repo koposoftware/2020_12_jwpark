@@ -9,4 +9,6 @@ public interface AccountDAO {
 
 	List<AccountVO> selctAccountByUserRegNo(UserVO user);
 	void updateAccountPassword(AccountVO account);
+	void updateAccountLostReport(AccountVO account);
+	void updateCancleAccountLostReport(AccountVO account);
 }
