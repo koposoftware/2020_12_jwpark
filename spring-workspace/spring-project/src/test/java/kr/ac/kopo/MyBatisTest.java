@@ -18,6 +18,7 @@ import kr.ac.kopo.account.dao.AccountDAO;
 import kr.ac.kopo.account.dao.AccountDAOImpl;
 import kr.ac.kopo.account.vo.AccountVO;
 import kr.ac.kopo.client.user.vo.UserVO;
+import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
 
 
@@ -111,4 +112,21 @@ public class MyBatisTest {
 		System.out.println(account);
 	}
 	
+	@Ignore
+	@Test
+	public void 예금신규삽입() throws Exception {
+		
+		DepositVO deposit = new DepositVO();
+		
+		deposit.setAccountNo("45143023598430");
+		deposit.setRegNo("9403221234567");
+		deposit.setNameCode("2");
+		deposit.setDepositAmmount(10000);
+		deposit.setInterest("0.85");
+		deposit.setExpiredDate("2020-10-25");
+		deposit.setRefAccountNo("46291014901007");
+		
+		session.selectOne("deposit.dao.DepositDAO.insertDeposit", deposit); 
+		
+	}
 }

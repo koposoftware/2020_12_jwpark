@@ -14,5 +14,11 @@ public interface AccountDAO {
 	
 	
 	AccountVO selctAccountByPassword(String password);
-	AccountVO selectWithdrawableBalanceByAccountNo(String AccountNo);
+	AccountVO selectWithdrawableBalanceByAccountNo(String accountNo);
+	
+	String selectAccountNo(String accountNo);
+	int selectCodeVal(String codeVal);
+	
+	void updateWithdrawable(AccountVO account);
+	
 }

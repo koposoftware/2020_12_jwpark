@@ -71,8 +71,22 @@ public class AccountServiceImpl implements AccountService {
 		return account;
 	}
 
-	
+	@Override
+	public String selectAccountNo(String AccountNo) {
+		
+		return accountDAO.selectAccountNo(AccountNo);
+	}
 
-	
-	
+	@Override
+	public int selectCodeVal(String codeVal) {
+		
+		return accountDAO.selectCodeVal(codeVal);
+	}
+
+	@Override
+	public void updateWithdrawable(AccountVO account) {
+		
+		accountDAO.updateWithdrawable(account);
+	}
+
 }

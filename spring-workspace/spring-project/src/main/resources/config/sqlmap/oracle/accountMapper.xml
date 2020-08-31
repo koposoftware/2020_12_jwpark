@@ -55,4 +55,22 @@
 			update T_HANA_ACCOUNT set lost='F' where account_no = ${accountNo}
 	</update>
 	
+	<update id="updateWithdrawable" parameterType="AccountVO">
+			UPDATE T_HANA_ACCOUNT SET withdrawable_balance=withdrawable_balance - #{withdrawableBalance} where account_no = #{accountNo}
+	</update>
+	
+	<select id="selectAccountNo" resultType="string" parameterType="string">
+		select 
+			account_no
+			from T_HANA_ACCOUNT 
+    		where account_no = #{accountNo} 
+	</select>
+	
+	<select id="selectCodeVal" resultType="int" parameterType="string">
+		select 
+			code_key 
+			from t_hana_code_table 
+			where code_val = #{codeVal}
+	</select>
+	
 </mapper>

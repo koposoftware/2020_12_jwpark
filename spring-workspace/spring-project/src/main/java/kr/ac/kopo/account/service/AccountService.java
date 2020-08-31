@@ -14,4 +14,9 @@ public interface AccountService {
 	
 	boolean checkAccountNoByPassword(String accountNo, String password);
 	AccountVO selectWithdrawableBalanceByAccountNo(String accountNo);
+	
+	String selectAccountNo(String AccountNo);
+	int selectCodeVal(String codeVal);
+	
+	void updateWithdrawable(AccountVO account);
 }

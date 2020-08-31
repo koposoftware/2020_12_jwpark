@@ -8,6 +8,7 @@
 		<typeAlias type="kr.ac.kopo.teller.teller.vo.TellerVO" alias="tellerVO" />
 		<typeAlias type="kr.ac.kopo.account.vo.AccountVO" alias="accountVO" />
 		<typeAlias type="kr.ac.kopo.depositProduct.vo.DepositProductVO" alias="depositProductVO" />
+		<typeAlias type="kr.ac.kopo.deposit.vo.DepositVO" alias="depositVO" />
 	</typeAliases>
    
 </configuration>

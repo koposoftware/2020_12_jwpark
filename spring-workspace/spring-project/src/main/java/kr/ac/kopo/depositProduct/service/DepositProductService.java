@@ -8,4 +8,5 @@ public interface DepositProductService {
 	
 	List<DepositProductVO> selectAllProductList();
 	DepositProductVO selectDepositProduct(String codeVal);
+	
 }

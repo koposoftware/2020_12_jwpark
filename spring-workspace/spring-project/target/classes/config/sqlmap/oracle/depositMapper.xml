@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="deposit.dao.DepositDAO">
+
+	<resultMap type="DepositVO" id="depositMap">
+		<result column="account_no" property="accountNo"/>
+		<result column="reg_no" property="regNo"/>
+		<result column="name_code" property="nameCode"/>
+		<result column="deposit_ammount" property="depositAmmount"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="expired_date" property="expiredDate"/>
+		<result column="ref_account_no" property="refAccountNo"/>
+	</resultMap>  
+
+	<insert id="insertDeposit" parameterType="DepositVO">
+		INSERT INTO T_HANA_DEPOSIT (ACCOUNT_NO, REG_NO, NAME_CODE, DEPOSIT_AMMOUNT, INTEREST, EXPIRED_DATE, REF_ACCOUNT_NO)
+    		VALUES(#{accountNo}, #{regNo}, #{nameCode}, #{depositAmmount}, #{interest}, '2020-10-25', #{refAccountNo})
+	</insert>
+
+</mapper>
