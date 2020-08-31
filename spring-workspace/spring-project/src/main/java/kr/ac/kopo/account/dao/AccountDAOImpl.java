@@ -41,13 +41,17 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public AccountVO selctAccountByPassword(String password) {
 		
-		
 		AccountVO accountVO = sqlSession.selectOne("account.dao.AccountDAO.selectAccountByPassword", password);
 		
 		return accountVO;
 	}
 
-	
-
+	@Override
+	public AccountVO selectWithdrawableBalanceByAccountNo(String AccountNo) {
+		
+		AccountVO accountVO = sqlSession.selectOne("account.dao.AccountDAO.selectWithdrawableBalanceByAccountNo", AccountNo);
+		
+		return accountVO;
+	}
 	
 }

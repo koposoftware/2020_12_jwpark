@@ -221,6 +221,17 @@
 					
 					chkDepositAgree = true;
 				}
+				else if(cmd == 'depositSigninSuccess') {
+					depositSuccess();
+				}
+				else if(cmd == 'depositSigninFailure') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				}
 			})
 		
 			// 들어가려는 방이 이미 만들어져 있고 내가 그 방에 들어갔을 때에 나에게만 날아오는 이벤트. // ChannelReady상태 set

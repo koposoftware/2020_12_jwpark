@@ -63,6 +63,14 @@ public class AccountServiceImpl implements AccountService {
 		return bool;
 	}
 
+	@Override
+	public AccountVO selectWithdrawableBalanceByAccountNo(String accountNo) {
+		
+		AccountVO account = accountDAO.selectWithdrawableBalanceByAccountNo(accountNo);
+		
+		return account;
+	}
+
 	
 
 	

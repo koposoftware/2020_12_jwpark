@@ -79,7 +79,7 @@
     	<div class="container text-center">
     		<div class="row justify-content-center">
     			<div class="col-md-7">
-    				<div class="title">하나은행 화상 창구상담 서비스 - 직원 화면<br><br><br>손님의 기쁨, 그 하나를 위하여</div>
+    				<div class="title">하나은행 화상 창구상담 서비스 - 직원 화면<br><br>손님의 기쁨, 그 하나를 위하여</div>
     				<div class="start">
     					<input type="button" id="startBtn" value="시작하기">
     				</div>

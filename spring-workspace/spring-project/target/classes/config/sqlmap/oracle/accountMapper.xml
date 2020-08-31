@@ -36,6 +36,13 @@
     		where password = #{password} 
 	</select>
 	
+	<select id="selectWithdrawableBalanceByAccountNo" resultMap="accountMap" resultType="AccountVO" parameterType="string">
+		select 
+			withdrawable_balance
+			from T_HANA_ACCOUNT 
+    		where account_no = #{accountNo} 
+	</select>
+	
 	<update id="updateAccountPassword" parameterType="AccountVO">
 			update T_HANA_ACCOUNT set password=#{password} where account_no = ${accountNo}
 	</update>

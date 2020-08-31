@@ -164,6 +164,27 @@
 	.form-check{
 		text-align : right;
 	}
+	
+	#mi-modal {
+		text-align : center;
+		
+		left:50%;
+		top:50%;
+		font-size:large;
+		transform:translate(-50%, -50%);
+		border-radius: 10px 10px 10px 10px;
+	}
+	
+	#modal-btn-si {
+		float : right;
+	}
+	#modal-btn-si {
+		float : right;
+	}
+	
+	div .modal-content {
+		width : 500px;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -178,7 +199,20 @@
 	<header>
 		<%@include file="/WEB-INF/jsp/include/header.jsp" %>
 	</header>
-	
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header" style="display:block;">
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="modal-btn-si">확인</button>&nbsp;&nbsp;
+					<button type="button" class="btn btn-primary" id="modal-btn-no">취소</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>	
 	<div id="modal">
 			<div class="modal_content">
 			

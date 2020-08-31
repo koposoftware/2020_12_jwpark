@@ -13,4 +13,5 @@ public interface AccountService {
 	void updateCancleAccountLostReport(AccountVO account);
 	
 	boolean checkAccountNoByPassword(String accountNo, String password);
+	AccountVO selectWithdrawableBalanceByAccountNo(String accountNo);
 }

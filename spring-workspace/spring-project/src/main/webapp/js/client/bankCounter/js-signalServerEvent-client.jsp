@@ -267,6 +267,15 @@ function connectToServer() {
 				depositAgree();
 				
 			}
+			else if(cmd == 'depositInputComp') {
+				workType = 'depositInputComp';
+				var productName = msg.split(':')[1];
+				var accountNo = msg.split(':')[2];
+				var ammount = msg.split(':')[3];
+				var period = msg.split(':')[4];
+				
+				depositInputComp(productName, accountNo, ammount, period);
+			}
 			
 		})
 		

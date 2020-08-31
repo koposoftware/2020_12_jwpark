@@ -8,6 +8,12 @@
 	var chkPassword = false;
 	var chkDepositAgree = false;
 	
+	var depositMinAmmount, depositMaxAmmount;
+	var depositMinPeriod, depositMaxPeriod;
+	
+	var depositSigninAmmount, depositSigninPeriod;
+	var depositSigninAccountNo, depositSigninProductName;
+	
 	$("#menu-toggle").click(function(e) {
   		e.preventDefault();
   		$("#wrapper").toggleClass("toggled");
@@ -543,7 +549,7 @@
 					content +=                 '<th scope="col">최대 가입 기간</th>';
 					content +=                 '<th scope="col">최저 가입 금액</th>';
 					content +=                 '<th scope="col">최대 가입 금액</th>';
-					content +=                 '<th scope="col">리플렛</th>';
+					content +=                 '<th scope="col">가입 서비스</th>';
 					content +=             '</tr>';
 					content +=         '</thead>';
 					content +=         '<tbody>';
@@ -621,9 +627,12 @@
 		let content = '';
 		
 		content += '<div id="workName">예금 가입</div>';
-		content += '<div id="workSpace">';
-		content += '<div style="font-size:x-large;">상품명 : ' + $(this).attr('id') + '</div>';
-		
+		content += 	'<div id="workSpace" style="text-align : left">';
+		content += 	'<div id="leftSpace" style="width:50%; display:inline; float:left;">';
+		content += 		'<br>';
+		content += 		'<div class="depositProductName" id="' + $(this).attr('id') +'"style="font-size:x-large;">상품명 : ' + $(this).attr('id') + '</div>';
+		content += 		'<br>';
+		content += 		'<div style="font-size:x-large;">출금계좌</div>';
 		let result = false;
 		
 		let deposit;
@@ -645,45 +654,72 @@
 							
 							if(data.length != 0) {
 								
-								content += '<select name="account" id="accountSelect" style="text-align-last:center;width:500px;height:50px;font-size:22px;">'
+								depositMinAmmount = deposit.minAmmount * 10000;  
+								depositMaxAmmount = deposit.maxAmmount * 10000;
+								depositMinPeriod = deposit.minPeriod;
+								depositMaxPeriod = deposit.maxPeriod;
+								
+								content += 			'<select name="account" id="accountSelect" style="text-align-last:center;width:90%;height:50px;font-size:22px;">'
 								for(let i = 0; i < data.length; i++) {
 									if(i == 0) {
-										content += '<option class="accountlist" value=' + data[i].accountNo + ' selected>' + makeHyphen(data[i].accountNo, 4) +', ' +  comma(data[i].withdrawableBalance) +'원</option>'
+										content += 				'<option class="accountlist" value=' + data[i].accountNo + ' selected>' + makeHyphen(data[i].accountNo, 4) +', ' +  comma(data[i].withdrawableBalance) +'원</option>'
 									} else {
-										content += '<option class="accountlist" value=' + data[i].accountNo + '>' + makeHyphen(data[i].accountNo, 4) +', ' +  comma(data[i].withdrawableBalance) +'원</option>'
+										content += 				'<option class="accountlist" value=' + data[i].accountNo + '>' + makeHyphen(data[i].accountNo, 4) +', ' +  comma(data[i].withdrawableBalance) +'원</option>'
 									}
 								}
-								content +=	'</select>';
-								content +=		'<div id="depositSignUpSpace">'
-								content +=			'<div id="chkPass"></div>';
-								content +=			'<button id="askPassword">비밀번호 입력받기</button>';
-								content +=			'<div>신규 금액 <input type="text" autocomplete="off" id="depositAmmount">';
-								
-								if(deposit.minAmmount != 0)
-									content += 			'최소 ' + comma(deposit.minAmmount * 10000) + '원 ';
-								else
-									content += 			'최소 ' + comma(10000) + '원';
-								if(deposit.maxAmmount != 0)
-									content += 			'최대 ' + comma(deposit.maxAmmount * 10000) + '원 ';
-								else
-									content += 			'최대 제한 없음';
+								content +=		'</select>';
+								content += 		'<div id="inputPassword" style="text-align:right; padding-right:10%;">'
+								content +=			'<div id="chkPass" >';
 								content +=			'</div>';
-								content +=			'<div>가입 기간 <input type="text" autocomplete="off" id="depositPeriod">'
+								content +=			'<br>';
+								content +=			'<button id="askPassword" class="btn btn-info" style="width:150px; height:40px;">비밀번호 입력받기</button>';
+								content += 		'</div>'
+								content += 	'</div>';
+								content += 	'<div id="rightSpace" style="width:50%; display:inline; float:left;">';
+								content += 		'<div id="ammountPeriod" style="font-size:x-large;">';
+								
+								content +=			'<div style="margin-top:5%">';
+								content +=				'신규 금액';
+								
+								let phAmmount;
+								if(deposit.minAmmount != 0)
+									phAmmount = 			'최소 ' + comma(deposit.minAmmount * 10000) + '원 ';
+								else
+									phAmmount = 			'최소 ' + comma(10000) + '원';
+								if(deposit.maxAmmount != 0)
+									phAmmount += 			'최대 ' + comma(deposit.maxAmmount * 10000) + '원 ';
+								else
+									phAmmount += 			'최대 제한 없음';
+								
+								content +=				'<input type="text" autocomplete="off" id="depositAmmount" placeholder=" ' + phAmmount + '" style="width:90%; text-align:right;"> 원';
+								
+								content +=			'</div>';
+								content +=			'<div style="margin-top:5%">';
+								content +=			'가입 기간 ';
+								
+								let phPeriod;
 								if(deposit.minPeriod != 0)
-									content += 			'최소 ' + deposit.minPeriod + '개월'
+									phPeriod = 			'최소 ' + deposit.minPeriod + '개월'
 								else
-									content += 			'최소 1개월'
+									phPeriod = 			'최소 1개월'
 								if(deposit.maxPeriod != 0)
-									content += ' 최대 ' + deposit.maxPeriod +'개월'
+									phPeriod += ' 최대 ' + deposit.maxPeriod +'개월'
 								else
-									content += ' 최대 제한없음'
+									phPeriod += ' 최대 제한없음'
 								
+								content +=			'<input type="text" autocomplete="off" id="depositPeriod" placeholder=" ' + phPeriod + '"style="width:90%; text-align:right;"> 개월';
+								
+								content += 			'</div>';
 								content += 		'</div>';
-								content += '</div>';
-								
-								content +=	'<button id="depositAgree">동의서 전송하기</button>';
-								content +=	'<div id="chkDepositAgree"></div>';
-								
+								content += 		'<div id="inputAgreement" style="text-align:right; padding-right:5%;">';
+								content +=			'<div id="chkDepositAgree"></div>';
+								content +=			'<button id="depositAgree" class="btn btn-info" style="width:150px; height:40px;">동의서 전송하기</button>';
+								content += 		'</div>';
+								content += 		'<div style="text-align:right; padding-right:5%; margin-top:10px;">';
+								content +=			'<button id="depositInputComp" class="btn btn-info" style="width:150px; height:40px;">가입 진행하기</button>';
+								content += 		'</div>';
+								content += 	'</div>';
+								//content += '</div>'
 							}
 							else {
 								content += '존재하는 사용자 계좌가 없습니다.';
@@ -734,11 +770,144 @@
 		var selectValue = accountSelect.options[accountSelect.selectedIndex].value;
 		
 		socket.emit('work', 'askPassword:'+selectValue);
+		
+		$('#workModal').empty();
+		let content = '';
+		content += '손님에게 비밀번호 입력 화면을 출력하였습니다.';
+		$('#workModal').append(content);
+		$("#modal").fadeIn();
+		
 	})
 	
 	$(document).on('click', "#depositAgree", function() {
 		
 		socket.emit('work', 'depositAgree');
+	})
+	
+	$(document).on('click', "#depositInputComp", function() {
+		
+		var accountSelect = document.getElementById("accountSelect");
+		var selectValue = accountSelect.options[accountSelect.selectedIndex].value;
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/account/withDrawable/'+selectValue,
+			type : 'get',
+			success : function(data) {
+				//alert(data.withdrawableBalance);
+				let aBool = true;
+				if(Number(depositMinAmmount) <= Number($('#depositAmmount').val())) {
+					if(depositMaxAmmount != 0) {
+						if(Number($('#depositAmmount').val()) <= Number(depositMaxAmmount)){
+						} else {
+							aBool = false;
+						}
+					}
+				} else {
+					aBool = false;
+				}
+				if( Number(data.withdrawableBalance) <= Number($('#depositAmmount').val())) {
+					aBool = false;
+				}
+				
+				if(!aBool) {
+					$('#workModal').empty();
+					let content = '';
+					content += '신규 금액항목이 올바르지 않습니다.';
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+					return;
+				}			
+			},error : function() {
+					
+				$('#workModal').empty();
+				let content = '';
+				content += '잔액 조회에 실패했습니다.';
+				$('#workModal').append(content);
+				$("#modal").fadeIn();
+				return;
+			}
+		})
+		
+		let pBool = true;
+		if(Number(depositMinPeriod) <= Number($('#depositPeriod').val())) {
+			if(depositMaxPeriod != 0) {
+				if(Number($('#depositPeriod').val()) <= Number(depositMaxPeriod)){
+				} else {
+					pBool = false;
+					
+				}
+			}
+		} else {
+			pBool = false;
+		}
+		
+		if(!pBool) {
+			$('#workModal').empty();
+			let content = '';
+			content += '가입기간항목이 올바르지 않습니다';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		}
+		
+		if(!chkPassword) {
+			$('#workModal').empty();
+			let content = '';
+			content += '손님의 비밀번호를 입력이 완료되지않았습니다.';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		} else if(!chkDepositAgree) {
+			$('#workModal').empty();
+			let content = '';
+			content += '손님의 동의서 작성이 완료되지않았습니다';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		}
+		
+		
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div style="text-align : left;">';
+		content +=     '<table class="table table-hover" style="text-align:left">';
+		content +=         '<tbody>';
+		content +=         '<tr>';
+		content +=             '<td>상품종류 : ' + $(".depositProductName").attr('id') + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>출금계좌번호 : ' + makeHyphen(selectValue, 4) + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>신규금액 : ' + comma($('#depositAmmount').val()) + '원</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>가입기간 : ' + $('#depositPeriod').val() + '개월</td>';
+		content +=         '</tr>';
+		content +=         '</tbody>';
+		content +=     '</table>';
+		content += 		'<div>가입 정보를 확인 후 손님에게 안내해주세요. 손님이 동의하시면 가입이 완료됩니다.</div>';
+		content += '</div>';
+		
+		$('.modal-header').append(content);
+		
+		$("#mi-modal").modal('show');
+		
+		$("#modal-btn-si").on("click", function(){
+			
+			depositSigninAmmount = $('#depositAmmount').val(); 
+			depositSigninPeriod = $('#depositPeriod').val();
+			depositSigninAccountNo = selectValue;
+			depositSigninProductName = $(".depositProductName").attr('id');
+			
+			socket.emit('work', 'depositInputComp:' + $(".depositProductName").attr('id') + ':' + makeHyphen(selectValue, 4) + ':' + $('#depositAmmount').val() + ':' + $('#depositPeriod').val())
+			
+			$("#mi-modal").modal('hide');
+		});
+		
+		$("#modal-btn-no").on("click", function(){
+			$("#mi-modal").modal('hide');
+		});
 	})
 	
 	
@@ -751,6 +920,15 @@
 		sendMessage('bye');
 	};
 
+	/////// 여기///
+	function depositSuccess(){
+		depositSigninAmmount = $('#depositAmmount').val(); 
+		depositSigninPeriod = $('#depositPeriod').val();
+		depositSigninAccountNo = selectValue;
+		depositSigninProductName = $(".depositProductName").attr('id');
+		
+	}
+	
 	function makeHyphen(accountNo, code){
 	
 		let str="";

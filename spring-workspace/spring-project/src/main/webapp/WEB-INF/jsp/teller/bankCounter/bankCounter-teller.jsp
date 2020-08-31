@@ -167,6 +167,11 @@
 		height : 50px;
 	}
 	
+	.depositSignUpBtn {
+		border-color : white;
+		border-radius:10px 10px 10px 10px;
+	}
+	
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -174,8 +179,6 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 	<script src="https://www.webrtc-experiment.com/common.js"></script>
-
-
 </head>
 <body>
 	<header>

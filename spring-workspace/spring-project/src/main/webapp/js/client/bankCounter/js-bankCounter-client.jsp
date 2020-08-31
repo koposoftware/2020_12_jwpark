@@ -307,6 +307,47 @@
 		$("#modal").fadeIn();
 	}
 	
+	function depositInputComp(productName, accountNo, ammount, period){ 
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div style="text-align : left;">';
+		content +=     '<table class="table table-hover" style="text-align:left">';
+		content +=         '<tbody>';
+		content +=         '<tr>';
+		content +=             '<td>상품종류 : ' + productName + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>출금계좌번호 : ' + accountNo + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>신규금액 : ' + comma(ammount) + '원</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>가입기간 : ' + period + '개월</td>';
+		content +=         '</tr>';
+		content +=         '</tbody>';
+		content +=     '</table>';
+		content += 		'<div>가입 정보를 확인 하신 후 확인 버튼을 눌러주세요.</div>';
+		content += '</div>';
+		
+		$('.modal-header').append(content);
+		
+		$("#mi-modal").modal('show');
+		
+		$("#modal-btn-si").on("click", function(){
+			
+			socket.emit('work', 'depositSigninSuccess')
+			
+			$("#mi-modal").modal('hide');
+		});
+		
+		$("#modal-btn-no").on("click", function(){
+			socket.emit('work', 'depositSigninFailure')
+			$("#mi-modal").modal('hide');
+		});
+	}
+	
+	
 	function checkPasswordPattern(str) {
 		var pattern1 = /[0-9]/; // 숫자
 		if(!pattern1.test(str) || str.length != 4)
@@ -351,7 +392,21 @@
 		console.log(data);
 		$('#result').append('<p>' + data + '</p>')
 	}
-			
+	
+	function comma(num){
+		
+		var len, point, str;
+		num = num + "";
+		point = num.length % 3;
+		len = num.length;
+		str = num.substring(0, point);
+		while (point < len){
+			if (str != "") str += ",";
+			str += num.substring(point, point + 3);
+			point += 3;
+		}
+		return str;
+	}
 			
 	window.onbeforeunload = function() {
 		sendMessage('bye');

@@ -99,4 +99,13 @@ public class WorkController {
 		return depositProduct;
 	}
 	
+	@GetMapping("/account/withDrawable/{accountNo}")
+	public AccountVO selectWithdrawableBalanceByAccountNo(@PathVariable("accountNo") String accountNo) {
+		
+		accountNo = accountNo.replace("-", "");
+		
+		return accountService.selectWithdrawableBalanceByAccountNo(accountNo);
+	}
+	
+	
 }
