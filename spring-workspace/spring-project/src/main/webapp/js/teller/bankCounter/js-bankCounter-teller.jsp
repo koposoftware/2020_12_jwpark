@@ -10,6 +10,12 @@
   		$("#wrapper").toggleClass("toggled");
   	});
 	
+	$("#sendSMSAuth").bind('click', function(event) {
+		
+		socket.emit('work', 'smsAuth');
+		
+		
+	})
 	
 	$("#work_selectAccount1000").bind('click', function(event) {
 		

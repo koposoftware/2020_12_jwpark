@@ -258,6 +258,26 @@
 					$('#workModal').append(content);
 					$("#modal").fadeIn();
 				} 
+				else if(cmd == 'authComp') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님이 휴대폰 본인인증을 완료하였습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+					
+					$('#authStatus').css("color", "green");
+					$('#authStatus').text("본인인증 완료");
+					
+				} else if(cmd == 'authFailure') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님이 휴대폰 본인인증을 완료하지 않은 채 화면을 닫았습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				}  
+				
 			})
 		
 			// 들어가려는 방이 이미 만들어져 있고 내가 그 방에 들어갔을 때에 나에게만 날아오는 이벤트. // ChannelReady상태 set

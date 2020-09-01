@@ -1,10 +1,28 @@
 package kr.ac.kopo.teller.teller.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +44,8 @@ import kr.ac.kopo.saving.service.SavingService;
 import kr.ac.kopo.saving.vo.SavingVO;
 import kr.ac.kopo.savingProduct.service.SavingProductService;
 import kr.ac.kopo.savingProduct.vo.SavingProductVO;
+import kr.ac.kopo.sms.service.SmsService;
+import kr.ac.kopo.sms.vo.SmsVO;
 
 @RestController
 public class WorkController {
@@ -40,7 +60,8 @@ public class WorkController {
 	private SavingProductService savingProductService;
 	@Autowired
 	private SavingService savingService;
-	
+	@Autowired
+	private SmsService smsService;
 	
 	/*
 	@GetMapping("/user/{userID}")
@@ -254,5 +275,91 @@ public class WorkController {
 		//System.out.println(account);
 		accountService.updateBalance(account);
 		
+	}
+	
+	@Transactional
+	@PostMapping("/sendSMS")
+	public String sendSMS(String receiver, HttpSession session) {
+		
+		// 6자리 인증 코드 생성 
+		int rand = (int) (Math.random() * 899999) + 100000;
+		
+		String code = String.valueOf(rand);
+
+		String id = ((UserVO)session.getAttribute("userVO")).getId();
+		
+		SmsVO sms = new SmsVO();
+		sms.setId(id);
+		sms.setSmsCode(code);
+		
+		System.out.println(sms);
+		if(smsService.selectCodeById(id) != null) {
+			smsService.deleteSmsCode(id);
+		}
+		
+		smsService.insertSmsCode(sms);
+		
+		String hostname = "api.bluehouselab.com";
+        String url = "https://"+hostname+"/smscenter/v1.0/sendsms";
+
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(
+            new AuthScope(hostname, 443, AuthScope.ANY_REALM),
+            new UsernamePasswordCredentials("hanaProject", "283c6d80ec5711ea8a440cc47a1fcfae")
+        );
+
+        // Create AuthCache instance
+        AuthCache authCache = new BasicAuthCache();
+        authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
+
+        // Add AuthCache to the execution context
+        HttpClientContext context = HttpClientContext.create();
+        context.setCredentialsProvider(credsProvider);
+        context.setAuthCache(authCache);
+
+        DefaultHttpClient client = new DefaultHttpClient();
+
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.setHeader("Content-type", "application/json; charset=utf-8");
+            String json = "{\"sender\":\""+ "01050967347" +"\",\"receivers\":[\""+ receiver +"\"],\"content\":\""+ "하나화상창구 인증코드 [ " + code + " ] 본 문자를 화면에 입력해주세요."  +"\"}";
+            
+            StringEntity se = new StringEntity(json, "UTF-8");
+            httpPost.setEntity(se);
+
+            HttpResponse httpResponse = client.execute(httpPost, context);
+            System.out.println(httpResponse.getStatusLine().getStatusCode());
+
+            InputStream inputStream = httpResponse.getEntity().getContent();
+            if(inputStream != null) {
+                BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+                String line = "";
+                while((line = bufferedReader.readLine()) != null)
+                    System.out.println(line);
+                inputStream.close();
+            }
+        } catch (Exception e) {
+            System.err.println("Error: "+e.getLocalizedMessage());
+        } finally {
+            client.getConnectionManager().shutdown();
+        }
+		
+        return "ok";
+	} 
+	
+	@Transactional
+	@PostMapping("/smsCheck")
+	public boolean smsCheck(String code, HttpSession session) {
+		
+		boolean ret = false;
+		String id = ((UserVO)session.getAttribute("userVO")).getId();
+		String dbCode = smsService.selectCodeById(id);
+		if( dbCode != null) {
+			if(code.equals(dbCode)) {
+				smsService.deleteSmsCode(id);
+				ret = true;
+			}
+		}
+		return ret;
 	}
 }

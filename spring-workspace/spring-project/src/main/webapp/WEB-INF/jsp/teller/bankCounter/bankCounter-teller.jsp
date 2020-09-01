@@ -271,8 +271,9 @@
     			
     		<div id="client-info">
     			${clientVO.name } 손님
+    			<button id="sendSMSAuth">문자 인증</button>
+    			<div id="authStatus" style="color: red;">휴대폰 본인인증 미완료</div>
     			<button id="screenShareBtn">화면 공유</button>	
-    			
     		</div>
     			
     		<div id="shareVideoDiv">

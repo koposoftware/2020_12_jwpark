@@ -291,6 +291,12 @@ function connectToServer() {
 				
 				savingInputComp(productName, accountNo, entryAmmount, savingAmmount, period);
 			}
+			else if(cmd == 'smsAuth') {
+				
+				workType = 'smsAuth';
+				
+				smsAuth();
+			}
 			
 		})
 		
