@@ -10,6 +10,7 @@
 		<typeAlias type="kr.ac.kopo.depositProduct.vo.DepositProductVO" alias="depositProductVO" />
 		<typeAlias type="kr.ac.kopo.deposit.vo.DepositVO" alias="depositVO" />
 		<typeAlias type="kr.ac.kopo.savingProduct.vo.SavingProductVO" alias="savingProductVO" />
+		<typeAlias type="kr.ac.kopo.saving.vo.SavingVO" alias="savingVO" />
 	</typeAliases>
    
 </configuration>

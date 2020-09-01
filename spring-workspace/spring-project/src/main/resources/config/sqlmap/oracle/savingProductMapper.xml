@@ -30,4 +30,19 @@
 			 from T_HANA_SAVING_PRODUCT
 	</select>
 
+	<select id="selectSavingProduct" resultMap="savingProductMap" resultType="SavingProductVO" parameterType="String">
+		select  
+			(select code_val  from t_hana_code_table where code_key = name_code and code_category = 3) as name_code, 
+			 max_interest, 
+			 min_period, 
+			 max_period, 
+			 min_entry_ammount, 
+			 max_entry_ammount,
+			 min_saving_ammount, 
+			 max_saving_ammount,
+			 leaflet_url 
+			 from T_HANA_SAVING_PRODUCT 
+				where name_code = (select code_key  from t_hana_code_table where code_val = #{codeVal} and code_category = 3)
+	</select>
+
 </mapper>

@@ -156,7 +156,9 @@
 				else if(cmd == 'depositAgreeClose') {
 					alert('손님이 동의를 완료하지 않은채로 동의 화면을 닫았습니다.');
 				}
-				
+				else if(cmd == 'savingAgreeClose') {
+					alert('손님이 동의를 완료하지 않은채로 동의 화면을 닫았습니다.');
+				}
 				else if(cmd == 'passwordChangeComp') {
 					
 					//alert(decoding(msg.split(':')[1]));
@@ -232,6 +234,30 @@
 					$('#workModal').append(content);
 					$("#modal").fadeIn();
 				}
+				else if(cmd == 'savingAgreeComp') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님이 동의항목 동의를 완료하였습니다.';
+					
+					$("#chkSavingAgree").text("사용자 동의 완료");
+					$("#chkSavingAgree").css("color", "green");
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+					
+					chkSavingAgree = true;
+				}
+				else if(cmd == 'savingSigninSuccess') {
+					savingSuccess();
+				}
+				else if(cmd == 'savingSigninFailure') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				} 
 			})
 		
 			// 들어가려는 방이 이미 만들어져 있고 내가 그 방에 들어갔을 때에 나에게만 날아오는 이벤트. // ChannelReady상태 set

@@ -21,5 +21,13 @@ public class SavingProductDAOImpl implements SavingProductDAO {
 		
 		return list;
 	}
+
+	@Override
+	public SavingProductVO selectSavingProduct(String codeVal) {
+		
+		SavingProductVO savingProduct = session.selectOne("savingProduct.dao.SavingProductDAO.selectSavingProduct", codeVal);
+		
+		return savingProduct;
+	}
 	
 }

@@ -16,7 +16,7 @@
 
 	<insert id="insertDeposit" parameterType="DepositVO">
 		INSERT INTO T_HANA_DEPOSIT (ACCOUNT_NO, REG_NO, NAME_CODE, DEPOSIT_AMMOUNT, INTEREST, EXPIRED_DATE, REF_ACCOUNT_NO)
-    		VALUES(#{accountNo}, #{regNo}, #{nameCode}, #{depositAmmount}, #{interest}, '2020-10-25', #{refAccountNo})
+    		VALUES(#{accountNo}, #{regNo}, #{nameCode}, #{depositAmmount}, #{interest}, #{expiredDate}, #{refAccountNo})
 	</insert>
 	
 	<select id="selectDepositByRegNo" resultMap="depositMap" resultType="DepositVO" parameterType="string">

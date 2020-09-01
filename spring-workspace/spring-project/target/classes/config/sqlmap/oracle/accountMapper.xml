@@ -59,6 +59,10 @@
 			UPDATE T_HANA_ACCOUNT SET withdrawable_balance=withdrawable_balance - #{withdrawableBalance} where account_no = #{accountNo}
 	</update>
 	
+	<update id="updateBalance" parameterType="AccountVO">
+			UPDATE T_HANA_ACCOUNT SET balance=balance - #{balance} , withdrawable_balance=withdrawable_balance - #{withdrawableBalance} where account_no = #{accountNo}
+	</update>
+	
 	<select id="selectAccountNo" resultType="string" parameterType="string">
 		select 
 			account_no

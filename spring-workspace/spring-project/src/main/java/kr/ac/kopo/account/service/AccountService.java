@@ -19,4 +19,5 @@ public interface AccountService {
 	int selectCodeVal(String codeVal);
 	
 	void updateWithdrawable(AccountVO account);
+	void updateBalance(AccountVO account);
 }

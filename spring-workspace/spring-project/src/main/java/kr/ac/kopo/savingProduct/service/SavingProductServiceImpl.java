@@ -20,5 +20,10 @@ public class SavingProductServiceImpl implements SavingProductService {
 		return savingProductDAO.selectAllSavingProduct();
 	}
 
+	@Override
+	public SavingProductVO selectSavingProduct(String codeVal) {
+		
+		return savingProductDAO.selectSavingProduct(codeVal);
+	}
 	
 }

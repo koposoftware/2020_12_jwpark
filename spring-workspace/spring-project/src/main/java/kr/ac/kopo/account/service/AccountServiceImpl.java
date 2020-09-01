@@ -89,4 +89,11 @@ public class AccountServiceImpl implements AccountService {
 		accountDAO.updateWithdrawable(account);
 	}
 
+	@Override
+	public void updateBalance(AccountVO account) {
+		
+		accountDAO.updateBalance(account);
+	}
+
+	
 }

@@ -22,6 +22,8 @@ import kr.ac.kopo.deposit.service.DepositService;
 import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.service.DepositProductService;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
+import kr.ac.kopo.saving.service.SavingService;
+import kr.ac.kopo.saving.vo.SavingVO;
 import kr.ac.kopo.savingProduct.service.SavingProductService;
 import kr.ac.kopo.savingProduct.vo.SavingProductVO;
 
@@ -36,6 +38,9 @@ public class WorkController {
 	private DepositService depositService;
 	@Autowired
 	private SavingProductService savingProductService;
+	@Autowired
+	private SavingService savingService;
+	
 	
 	/*
 	@GetMapping("/user/{userID}")
@@ -175,7 +180,7 @@ public class WorkController {
 		account.setWithdrawableBalance(deposit.getDepositAmmount());
 		
 		System.out.println(account);
-		accountService.updateWithdrawable(account);
+		accountService.updateBalance(account);
 	}
 	
 	@GetMapping("/deposit/{regNo}")
@@ -190,4 +195,64 @@ public class WorkController {
 		return list;
 	}
 	
+	@GetMapping("/saving/{regNo}")
+	public List<SavingVO> selectSavingByRegNo(@PathVariable("regNo") String regNo) {
+		
+		return savingService.selectUserSaving(regNo);
+	}
+
+	@GetMapping("/savingProductOne/{productName}")
+	public SavingProductVO getSavingProductOne(@PathVariable("productName")String codeVal) {
+		
+		SavingProductVO savingProduct = savingProductService.selectSavingProduct(codeVal);
+		return savingProduct;
+	}
+	
+	@Transactional
+	@PostMapping("/saving")
+	public void insertSaving(SavingVO saving) {
+		
+		System.out.println(saving);
+		String randAccountNo = null;
+		
+		boolean b = false;
+		
+		//////////////////
+		while(!b) {
+			randAccountNo = makeRandomAccountNo();
+			
+			if(accountService.selectAccountNo(randAccountNo) == null) {
+				b = true;
+			}
+		}
+		
+		saving.setAccountNo(randAccountNo);
+		
+		String interest = savingProductService.selectSavingProduct(saving.getNameCode()).getMaxInterest();
+		int codeKey = accountService.selectCodeVal(saving.getNameCode());
+		
+		SimpleDateFormat format = new SimpleDateFormat ("yy-MM-dd");
+		Calendar time = Calendar.getInstance();
+		
+		time.add(Calendar.MONTH, Integer.parseInt(saving.getExpiredDate()));
+		
+		String expired = format.format(time.getTime());
+		
+		saving.setExpiredDate(expired);
+		saving.setInterest(interest);
+		saving.setNameCode(String.valueOf(codeKey));
+		
+		
+		savingService.insertSaving(saving);
+		
+		
+		AccountVO account = new AccountVO();
+		account.setAccountNo(saving.getRefAccountNo());
+		account.setBalance(saving.getSavingAmmount());
+		account.setWithdrawableBalance(saving.getSavingAmmount());
+		
+		//System.out.println(account);
+		accountService.updateBalance(account);
+		
+	}
 }

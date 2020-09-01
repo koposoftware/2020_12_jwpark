@@ -20,6 +20,7 @@ import kr.ac.kopo.account.vo.AccountVO;
 import kr.ac.kopo.client.user.vo.UserVO;
 import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
+import kr.ac.kopo.saving.vo.SavingVO;
 import kr.ac.kopo.savingProduct.vo.SavingProductVO;
 
 
@@ -130,6 +131,7 @@ public class MyBatisTest {
 		session.selectOne("deposit.dao.DepositDAO.insertDeposit", deposit); 
 	}
 	
+	@Ignore
 	@Test
 	public void 적금상품목록조회() throws Exception {
 		
@@ -139,5 +141,13 @@ public class MyBatisTest {
 		
 	}
 	
+	@Test
+	public void 적금가입현황조회() throws Exception {
+		
+		List<SavingVO> list = session.selectList("saving.dao.SavingDAO.selectSavingByRegNo", "9403221234567"); 
+		
+		System.out.println(list);
+		
+	}
 	
 }

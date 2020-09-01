@@ -265,7 +265,6 @@ function connectToServer() {
 				workType = 'depositAgree';
 				
 				depositAgree();
-				
 			}
 			else if(cmd == 'depositInputComp') {
 				workType = 'depositInputComp';
@@ -275,6 +274,22 @@ function connectToServer() {
 				var period = msg.split(':')[4];
 				
 				depositInputComp(productName, accountNo, ammount, period);
+			}
+			else if(cmd == 'savingAgree') {
+				
+				workType = 'savingAgree';
+				
+				savingAgree();
+			}
+			else if(cmd == 'savingInputComp') {
+				workType = 'savingInputComp';
+				var productName = msg.split(':')[1];
+				var accountNo = msg.split(':')[2];
+				var entryAmmount = msg.split(':')[3];
+				var savingAmmount = msg.split(':')[4];
+				var period = msg.split(':')[5];
+				
+				savingInputComp(productName, accountNo, entryAmmount, savingAmmount, period);
 			}
 			
 		})

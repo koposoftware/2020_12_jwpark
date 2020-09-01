@@ -17,7 +17,7 @@
 		
 		let content = '';
 		
-		$('#workTitle').text('예금 가입 현황')
+		$('#workTitle').text('사용자 예금 가입 현황')
 		//content += '<div id="workName">예금 목록</div>';
 		content += '<div id="workSpace">';
 		
@@ -315,8 +315,8 @@
 								content += 	'<div id="rightSpace" style="width:50%; display:inline; float:left;">';
 								content += 		'<div id="ammountPeriod" style="font-size:x-large;">';
 								
-								//content +=			'<div style="margin-top:5%">';
-								content +=			'<div>';
+								content +=			'<div style="margin-top:5%">';
+								//content +=			'<div>';
 								content +=				'신규 금액';
 								
 								let phAmmount;
@@ -329,10 +329,11 @@
 								else
 									phAmmount += 			'최대 제한 없음';
 								
-								content +=				'<input type="text" autocomplete="off" id="depositAmmount" placeholder=" ' + phAmmount + '" style="width:90%; text-align:right;"> 원';
+								content +=				'<input type="text" autocomplete="off" id="depositAmmount" placeholder=" ' + phAmmount + '" style="width:90%; height:30px;  text-align:right;"> 원';
 								
 								content +=			'</div>';
-								content +=			'<div style="margin-top:5%">';
+								//content +=			'<div style="margin-top:5%">';
+								content +=			'<div>';
 								content +=			'가입 기간 ';
 								
 								let phPeriod;
@@ -345,7 +346,7 @@
 								else
 									phPeriod += ' 최대 제한없음'
 								
-								content +=			'<input type="text" autocomplete="off" id="depositPeriod" placeholder=" ' + phPeriod + '"style="width:90%; text-align:right;"> 개월';
+								content +=			'<input type="text" autocomplete="off" id="depositPeriod" placeholder=" ' + phPeriod + '"style="width:90%; height:30px;  text-align:right;"> 개월';
 								
 								content += 			'</div>';
 								content += 		'</div>';
@@ -575,7 +576,8 @@
 				content += '예금가입에 성공하였습니다.';
 				$('#workModal').append(content);
 				$("#modal").fadeIn();
-				$('#workDiv').empty()
+				$('#workDiv').empty();
+				$("#userDepositList").trigger("click");
 			},error : function() {
 				alert('실패');
 			}

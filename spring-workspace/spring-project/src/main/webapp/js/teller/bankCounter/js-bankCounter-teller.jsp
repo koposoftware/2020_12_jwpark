@@ -4,8 +4,6 @@
 
 	// work /////
 	var passChangeAccount
-
-	
 	
 	$("#menu-toggle").click(function(e) {
   		e.preventDefault();
@@ -20,6 +18,7 @@
 		let content ='';
 		content +=     '<button class="btn btn-info" id="userAccountList">자유 입출금 계좌 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		content +=     '<button class="btn btn-info" id="userDepositList">예금 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		content +=     '<button class="btn btn-info" id="userSavingList">적금 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		
 		$('#workBtns').empty();
 		$('#workBtns').append(content)
@@ -62,7 +61,7 @@
 		$('#workBtns').append(content)
 		$('#workDiv').empty();
 		
-		//$("#userDepositList").trigger("click");
+		$("#userSavingList").trigger("click");
 	})
 	
 	$("#work_selectAccount1006").bind('click', function(event) {

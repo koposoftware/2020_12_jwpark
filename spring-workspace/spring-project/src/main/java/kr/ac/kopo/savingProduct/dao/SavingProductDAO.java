@@ -7,4 +7,5 @@ import kr.ac.kopo.savingProduct.vo.SavingProductVO;
 public interface SavingProductDAO {
 
 	List<SavingProductVO> selectAllSavingProduct();
+	SavingProductVO selectSavingProduct(String codeVal);
 }

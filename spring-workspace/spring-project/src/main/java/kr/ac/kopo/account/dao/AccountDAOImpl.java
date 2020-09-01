@@ -71,6 +71,11 @@ public class AccountDAOImpl implements AccountDAO {
 		
 		sqlSession.update("account.dao.AccountDAO.updateWithdrawable", account);
 	}
-	
+
+	@Override
+	public void updateBalance(AccountVO account) {
+		sqlSession.update("account.dao.AccountDAO.updateBalance", account);
+		
+	}
 	
 }
