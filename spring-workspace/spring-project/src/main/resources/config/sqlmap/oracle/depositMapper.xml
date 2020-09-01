@@ -18,5 +18,19 @@
 		INSERT INTO T_HANA_DEPOSIT (ACCOUNT_NO, REG_NO, NAME_CODE, DEPOSIT_AMMOUNT, INTEREST, EXPIRED_DATE, REF_ACCOUNT_NO)
     		VALUES(#{accountNo}, #{regNo}, #{nameCode}, #{depositAmmount}, #{interest}, '2020-10-25', #{refAccountNo})
 	</insert>
+	
+	<select id="selectDepositByRegNo" resultMap="depositMap" resultType="DepositVO" parameterType="string">
+		select 
+			ACCOUNT_NO, 
+			REG_NO, 
+			(select code_val  from t_hana_code_table where code_key = name_code and code_category = 2) as name_code, 
+			DEPOSIT_AMMOUNT, 
+			INTEREST, 
+			to_char(EXPIRED_DATE, 'yyyy-mm-dd') as expired_date, 
+			REF_ACCOUNT_NO,
+			to_char(REG_DATE, 'yyyy-mm-dd') as reg_date
+		FROM T_HANA_DEPOSIT 
+		WHERE REG_NO = #{regNo}
+	</select>
 
 </mapper>

@@ -33,7 +33,7 @@
 		height:100%;
 		width:50%;
 		text-align:center;
-		margin-top: 20%;
+		margin-top: 15%;
 		display:inline-block;
 	}
 	

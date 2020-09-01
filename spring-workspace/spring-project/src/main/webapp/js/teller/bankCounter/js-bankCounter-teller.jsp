@@ -22,6 +22,8 @@
 	
 	$("#work_selectAccount1000").bind('click', function(event) {
 		
+		$('#workBtns').empty();
+		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
 			type : 'get',
@@ -29,7 +31,8 @@
 				$('#workDiv').empty();
 					
 				let content = '';
-				content += '<div id="workName">사용자 계좌 조회</div>';
+				//content += '<div id="workName">사용자 계좌 조회</div>';
+				$('#workTitle').text('사용자 계좌 조회');
 					
 				if(data.length != 0) {
 					content += '<div style="width:100%; height:200px; overflow:auto">';
@@ -87,13 +90,16 @@
 		$('#workDiv').empty();
 		let content = '';
 		
-		content += '<div id="workName">예금 가입</div>';
-		content += '<div id="workSpace">';
+		//content += '<div id="workName">예금 가입</div>';
+		$('#workTitle').text('예금 업무')
+		
+		content +=     '<button class="btn btn-info" id="userDepositList">예금 가입 현황</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		content +=     '<button class="btn btn-info" id="refDepositList">예금 상품 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		content +=     '<button class="btn btn-info" id="depositSignUp">예금 가입</button>';
-		content += '</div>';
 		
-		$('#workDiv').append(content)
+		$('#workBtns').empty();
+		$('#workBtns').append(content)
+		$('#workDiv').empty();
 		
 	})
 	
@@ -102,14 +108,16 @@
 		$('#workDiv').empty();
 		let content = '';
 		
-		content += '<div id="workName">계좌 제신고</div>';
-		content += '<div id="workSpace">';
+		//content += '<div id="workName">예금 가입</div>';
+		
+		$('#workTitle').text('계좌 제신고')
 		content +=     '<button class="btn btn-info" id="changePasswordBtn">계좌 비밀번호 변경</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		content +=     '<button class="btn btn-info" id="LostReport">분실 신고/해제</button>';
-		content += '</div>';
 		
+		$('#workBtns').empty();
+		$('#workBtns').append(content)
+		$('#workDiv').empty();
 		
-		$('#workDiv').append(content)
 		
 	})
 	
@@ -123,7 +131,8 @@
 				$('#workDiv').empty();
 				
 				let content = '';
-				content += '<div id="workName">계좌 비밀번호 변경</div>';
+				//content += '<div id="workName">계좌 비밀번호 변경</div>';
+				$('#workTitle').text('계좌 비밀번호 변경')
 				
 				if(data.length != 0) {
 					content += '<div style="width:100%; height:200px; overflow:auto">';
@@ -186,7 +195,8 @@
 				$('#workDiv').empty();
 				
 				let content = '';
-				content += '<div id="workName">분실 신고/해제</div>';
+				//content += '<div id="workName">분실 신고/해제</div>';
+				$('#workTitle').text('분실 신고/해제')
 				
 				if(data.length != 0) {
 					content += '<div style="width:100%; height:200px; overflow:auto">';
@@ -274,7 +284,8 @@
 						$('#workDiv').empty();
 						
 						let content = '';
-						content += '<div id="workName">계좌 비밀번호 변경</div>';
+						//content += '<div id="workName">계좌 비밀번호 변경</div>';
+						$('#workTitle').text('계좌 비밀번호 변경')
 						
 						if(data.length != 0) {
 							content += '<div style="width:100%; height:200px; overflow:auto">';
@@ -366,8 +377,8 @@
 						$('#workDiv').empty();
 						
 						let content = '';
-						content += '<div id="workName">계좌 비밀번호 변경</div>';
-						
+						//content += '<div id="workName">계좌 비밀번호 변경</div>';
+						$('#workTitle').text('계좌 비밀번호 변경')
 						if(data.length != 0) {
 							content += '<div style="width:100%; height:200px; overflow:auto">';
 							content +=     '<table class="table table-hover" style="text-align:center">';
@@ -440,17 +451,84 @@
 		})
 	})
 		
+	$(document).on('click', "#userDepositList", function() {
+
+		$('#workDiv').empty();
 		
+		let content = '';
+		
+		$('#workTitle').text('예금 가입 현황')
+		//content += '<div id="workName">예금 목록</div>';
+		content += '<div id="workSpace">';
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/deposit/' + '${clientVO.regNo}',
+			type : 'get',
+			success : function(data) {
+				
+				if(data.length != 0) {
+					content += '<div style="width:100%; height:200px; overflow:auto">';
+					content +=     '<table class="table table-hover" style="text-align:center">';
+					content +=         '<thead>';
+					content +=             '<tr>'
+					content +=                 '<th scope="col">계좌 번호</th>';
+					content +=                 '<th scope="col">상품명</th>';
+					content +=                 '<th scope="col">적용 금리</th>';
+					content +=                 '<th scope="col">가입 금액</th>';
+					content +=                 '<th scope="col">가입일</th>';
+					content +=                 '<th scope="col">만기일</th>';
+					content +=                 '<th scope="col">연결된 계좌</th>';
+					content +=             '</tr>';
+					content +=         '</thead>';
+					content +=         '<tbody>';
+					
+					for(i = 0; i < data.length; i++) {
+						
+						content +=         '<tr>';
+						content +=             '<td>' + makeHyphen(data[i].accountNo, 4) + '</td>';
+						content +=             '<td>' + data[i].nameCode + '</td>';
+						content +=             '<td>' + data[i].interest + '%</td>';
+						content +=             '<td>' + comma(data[i].depositAmmount) + '원</td>';
+						content +=             '<td>' + data[i].regDate + '</td>';
+						content +=             '<td>' + data[i].expiredDate + '</td>';
+						content +=             '<td>' + makeHyphen(data[i].refAccountNo, 4) + '</td>';
+						content +=         '</tr>';
+					}							
+					content +=         '</tbody>';
+					content +=     '</table>';
+					content += '</div>';
+					console.log(content);
+					$('#workDiv').append(content);
+					
+				}
+				else {
+					content += '손님이 가입한 예금상품이 없습니다.';
+					$('#workDiv').append(content);
+				}
+				
+			},error : function() {
+				
+				$('#workModal').empty();
+				let content = '';
+				content += '예금상품 조회에 실패했습니다.';
+				$('#workModal').append(content);
+				$("#modal").fadeIn();
+			}
+		})
+	})
+	
 	$(document).on('click', "#refDepositList", function() {
 
 		$('#workDiv').empty();
 		
 		let content = '';
 		
-		content += '<div id="workName">예금 가입</div>';
+		//content += '<div id="workName">예금 가입</div>';
+		$('#workTitle').text('예금 상품 정보')
 		content += '<div id="workSpace">';
+		content += '<div id="linkBtn" style="text-align:left;" >';
 		content +=     '<button class="btn btn-info" id="showAllDepositLink">예금 전체 상품 목록 링크</button>';
-		
+		content += '</div>';
 		$.ajax({
 			url : '${pageContext.request.contextPath}/depositProducts',
 			type : 'get',
@@ -530,7 +608,8 @@
 		
 		let content = '';
 		
-		content += '<div id="workName">예금 가입</div>';
+		//content += '<div id="workName">예금 가입</div>';
+		$('#workTitle').text('예금 가입')
 		content += '<div id="workSpace">';
 		
 		$.ajax({
@@ -626,10 +705,11 @@
 		
 		let content = '';
 		
-		content += '<div id="workName">예금 가입</div>';
+		//content += '<div id="workName">예금 가입</div>';
+		$('#workTitle').text('예금 가입')
 		content += 	'<div id="workSpace" style="text-align : left">';
 		content += 	'<div id="leftSpace" style="width:50%; display:inline; float:left;">';
-		content += 		'<br>';
+	
 		content += 		'<div class="depositProductName" id="' + $(this).attr('id') +'"style="font-size:x-large;">상품명 : ' + $(this).attr('id') + '</div>';
 		content += 		'<br>';
 		content += 		'<div style="font-size:x-large;">출금계좌</div>';
@@ -678,7 +758,8 @@
 								content += 	'<div id="rightSpace" style="width:50%; display:inline; float:left;">';
 								content += 		'<div id="ammountPeriod" style="font-size:x-large;">';
 								
-								content +=			'<div style="margin-top:5%">';
+								//content +=			'<div style="margin-top:5%">';
+								content +=			'<div>';
 								content +=				'신규 금액';
 								
 								let phAmmount;
@@ -924,7 +1005,7 @@
 		sendMessage('bye');
 	};
 
-	/////// 여기///
+	
 	function depositSuccess(){
 		
 		$.ajax({
@@ -941,53 +1022,12 @@
 			},
 			success : function(data) {
 				
-					
+				$('#workModal').empty();
 				let content = '';
-				content += '<div id="workName">사용자 계좌 조회</div>';
-					
-				if(data.length != 0) {
-					content += '<div style="width:100%; height:200px; overflow:auto">';
-					content +=     '<table class="table table-hover" style="text-align:center">';
-					content +=         '<thead>';
-					content +=             '<tr>'
-					content +=                 '<th scope="col">종류</th>';
-					content +=                 '<th scope="col">계좌번호</th>';
-					content +=                 '<th scope="col">상품명</th>';
-					content +=                 '<th scope="col">잔액</th>';
-					content +=                 '<th scope="col">출금가능액</th>';
-					content +=                 '<th scope="col" style="width:8%">휴면 상태</th>';
-					content +=                 '<th scope="col" style="width:10%">분실 신고 상태</th>';
-					content +=                 '<th scope="col">생성일</th>';
-					content +=                 '<th scope="col">최종 거래일</th>';
-					content +=             '</tr>';
-					content +=         '</thead>';
-					content +=         '<tbody>';
-						
-					for(i = 0; i<data.length; i++) {
-						data[i].accountNo = makeHyphen(data[i].accountNo, 4);
-						data[i].balance = comma(data[i].balance);
-						data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
-							
-						content +=         '<tr>';
-						content +=             '<td>' + data[i].type + '</td>';
-						content +=             '<td>' + data[i].accountNo + '</td>';
-						content +=             '<td>' + data[i].productName + '</td>';
-						content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
-						content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
-						content +=             '<td>' + data[i].dormant + '</td>';
-						content +=             '<td>' + data[i].lost + '</td>';
-						content +=             '<td>' + data[i].regDate + '</td>';
-						content +=             '<td>' + data[i].recentlyUseDate + '</td>';
-						content +=         '</tr>';
-					}
-						
-					content +=         '</tbody>';
-					content +=     '</table>';
-					content += '</div>';
-				} else {
-					content += '<div>손님의 계좌가 존재하지 않습니다.</div>';
-				}	
-				$('#workDiv').append(content);
+				content += '예금가입에 성공하였습니다.';
+				$('#workModal').append(content);
+				$("#modal").fadeIn();
+				$('#workDiv').empty()
 			},error : function() {
 				alert('실패');
 			}

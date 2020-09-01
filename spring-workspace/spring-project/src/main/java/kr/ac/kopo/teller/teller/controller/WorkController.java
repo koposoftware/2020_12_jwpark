@@ -174,4 +174,9 @@ public class WorkController {
 		accountService.updateWithdrawable(account);
 	}
 	
+	@GetMapping("/deposit/{regNo}")
+	public List<DepositVO> selectDepositByRegNo(@PathVariable("regNo") String regNo) {
+		
+		return depositService.selectDepositByRegNo(regNo);
+	}
 }

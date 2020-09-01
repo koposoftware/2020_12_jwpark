@@ -84,11 +84,24 @@
 		float:left;
 	}
 	
+	#workTitle{
+	
+		font-size:x-large;	
+		display : inline-block;
+		float : left;
+	}
+	
+	#workBtns {
+		display : inline-block;
+		float : right;
+	}
+	/*
 	#workDiv #workName {
 		font-size:x-large;
 	}
+	*/
 	
-		#modal {
+	#modal {
 		display:none;
 		position:fixed;
 		width:100%;
@@ -218,14 +231,16 @@
     	<div class="list-group list-group-flush">
 	   		<!-- <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>  -->
 	   		<a id="work_selectAccount1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1000)</a>
-    		<a id="work_selectAccount1003" class="list-group-item list-group-item-action bg-light">예금 가입(1003)</a>
-    		<a class="list-group-item list-group-item-action bg-light">적금 가입(1004)</a>
+    		<a id="work_selectAccount1003" class="list-group-item list-group-item-action bg-light">예금 업무(1003)</a>
+    		<a class="list-group-item list-group-item-action bg-light">적금 업무(1004)</a>
     		<a class="list-group-item list-group-item-action bg-light">계좌 이체(1005)</a>
     		<a id="work_selectAccount1006" class="list-group-item list-group-item-action bg-light">계좌 제신고(1006)</a>
+    		<!-- 
     		<a class="list-group-item list-group-item-action bg-light">카드 조회(1007)</a>
-    		<a class="list-group-item list-group-item-action bg-light">체크 카드 가입(1008)</a>
-    		<a class="list-group-item list-group-item-action bg-light">신용 카드 가입(1009)</a>
+    		<a class="list-group-item list-group-item-action bg-light">체크 카드 업무(1008)</a>
+    		<a class="list-group-item list-group-item-action bg-light">신용 카드 업무(1009)</a>
     		<a class="list-group-item list-group-item-action bg-light">카드 제신고(1010)</a>
+    		 -->
    		</div>
    	</div>
    	<!-- /#sidebar-wrapper -->
@@ -265,7 +280,9 @@
     				<source style="width: 100%">
     			</video>
     		</div>
-    			
+    		
+    		<div id="workTitle"></div>
+    		<div id="workBtns"></div>
     		<div id="workDiv">
     			
 			</div>

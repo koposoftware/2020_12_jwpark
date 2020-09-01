@@ -1,5 +1,7 @@
 package kr.ac.kopo.deposit.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,12 @@ public class DepositServiceImpl implements DepositService {
 	@Override
 	public void insertDeposit(DepositVO deposit) {
 		depositDAO.insertDeposit(deposit);
+	}
+
+	@Override
+	public List<DepositVO> selectDepositByRegNo(String regNo) {
+		
+		return depositDAO.selectDepositByRegNo(regNo);
 	}
 	
 }
