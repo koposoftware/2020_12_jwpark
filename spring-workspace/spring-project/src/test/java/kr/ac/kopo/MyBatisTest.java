@@ -20,6 +20,7 @@ import kr.ac.kopo.account.vo.AccountVO;
 import kr.ac.kopo.client.user.vo.UserVO;
 import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
+import kr.ac.kopo.savingProduct.vo.SavingProductVO;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -127,6 +128,16 @@ public class MyBatisTest {
 		deposit.setRefAccountNo("46291014901007");
 		
 		session.selectOne("deposit.dao.DepositDAO.insertDeposit", deposit); 
+	}
+	
+	@Test
+	public void 적금상품목록조회() throws Exception {
+		
+		List<SavingProductVO> list = session.selectList("savingProduct.dao.SavingProductDAO.selectAllSavingProduct"); 
+		
+		System.out.println(list);
 		
 	}
+	
+	
 }

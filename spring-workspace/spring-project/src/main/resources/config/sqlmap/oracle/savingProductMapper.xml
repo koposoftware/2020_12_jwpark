@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="savingProduct.dao.SavingProductDAO">
+
+	<resultMap type="SavingProductVO" id="savingProductMap">
+		<result column="name_code" property="nameCode"/>
+		<result column="max_interest" property="maxInterest"/>
+		<result column="min_period" property="minPeriod"/>
+		<result column="max_period" property="maxPeriod"/>
+		<result column="min_entry_ammount" property="minEntryAmmount"/>
+		<result column="max_entry_ammount" property="maxEntryAmmount"/>
+		<result column="min_saving_ammount" property="minSavingAmmount"/>
+		<result column="max_saving_ammount" property="maxSavingAmmount"/>
+		<result column="leaflet_url" property="leafletUrl"/>
+	</resultMap>  
+
+	<select id="selectAllSavingProduct" resultMap="savingProductMap" resultType="SavingProductVO">
+		select 
+			(select code_val  from t_hana_code_table where code_key = name_code and code_category = 3) as name_code, 
+			 max_interest, 
+			 min_period, 
+			 max_period, 
+			 min_entry_ammount, 
+			 max_entry_ammount,
+			 min_saving_ammount, 
+			 max_saving_ammount,
+			 leaflet_url 
+			 from T_HANA_SAVING_PRODUCT
+	</select>
+
+</mapper>

@@ -4,10 +4,10 @@ public class DepositProductVO {
 
 	private String nameCode;
 	private String maxInterest;
-	private String minPeriod;
-	private String maxPeriod;
-	private String minAmmount;
-	private String maxAmmount;
+	private int minPeriod;
+	private int maxPeriod;
+	private int minAmmount;
+	private int maxAmmount;
 	private String leafletUrl;
 	public String getNameCode() {
 		return nameCode;
@@ -21,28 +21,28 @@ public class DepositProductVO {
 	public void setMaxInterest(String maxInterest) {
 		this.maxInterest = maxInterest;
 	}
-	public String getMinPeriod() {
+	public int getMinPeriod() {
 		return minPeriod;
 	}
-	public void setMinPeriod(String minPeriod) {
+	public void setMinPeriod(int minPeriod) {
 		this.minPeriod = minPeriod;
 	}
-	public String getMaxPeriod() {
+	public int getMaxPeriod() {
 		return maxPeriod;
 	}
-	public void setMaxPeriod(String maxPeriod) {
+	public void setMaxPeriod(int maxPeriod) {
 		this.maxPeriod = maxPeriod;
 	}
-	public String getMinAmmount() {
+	public int getMinAmmount() {
 		return minAmmount;
 	}
-	public void setMinAmmount(String minAmmount) {
+	public void setMinAmmount(int minAmmount) {
 		this.minAmmount = minAmmount;
 	}
-	public String getMaxAmmount() {
+	public int getMaxAmmount() {
 		return maxAmmount;
 	}
-	public void setMaxAmmount(String maxAmmount) {
+	public void setMaxAmmount(int maxAmmount) {
 		this.maxAmmount = maxAmmount;
 	}
 	public String getLeafletUrl() {

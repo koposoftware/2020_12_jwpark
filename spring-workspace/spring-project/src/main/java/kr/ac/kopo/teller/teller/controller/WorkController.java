@@ -22,6 +22,8 @@ import kr.ac.kopo.deposit.service.DepositService;
 import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.service.DepositProductService;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
+import kr.ac.kopo.savingProduct.service.SavingProductService;
+import kr.ac.kopo.savingProduct.vo.SavingProductVO;
 
 @RestController
 public class WorkController {
@@ -32,6 +34,8 @@ public class WorkController {
 	private DepositProductService depositProductService;
 	@Autowired
 	private DepositService depositService;
+	@Autowired
+	private SavingProductService savingProductService;
 	
 	/*
 	@GetMapping("/user/{userID}")
@@ -179,4 +183,11 @@ public class WorkController {
 		
 		return depositService.selectDepositByRegNo(regNo);
 	}
+	
+	@GetMapping("/savingProducts")
+	public List<SavingProductVO> getSavingProduct() {
+		List<SavingProductVO> list = savingProductService.selectAllSavingProduct();
+		return list;
+	}
+	
 }
