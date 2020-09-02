@@ -7,6 +7,12 @@
 <!-- Custom styles for this template -->
 <link href="${ pageContext.request.contextPath }/resources/css/simple-sidebar.css" rel="stylesheet">
 <style>
+
+	@font-face {
+		font-family: Hana B;
+		src: url('${ pageContext.request.contextPath }/resources/css/HANAB.TTF');
+	}
+	
 	html, body {
 		height: 100%;
 	}

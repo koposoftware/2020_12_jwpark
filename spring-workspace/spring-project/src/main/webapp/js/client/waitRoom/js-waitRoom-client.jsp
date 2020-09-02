@@ -5,7 +5,8 @@
 		var host = 'https://192.168.217.52';
 		var port = '1337';
 		//var url = 'https://192.168.217.52:1337'
-		var url = 'https://localhost:1337'
+		//var url = 'https://localhost:1337'
+		var url = 'https://192.168.0.7:1337';
 		var socket;
 		
 		var bool = true;
@@ -37,8 +38,8 @@
 				
 				socket.on('ready', function(id) {
 					println('ready Event');
-					//location.href="https://localhost:8811/spring-project/bankCounter-client.jsp";
-					location.href="https://localhost:8811/spring-project/bankCounter";
+					//location.href="https://localhost:8811/spring-project/bankCounter";
+					location.href= "https://192.168.0.7:8811/spring-project/bankCounter";
 				})
 				
 				socket.on('waitClient', function(event) {

@@ -5,7 +5,8 @@ console.log('${userVO.id}')
 workType = '';
 
 //var url = 'https://192.168.217.52:1337';
-var url = 'https://localhost:1337';
+//var url = 'https://localhost:1337';
+var url = 'https://192.168.0.7:1337';
 
 var socket;
 

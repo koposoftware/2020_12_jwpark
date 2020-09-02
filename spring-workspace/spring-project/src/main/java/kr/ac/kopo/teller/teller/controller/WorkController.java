@@ -178,7 +178,7 @@ public class WorkController {
 		
 		deposit.setAccountNo(randAccountNo);
 		
-		//System.out.println(deposit);
+		System.out.println(deposit);
 		String interest = depositProductService.selectDepositProduct(deposit.getNameCode()).getMaxInterest();
 		int codeKey = accountService.selectCodeVal(deposit.getNameCode());
 		

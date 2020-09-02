@@ -2,8 +2,9 @@
 	pageEncoding="UTF-8"%>
 <script>
 	//var url = 'https://192.168.217.52:1337';
-	var url = 'https://localhost:1337';
-
+	//var url = 'https://localhost:1337';
+	var url = 'https://192.168.0.7:1337';
+	
 	var room = '${clientVO.id}';
 	var socket;
 	// 내가 만든 사람임을 나타내는 비트. 오퍼와 앤서를 구분하기 위해서 필요한 것 같음.
