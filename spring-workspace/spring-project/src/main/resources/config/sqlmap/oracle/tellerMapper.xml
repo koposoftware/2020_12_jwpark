@@ -13,7 +13,7 @@
 	<select id="login" resultMap="tellerMap" parameterType="TellerVO" resultType="TellerVO">
 		select emp_no, password, name, reg_date
 			from t_hana_teller
-			where emp_no = #{empNo} and password = #{password}
+			where emp_no = #{empNo} and password = (SELECT standard_hash (#{password}, 'SHA256') FROM dual)
 	</select>
 	
 </mapper>

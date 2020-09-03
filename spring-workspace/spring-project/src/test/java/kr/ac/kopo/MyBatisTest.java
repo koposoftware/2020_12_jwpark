@@ -66,9 +66,9 @@ public class MyBatisTest {
 		UserVO user = new UserVO();
 		user.setRegNo("9403221234567");
 		
-		AccountDAO ad = new AccountDAOImpl();
+		//AccountDAO user = new AccountDAOImpl();
 		
-		List<AccountVO> accountList = session.selectList("account.dao.AccountDAO.selctAccountByUserRegNo", user);
+		List<AccountVO> accountList = session.selectList("account.dao.AccountDAO.selectAccountByUserRegNo", user);
 		
 		//List<AccountVO> accountList = ad.selctAccountByUserRegNo(user);
 		System.out.println(accountList);
@@ -114,6 +114,16 @@ public class MyBatisTest {
 		System.out.println(account);
 	}
 	
+	
+	@Test
+	public void 계좌() throws Exception {
+		AccountVO account = new AccountVO();
+		account.setAccountNo("45891034853507");
+		account.setPassword("1111");
+		 
+		System.out.println((String)session.selectOne("account.dao.AccountDAO.selectPasswordByAccountNo", account));
+	}
+	
 	@Ignore
 	@Test
 	public void 예금신규삽입() throws Exception {
@@ -141,6 +151,7 @@ public class MyBatisTest {
 		
 	}
 	
+	@Ignore
 	@Test
 	public void 적금가입현황조회() throws Exception {
 		

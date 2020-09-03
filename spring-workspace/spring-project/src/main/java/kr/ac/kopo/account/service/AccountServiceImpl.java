@@ -46,12 +46,15 @@ public class AccountServiceImpl implements AccountService {
 	public boolean checkAccountNoByPassword(String accountNo, String password) {
 		
 		boolean bool;
+		AccountVO account = new AccountVO();
+		account.setAccountNo(accountNo);
+		account.setPassword(password);
+		String an = accountDAO.selectPasswordByAccountNo(account);
 		
-		AccountVO account = accountDAO.selctAccountByPassword(password);
+		//AccountVO account = accountDAO.selctAccountByPassword(password);
 		
-		
-		if(account != null) {
-			if(account.getAccountNo().equals(accountNo)) {
+		if(an != null) {
+			if(an.equals(accountNo)) {
 				bool = true;
 			} else {
 				bool = false;
@@ -93,6 +96,13 @@ public class AccountServiceImpl implements AccountService {
 	public void updateBalance(AccountVO account) {
 		
 		accountDAO.updateBalance(account);
+	}
+
+	@Override
+	public String selectPasswordByAccountNo(AccountVO account) {
+		
+
+		return accountDAO.selectPasswordByAccountNo(account);
 	}
 
 	

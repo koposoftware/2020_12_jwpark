@@ -47,17 +47,35 @@
     	<property name="password" value="1111" />
     </bean>
  	-->
+ 	   
  	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
     	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
     	<property name="url" value="jdbc:oracle:thin:@192.168.119.128:1521:xe" />
 		<property name="username" value="jwpark" />
     	<property name="password" value="1111" />
     </bean>
+    
+    <!-- 
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+    	<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+    	<property name="url" value="jdbc:log4jdbc:oracle:thin:@192.168.119.128:1521:xe" />
+		<property name="username" value="jwpark" />
+    	<property name="password" value="1111" />
+    </bean>
+     -->
+    
+    <!-- 
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	  <property name="jndiName" value="java:comp/env/jdbc/JNDI_ORA"/>
+ 	</bean> 
+    -->
+     
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="dataSource" ref="dataSource" />
     	<property name="configLocation" value="classpath:config/mybatis/sqlMapConfig.xml" />
     	<property name="mapperLocations" value="classpath:config/sqlmap/oracle/*.xml" />
     </bean>
+    
     
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
     	<constructor-arg ref="sqlSessionFactory" />
@@ -90,9 +108,13 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	 -->
-	 <!-- 트랜잭션 처리 -->
+	<!-- 트랜잭션 처리 -->
+	 
    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
    	<property name="dataSource" ref="dataSource"/>
    </bean>
+    
+   
+   
    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

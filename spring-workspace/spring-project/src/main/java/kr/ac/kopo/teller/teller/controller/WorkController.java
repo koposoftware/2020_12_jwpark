@@ -199,6 +199,7 @@ public class WorkController {
 		AccountVO account = new AccountVO();
 		account.setAccountNo(deposit.getRefAccountNo());
 		account.setWithdrawableBalance(deposit.getDepositAmmount());
+		account.setBalance(deposit.getDepositAmmount());
 		
 		System.out.println(account);
 		accountService.updateBalance(account);

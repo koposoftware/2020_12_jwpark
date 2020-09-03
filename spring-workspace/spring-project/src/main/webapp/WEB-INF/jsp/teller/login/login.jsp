@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,13 +27,15 @@
     	width : 150px;
 	}
 	
+
+	
 </style>
 <body>
 	<header>
 		<%@include file="/WEB-INF/jsp/include/header_teller.jsp" %>
 	</header>
 	<section>
-	
+		
 		<div id="page-content">
     	<div class="container text-center">
     		<div class="row justify-content-center">
@@ -65,7 +68,6 @@
   							<input type="password" class="form-control" aria-label="Large" name="password" id="pwd" placeholder="비밀번호를 입력해주세요" maxlength="20" aria-describedby="inputGroup-sizing-sm">
 						</div>
 						<div align="center">
-						
     					<br>
     					<button type="submit" class="btn btn-primary btn-lg" style="background-color: #008c8c; border-color: #008c8c; float: right">로 그 인</button>    					
   						</div>

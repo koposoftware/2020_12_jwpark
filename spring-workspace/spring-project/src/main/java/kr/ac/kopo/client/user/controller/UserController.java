@@ -35,25 +35,30 @@ public class UserController {
 	@PostMapping("/login")
 	public ModelAndView login(UserVO user, HttpSession session) {
 		
+		
 		UserVO userVO = userService.login(user);
 		
 		ModelAndView mav = new ModelAndView();
 		
 		if(userVO == null) {
 			mav.setViewName("redirect:/login");
+			
 		} else {
 			mav.setViewName("redirect:/");
 			//mav.addObject("userVO", userVO);
 			session.setAttribute("userVO", userVO);
+			log.infoLog("user login", userVO.getId() + "(" + userVO.getName() + ") 로그인");
 		}
-		
-		log.infoLog("login", userVO.getId() + "(" + userVO.getName() + ") 로그인");
 		
 		return mav;
 	}
 	
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
+		
+		UserVO userVO = (UserVO)session.getAttribute("userVO");
+		
+		log.infoLog("user logout", userVO.getId() + "(" + userVO.getName() + ") 로그아웃");
 		
 		session.removeAttribute("userVO");
 		
@@ -71,12 +76,27 @@ public class UserController {
 	*/
 	
 	@GetMapping("/waitRoom")
-	public String waitRoom() {
-		return "/client/waitRoom/waitRoom-client";
+	public String waitRoom(HttpSession session) {
+		
+		UserVO userVO = (UserVO)session.getAttribute("userVO");
+		
+		String retUrl ="";
+		if(userVO != null) {
+			log.infoLog("user waitRoom go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 대기실 입장");
+			retUrl = "/client/waitRoom/waitRoom-client";
+		} else {
+			retUrl ="redirect:/";
+		}
+		
+		return retUrl;
 	}
 	
 	@GetMapping("/bankCounter")
-	public String bankCounter() {
+	public String bankCounter(HttpSession session) {
+		
+		UserVO userVO = (UserVO)session.getAttribute("userVO");
+		
+		log.infoLog("user bankCounter go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 창구 입장");
 		return "/client/bankCounter/bankCounter-client";
 	}
 	

@@ -33,7 +33,6 @@
 					content +=     '<table class="table table-hover" style="text-align:center">';
 					content +=         '<thead>';
 					content +=             '<tr>'
-					content +=                 '<th scope="col">종류</th>';
 					content +=                 '<th scope="col">계좌번호</th>';
 					content +=                 '<th scope="col">상품명</th>';
 					content +=                 '<th scope="col">잔액</th>';
@@ -52,9 +51,8 @@
 						data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
 						
 						content +=         '<tr>';
-						content +=             '<td>' + data[i].type + '</td>';
 						content +=             '<td>' + data[i].accountNo + '</td>';
-						content +=             '<td>' + data[i].productName + '</td>';
+						content +=             '<td>' + data[i].nameCode + '</td>';
 						content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
 						content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
 						content +=             '<td>' + data[i].dormant + '</td>';

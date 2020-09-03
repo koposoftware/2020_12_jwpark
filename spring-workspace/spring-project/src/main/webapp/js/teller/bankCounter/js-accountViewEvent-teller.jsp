@@ -19,13 +19,13 @@
 					content +=     '<table class="table table-hover" style="text-align:center">';
 					content +=         '<thead>';
 					content +=             '<tr>'
-					content +=                 '<th scope="col">종류</th>';
 					content +=                 '<th scope="col">계좌번호</th>';
 					content +=                 '<th scope="col">상품명</th>';
 					content +=                 '<th scope="col">잔액</th>';
 					content +=                 '<th scope="col">출금가능액</th>';
 					content +=                 '<th scope="col" style="width:8%">휴면 상태</th>';
 					content +=                 '<th scope="col" style="width:10%">분실 신고 상태</th>';
+					content +=                 '<th scope="col">이체 한도</th>';
 					content +=                 '<th scope="col">생성일</th>';
 					content +=                 '<th scope="col">최종 거래일</th>';
 					content +=             '</tr>';
@@ -36,15 +36,16 @@
 						data[i].accountNo = makeHyphen(data[i].accountNo, 4);
 						data[i].balance = comma(data[i].balance);
 						data[i].withdrawableBalance = comma(data[i].withdrawableBalance);
+						data[i].limitation = comma(data[i].limitation);
 							
 						content +=         '<tr>';
-						content +=             '<td>' + data[i].type + '</td>';
 						content +=             '<td>' + data[i].accountNo + '</td>';
-						content +=             '<td>' + data[i].productName + '</td>';
+						content +=             '<td>' + data[i].nameCode + '</td>';
 						content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
 						content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
 						content +=             '<td>' + data[i].dormant + '</td>';
 						content +=             '<td>' + data[i].lost + '</td>';
+						content +=             '<td>' + data[i].limitation + '원</td>';
 						content +=             '<td>' + data[i].regDate + '</td>';
 						content +=             '<td>' + data[i].recentlyUseDate + '</td>';
 						content +=         '</tr>';

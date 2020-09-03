@@ -8,7 +8,7 @@ public class UserVO {
 	private String regNo;
 	private String tel;
 	private String regDate;
-	
+	private String elecFinanceStatus;
 	public String getId() {
 		return id;
 	}
@@ -45,12 +45,18 @@ public class UserVO {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	
+	public String getElecFinanceStatus() {
+		return elecFinanceStatus;
+	}
+	public void setElecFinanceStatus(String elecFinanceStatus) {
+		this.elecFinanceStatus = elecFinanceStatus;
+	}
 	@Override
 	public String toString() {
 		return "UserVO [id=" + id + ", password=" + password + ", name=" + name + ", regNo=" + regNo + ", tel=" + tel
-				+ ", regDate=" + regDate + "]";
+				+ ", regDate=" + regDate + ", elecFinanceStatus=" + elecFinanceStatus + "]";
 	}
+	
 	
 	
 }

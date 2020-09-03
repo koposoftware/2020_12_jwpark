@@ -20,4 +20,6 @@ public interface AccountService {
 	
 	void updateWithdrawable(AccountVO account);
 	void updateBalance(AccountVO account);
+	
+	String selectPasswordByAccountNo(AccountVO account);
 }

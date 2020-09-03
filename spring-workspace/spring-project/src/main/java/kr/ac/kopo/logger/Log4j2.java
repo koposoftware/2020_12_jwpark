@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Log4j2 {
 
+	
 	private static Logger LOGGER = LoggerFactory.getLogger(Log4j2.class);
 	
 	public void infoLog(String category, String message) {
 		LOGGER.info("[ " + category + " ] " + message);
 	}
+	
 }

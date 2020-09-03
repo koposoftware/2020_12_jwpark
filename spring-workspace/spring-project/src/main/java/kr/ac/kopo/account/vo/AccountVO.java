@@ -2,22 +2,23 @@ package kr.ac.kopo.account.vo;
 
 public class AccountVO {
 
-	private String type;
+	private String nameCode;
 	private String accountNo;
 	private String regNo;
-	private String productName;
 	private int balance;
 	private int withdrawableBalance;
 	private String password;
 	private String dormant;
 	private String lost;
+	private int limitation;
 	private String regDate;
 	private String recentlyUseDate;
-	public String getType() {
-		return type;
+	private String elecFinanceStatus;
+	public String getNameCode() {
+		return nameCode;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setNameCode(String nameCode) {
+		this.nameCode = nameCode;
 	}
 	public String getAccountNo() {
 		return accountNo;
@@ -30,12 +31,6 @@ public class AccountVO {
 	}
 	public void setRegNo(String regNo) {
 		this.regNo = regNo;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
 	}
 	public int getBalance() {
 		return balance;
@@ -67,6 +62,12 @@ public class AccountVO {
 	public void setLost(String lost) {
 		this.lost = lost;
 	}
+	public int getLimitation() {
+		return limitation;
+	}
+	public void setLimitation(int limitation) {
+		this.limitation = limitation;
+	}
 	public String getRegDate() {
 		return regDate;
 	}
@@ -79,13 +80,18 @@ public class AccountVO {
 	public void setRecentlyUseDate(String recentlyUseDate) {
 		this.recentlyUseDate = recentlyUseDate;
 	}
-	
+	public String getElecFinanceStatus() {
+		return elecFinanceStatus;
+	}
+	public void setElecFinanceStatus(String elecFinanceStatus) {
+		this.elecFinanceStatus = elecFinanceStatus;
+	}
 	@Override
 	public String toString() {
-		return "AccountVO [type=" + type + ", accountNo=" + accountNo + ", regNo=" + regNo + ", productName="
-				+ productName + ", balance=" + balance + ", withdrawableBalance=" + withdrawableBalance + ", password="
-				+ password + ", dormant=" + dormant + ", lost=" + lost + ", regDate=" + regDate + ", recentlyUseDate="
-				+ recentlyUseDate + "]";
+		return "AccountVO [nameCode=" + nameCode + ", accountNo=" + accountNo + ", regNo=" + regNo + ", balance="
+				+ balance + ", withdrawableBalance=" + withdrawableBalance + ", password=" + password + ", dormant="
+				+ dormant + ", lost=" + lost + ", limitation=" + limitation + ", regDate=" + regDate
+				+ ", recentlyUseDate=" + recentlyUseDate + ", elecFinanceStatus=" + elecFinanceStatus + "]";
 	}
 	
 	

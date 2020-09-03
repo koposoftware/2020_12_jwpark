@@ -6,22 +6,24 @@
 
 	<resultMap type="AccountVO" id="accountMap">
 	<!-- 같은 애들은 안써도 된다. 즉 밑에 4개 안써도 됨. -->
+		<result column="name_code" property="nameCode"/>
 		<result column="account_no" property="accountNo"/>
 		<result column="reg_no" property="regNo"/>
 		<result column="withdrawable_balance" property="withdrawableBalance"/>
-		<result column="product_name" property="productName"/>
+		<result column="elec_finance_status" property="elecFinanceStatus"/>
 	</resultMap>  
 	
 	<select id="selectAccountByUserRegNo" resultMap="accountMap" resultType="AccountVO" parameterType="userVO">
 		select 
-			(select code_val  from t_hana_code_table where code_key = type and code_category = 1) as type, 
+			(select code_val  from t_hana_code_table where code_key = name_code and code_category = 1) as name_code, 
 			account_no, 
-			product_name, 
+			name_code, 
 			balance, 
 			withdrawable_balance,
-			password, 
+			limitation, 
 			dormant, 
 			lost,  
+			elec_finance_status,
 			to_char(reg_date, 'yyyy-mm-dd') as regDate, 
 			to_char(recently_use_date, 'yyyy-mm-dd') as recentlyUseDate 
 			from T_HANA_ACCOUNT 
@@ -33,7 +35,14 @@
 		select 
 			account_no
 			from T_HANA_ACCOUNT 
-    		where password = #{password} 
+    		where password = (SELECT standard_hash (#{password}, 'SHA256') FROM dual) 
+	</select>
+	
+	<select id="selectPasswordByAccountNo" resultType="string" parameterType="AccountVO">
+		select
+			account_no
+			from T_HANA_ACCOUNT 
+    		where account_no = #{accountNo} and password = (SELECT standard_hash (#{password}, 'SHA256') FROM dual)
 	</select>
 	
 	<select id="selectWithdrawableBalanceByAccountNo" resultMap="accountMap" resultType="AccountVO" parameterType="string">
@@ -44,7 +53,7 @@
 	</select>
 	
 	<update id="updateAccountPassword" parameterType="AccountVO">
-			update T_HANA_ACCOUNT set password=#{password} where account_no = ${accountNo}
+			update T_HANA_ACCOUNT set password=(SELECT standard_hash (#{password}, 'SHA256') FROM dual) where account_no = ${accountNo}
 	</update>
 	
 	<update id="updateAccountLostReport" parameterType="AccountVO">

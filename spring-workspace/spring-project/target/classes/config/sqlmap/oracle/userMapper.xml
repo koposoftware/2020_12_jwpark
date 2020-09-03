@@ -8,16 +8,18 @@
 	<!-- 같은 애들은 안써도 된다. 즉 밑에 4개 안써도 됨. -->
 		<result column="reg_no" property="regNo"/>
 		<result column="reg_date" property="regDate"/>
+		<result column="elec_finance_status" property="elecFinanceStatus"/>
 	</resultMap>
 	
 	<select id="login" resultMap="userMap" parameterType="UserVO" resultType="UserVO">
-		select id, password, name, reg_no, tel, reg_date
+		select id, name, reg_no, tel, reg_date, elec_finance_status
 			from t_hana_user
-			where id = #{id} and password = #{password}
+			where id = #{id} and password = (SELECT standard_hash (#{password}, 'SHA256') FROM dual)
+			
 	</select>
 	
 	<select id="getUserInfo" resultMap="userMap" parameterType="string" resultType="UserVO">
-		select id, password, name, reg_no, tel, reg_date
+		select id, name, reg_no, tel, reg_date
 			from t_hana_user
 			where id = #{id}
 	</select>

@@ -77,5 +77,13 @@ public class AccountDAOImpl implements AccountDAO {
 		sqlSession.update("account.dao.AccountDAO.updateBalance", account);
 		
 	}
+
+	@Override
+	public String selectPasswordByAccountNo(AccountVO account) {
+		
+		return sqlSession.selectOne("account.dao.AccountDAO.selectPasswordByAccountNo", account);
+	}
+	
+	
 	
 }
