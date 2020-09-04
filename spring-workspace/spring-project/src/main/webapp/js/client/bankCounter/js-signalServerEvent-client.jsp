@@ -79,7 +79,8 @@ getLocalMediaStream();
 function getLocalMediaStream() {
 	
 	
-	navigator.mediaDevices.getUserMedia({video : true, audio : true})
+	//navigator.mediaDevices.getUserMedia({video : true, audio : true})
+	navigator.mediaDevices.getUserMedia({video: {width: {exact: 640}, height: {exact: 480}}, audio : true})
 	.then(gotStream)
 	.then(connectToServer)
 	//.catch((err) => console.log(err.name, err.message));
@@ -305,7 +306,12 @@ function connectToServer() {
 		
 		socket.on('tellerDisconnect', function(room) {
 			
-			alert('텔러가 나갔어요!');
+			alert('텔러가 상담을 종료했어요!');
+		})
+		
+		socket.on('tellerForcedOut', function(room) {
+			
+			alert('텔러가 브라우저를 나갔어요');
 		})
 		
 	///////////////////// socket server로부터의 이벤트 정의 //////////////////
@@ -347,7 +353,6 @@ function createPeerConnection() {
 			console.log('onTrack Event.')
 			console.log('remote Stream add.')
 
-			
 			println('ontrack event')
 			remoteStream = new MediaStream();
 			remoteStream.addTrack(event.track, remoteStream);
@@ -355,6 +360,7 @@ function createPeerConnection() {
 			remoteVideo.srcObject = remoteStream;
 			
 			$('#chatDiv').height($('#clientVideoDiv').height());
+			//$('#chatDiv').height($('#clientVideoDiv').height());
 			
 			
 			/* 요게 원래거.
@@ -607,9 +613,8 @@ $("#sendChat").bind('click', function(event) {
 
 document.getElementById("exit").onclick = function() {
 	
-	
 	//document.getElementById("modal").style.display="none";
 	socket.emit('bankClientDisconnect');
-	location.href="${pageContext.request.contextPath}/";
+	location.href="${pageContext.request.contextPath}/outRoom";
 }   
 </script>

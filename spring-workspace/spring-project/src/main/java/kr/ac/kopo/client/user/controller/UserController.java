@@ -41,7 +41,8 @@ public class UserController {
 		ModelAndView mav = new ModelAndView();
 		
 		if(userVO == null) {
-			mav.setViewName("redirect:/login");
+			mav.addObject("loginStatus", "fail");
+			mav.setViewName("/client/login/login");
 			
 		} else {
 			mav.setViewName("redirect:/");
@@ -56,9 +57,12 @@ public class UserController {
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		
+		
 		UserVO userVO = (UserVO)session.getAttribute("userVO");
 		
-		log.infoLog("user logout", userVO.getId() + "(" + userVO.getName() + ") 로그아웃");
+		if(userVO != null) {
+			log.infoLog("user logout", userVO.getId() + "(" + userVO.getName() + ") 로그아웃");
+		}
 		
 		session.removeAttribute("userVO");
 		
@@ -96,8 +100,12 @@ public class UserController {
 		
 		UserVO userVO = (UserVO)session.getAttribute("userVO");
 		
-		//log.infoLog("user bankCounter go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 창구 입장");
+		log.infoLog("user bankCounter go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 창구 입장");
 		return "/client/bankCounter/bankCounter-client";
 	}
 	
+	@GetMapping("/outRoom")
+	public String outRoom() {
+		return "/client/outRoom/outRoom-client";
+	}
 }

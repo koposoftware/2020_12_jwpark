@@ -27,10 +27,12 @@ var waitTellers = new Array();
 var tellerArr = new Array();
 
 // 창구의 텔러
-var bankTeller = new Array();
+var bankTellerArr = new Array();
 
 // 창구의 손님
-var bankClient = new Array();
+var bankClientArr = new Array();
+
+var rooms = new Array();
 
 const option = {
 		ca : fs.readFileSync('D:/hanaProject-workspace/bin/openssl/openssl-1.0.2j-fips-x86_64/OpenSSL/bin/rootca.pem'),
@@ -157,6 +159,8 @@ io.sockets.on('connection', function(socket) {
 	  
 	  console.log('teller enter bankCounter.')
 	  
+	  bankTellerArr.push({socket : socket, socketID : socket.id});
+	  
 	  socket.join(room);
 	  console.log('Client ID ' + socket.id + ' created room ' + room);
 	  socket.emit('created', room, socket.id);
@@ -187,15 +191,25 @@ io.sockets.on('connection', function(socket) {
 	  let clientsInRoom = io.sockets.adapter.rooms[room];
 	  let numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
 	  
+	  bankClientArr.push({socket : socket, socketID : socket.id});
+	  
 	  while(numClients == 0) {
 		  clientsInRoom = io.sockets.adapter.rooms[room];
 		  numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
 	  }
 	  
+	  
 	  io.sockets.in(room).emit('join', room);
 	  socket.join(room);
 	  socket.emit('joined', room, socket.id);
 	  io.sockets.in(room).emit('roomReady');
+	  //console.log(clientsInRoom.sockets[0])
+	  //console.log(clientsInRoom.sockets[1])
+	  console.log(socket)
+	  //rooms.push({ tellerSock : io.sockets.in(room)[0], clientSock : io.sockets.in(room)[1]})
+	  //console.log(io.sockets.in(room)[0])
+	  //console.log(io.sockets.in(room)[1])
+	  
   });
 
   socket.on('ipaddr', function() {
@@ -300,6 +314,8 @@ io.sockets.on('connection', function(socket) {
   socket.on('disconnect', function() {
 	  console.log("SOCKETIO disconnect EVENT: ", socket.id, " client disconnect");
 	  
+	  //let bool = false;
+	  
 	  let clientSocektID = [];
 	  let index = -1;
 	  for(let i = 0; i < clientArr.length; i++) {
@@ -321,12 +337,38 @@ io.sockets.on('connection', function(socket) {
 			  e.emit('waitingClients', clientArr.length);
 		  })
 	  } else {
+		  
 		  for(let i = 0; i < tellerArr.length; i++) {
-			  if(tellerArr[i].socketID == socket.id)
+			  if(tellerArr[i].socketID == socket.id) {
 				  index = i;
+				  //bool = true;
+			  }
+				  
 		  }
-		  tellerArr.splice(index, 1);
-	  }
+		  if(index != -1){
+			  tellerArr.splice(index, 1); 
+		  } 
+		  /*
+		  else {
+
+			  for(let i = 0; i < rooms; i++) {
+				  index = i;
+				  if(rooms[i].tellerSock == socket) {
+					  rooms[i].clientSock.emit('tellerForcedOut');
+					  console.log('get')
+				  } else if(rooms[i].clientSock == socket) {
+					  rooms[i].clientSock.emit('clientForcedOut');
+					  console.log('put')
+				  }
+			  }
+			  if (index != -1) {
+				  rooms[i].splice(index, 1);
+			  } 
+			  
+		  }
+		  */
+	}
+
 	  
   });
 

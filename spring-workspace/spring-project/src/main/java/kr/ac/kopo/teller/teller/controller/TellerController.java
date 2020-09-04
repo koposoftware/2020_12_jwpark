@@ -49,7 +49,8 @@ public class TellerController {
 		ModelAndView mav = new ModelAndView();
 		
 		if(tellerVO == null) {
-			mav.setViewName("redirect:/teller/login");
+			mav.addObject("loginStatus", "fail");
+			mav.setViewName("/teller/login/login");
 			
 		} else {
 			mav.setViewName("redirect:/teller");
@@ -66,7 +67,10 @@ public class TellerController {
 		
 		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
 		
-		log.infoLog("teller logout", tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 로그아웃");
+		if(tellerVO != null) {
+			log.infoLog("teller logout", tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 로그아웃");
+		}
+		
 		session.removeAttribute("tellerVO");
 		
 		return "redirect:/teller";
@@ -109,18 +113,37 @@ public class TellerController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		mav.setViewName("/teller/bankCounter/bankCounter-teller");
-		
 		UserVO client = userService.getUserInfo(id);
 		
-		mav.addObject("clientVO", client);
-		mav.addObject("jobType", type);
+		if(client != null) {
+			mav.addObject("clientVO", client);
+			mav.addObject("jobType", type);
+			
+			mav.setViewName("/teller/bankCounter/bankCounter-teller");
+		}
+		else {
+			mav.addObject("connectStatus", "fail");
+			mav.setViewName("/teller/bankCounter/waitRoom-teller");
+		}
 		
 		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
 		
-		//log.infoLog("teller bankCounter go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 창구 입장 / 손님 : " + client.getId() + "(" + client.getName() + ")");
+		System.out.println(tellerVO.getEmpNo());
+		System.out.println(tellerVO.getName());
+		System.out.println(client.getId());
+		System.out.println(client.getName());
+		
+		log.infoLog("teller bankCounter go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 창구 입장 / 손님 : " + client.getId() + "(" + client.getName() + ")");
 		
 		return mav;
+	}
+	
+	@PostMapping("/teller/outRoom")
+	public String outRoom(@RequestParam(name="userID") String id) {
+		
+		System.out.println(id);
+		
+		return "/teller/outRoom/outRoom-teller";
 	}
 	
 }

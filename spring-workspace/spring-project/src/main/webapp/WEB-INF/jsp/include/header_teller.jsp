@@ -35,6 +35,7 @@
 	
 	body{
 		font-family: "Hana B";
+		overflow:auto;
 	}
 </style>
 <!-- Bootstrap core JavaScript -->
@@ -50,7 +51,7 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav ml-auto">
 			<c:choose>
-				<c:when test="${ not empty tellerVO }">
+				<c:when test="${ tellerVO.empNo != null }">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float: right; font-size: large;">
 							${ tellerVO.name }님 환영합니다.

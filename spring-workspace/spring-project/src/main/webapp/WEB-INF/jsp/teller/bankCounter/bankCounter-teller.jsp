@@ -12,12 +12,23 @@
 		display : inline;
 		width : 25%;
 		
+		/*
+		border-style: solid;
+		border-width: 1px;
+		border-color: red;
+		*/
 	}
 	
 	#clientVideoDiv {
 		float : left;
 		display : inline;
 		width : 50%;
+		
+		/*
+		border-style: solid;
+		border-width: 1px;
+		border-color: green;
+		*/
 	}
 	
 	#tellerVideoDiv {
@@ -25,21 +36,39 @@
 		float : right;
 		display : inline;
 		width : 25%;
+		
+		/*
+		border-style: solid;
+		border-width: 1px;
+		border-color: blue;
+		*/
 	}
 	
 	#shareVideoDiv {
 		
 		float : left;
-		disply : inline;
+		disply : inline-block;
 		width: 25%;
 		
+		/*
+		border-style: solid;
+		border-width: 1px;
+		border-color: gray;
+		*/
 	}
 	
 	#client-info {
 		float : left;
 		disply : inline;
 		width: 25%;
+		padding-left : 10px;
+		padding-right : 10px;
 		
+		/*
+		border-style: solid;
+		border-width: 1px;
+		border-color: aqua;
+		*/
 	}
 	
 	#localVideo {
@@ -76,6 +105,15 @@
 	
 	#sendChat {
 		width : 18%;
+	}
+	
+	#workArea {
+		/*
+		border-style: solid;
+		border-width: 1px;
+		border-color: maroon;
+		background-color: red;
+		*/
 	}
 	
 	#workDiv {
@@ -185,6 +223,9 @@
 		border-radius:10px 10px 10px 10px;
 	}
 	
+	#camAndchat {
+		
+	}
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
 	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -206,7 +247,6 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" id="modal-btn-si">확인</button>&nbsp;&nbsp;
 					<button type="button" class="btn btn-primary" id="modal-btn-no">취소</button>
-					
 				</div>
 			</div>
 		</div>
@@ -224,11 +264,11 @@
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar -->
     	<div class="bg-light border-right" id="sidebar-wrapper">
-    	<div class="sidebar-heading">
-    		업무 목록
-    		<input type="text" id="workCode" >
-    	</div>
-    	<div class="list-group list-group-flush">
+    		<div class="sidebar-heading">
+    			업무 목록
+    			<input type="text" id="workCode" >
+    		</div>
+    		<div class="list-group list-group-flush">
 	   		<!-- <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>  -->
 	   		<a id="work_selectAccount1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1000)</a>
     		<a id="work_selectAccount1003" class="list-group-item list-group-item-action bg-light">예금 업무(1003)</a>
@@ -241,53 +281,82 @@
     		<a class="list-group-item list-group-item-action bg-light">신용 카드 업무(1009)</a>
     		<a class="list-group-item list-group-item-action bg-light">카드 제신고(1010)</a>
     		 -->
+   			</div>
    		</div>
-   	</div>
-   	<!-- /#sidebar-wrapper -->
+   		<!-- /#sidebar-wrapper -->
 
-   	<!-- Page Content -->
-    <div id="page-content-wrapper">
-    	<div class="container-fluid">
-    		<div id="clientVideoDiv">
-    			<video id="remoteVideo" autoplay playsinline>
-    				<source style="width: 100%">
-    			</video>
-    		</div>
+   		<!-- Page Content -->
+    	<div id="page-content-wrapper">
+    		<div class="container-fluid">
+    			<div id="camAndchat">
+	    		<div id="clientVideoDiv">
+    				<video id="remoteVideo" autoplay playsinline>
+    					<source style="width: 100%">
+    				</video>
+	    		</div>
     			
-    		<div id="chatDiv">
-    			<div id="chat">
-    				<strong>텔러 : 반갑습니다 손님! 영상, 음성이 불안정한 경우 채팅을 이용해주세요.</strong>
+    			<div id="chatDiv">
+	    			<div id="chat">
+    					<strong>텔러 : 반갑습니다 손님! 영상, 음성이 불안정한 경우 채팅을 이용해주세요.</strong>
+    					<br>
+    				</div>
+	    			<input type="text" id="message">
+	    			<button class="btn btn-primary" id="sendChat">전 송</button>
+	    		</div>
+    			
+	    		<div id="tellerVideoDiv">
+    				<video id="localVideo" autoplay muted playsinline>
+    					<source style="width: 100%">
+    				</video>
+	    		</div>
+    			
+    			<div id="client-info">
+    				<div style="font-size:x-large;">
+    					${clientVO.name } 손님
+    				</div>
     				<br>
+	    			<div>
+    					휴대폰번호 : 
+    					<div id="phone" style="display:inline-block;">${clientVO.tel}</div>
+    					<div style="text-align:right;">
+    						<div id="authStatus" style="color: red; display: inline-block;">휴대폰 본인인증 미완료</div>
+	    					<button id="sendSMSAuth">문자 인증</button>
+    					</div>
+    				</div>
+					<div>
+						주민등록번호 : <div id="regNo" style="display:inline-block;">${clientVO.regNo}</div>
+					</div>
+					<br>
+					<div>
+					전자금융 가입여부 :
+						<c:choose>
+							<c:when test="${ clientVO.elecFinanceStatus == 'T' }">
+								O (상담, 예적금 가입 / 제신고 및 모든 서비스 가능)
+							</c:when>
+							<c:otherwise>
+								X (상담, 계좌 조회 및 전자금융서비스 가입만 가능)
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div style="text-align: right;">
+						<button id="screenShareBtn">화면 공유</button>
+						<button id="exit">상담 종료</button>
+					</div>
     			</div>
-    			<input type="text" id="message">
-    			<button class="btn btn-primary" id="sendChat">전 송</button>
-    		</div>
     			
-    		<div id="tellerVideoDiv">
-    			<video id="localVideo" autoplay muted playsinline>
-    				<source style="width: 100%">
-    			</video>
+    			<div id="shareVideoDiv">
+    				<video id="screenShareVideo" poster="${ pageContext.request.contextPath }/resources/images/tellerSharePoster.png" autoplay playsinline muted>
+	    				<source style="width: 100%">
+    				</video>
+    			</div>
     		</div>
-    			
-    		<div id="client-info">
-    			${clientVO.name } 손님
-    			<button id="sendSMSAuth">문자 인증</button>
-    			<div id="authStatus" style="color: red;">휴대폰 본인인증 미완료</div>
-    			<button id="screenShareBtn">화면 공유</button>
-				<button id="exit">상담 종료</button>
-				핸드폰 번호.
-				주민등록번호.(갖다대면 바뀌게)
+    	
+    		<div id="workArea">
+				<div id="workTitle"></div>
+    			<div id="workBtns"></div>
+    			<div id="workDiv"></div>    		
     		</div>
-    			
-    		<div id="shareVideoDiv">
-    			<video id="screenShareVideo" poster="${ pageContext.request.contextPath }/resources/images/tellerSharePoster.png" autoplay playsinline muted>
-    				<source style="width: 100%">
-    			</video>
-    		</div>
-    		
-    		<div id="workTitle"></div>
-    		<div id="workBtns"></div>
-    		<div id="workDiv">
+    	
     		
 			</div>
 				
@@ -305,4 +374,21 @@
 <%@include file="/js/teller/bankCounter/js-depositEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-savingEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-reportEvent-teller.jsp" %>
+<script>
+	let phone = '';
+	for(let i = 0; i < $('#phone').text().length; i++) {
+		if(i == 3 || i == 7)
+			phone += '-';
+		phone += $('#phone').text()[i];
+	}
+	$('#phone').text(phone);
+	
+	let regNo = '';
+	for(let i = 0; i < $('#regNo').text().length; i++) {
+		if(i == 6)
+			regNo += '-';
+		regNo += $('#regNo').text()[i];
+	}
+	$('#regNo').text(regNo);
+</script>
 </html>

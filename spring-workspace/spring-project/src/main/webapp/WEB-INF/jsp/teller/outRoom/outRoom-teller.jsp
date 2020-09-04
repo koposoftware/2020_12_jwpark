@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>하나 화상창구 로그인 - 텔러</title>
+<title>하나 화상창구 - 텔러</title>
 	<link rel="icon" type="image/png" sizes="16x16" href="${ pageContext.request.contextPath }/resources/images/favicon/favicon.ico">
 </head>
 <style>
@@ -27,6 +27,8 @@
     	width : 150px;
 	}
 	
+
+	
 </style>
 <body>
 	<header>
@@ -38,7 +40,7 @@
     	<div class="container text-center">
     		<div class="row justify-content-center">
     			<div class="col-md-7">
-    				<div class="title">행원님, 로그인을 해주세요</div>
+    				<div class="title">상담내용을 기록해주세요.</div>
     				<div class="loginDiv">
     				
     				<form class="form-horizontal" action="${pageContext.request.contextPath }/teller/login" method="post" name="lForm" >
@@ -82,9 +84,4 @@
 		<%@include file="/WEB-INF/jsp/include/footer.jsp" %>
 	</footer>
 </body>
-<script>
-	if("${loginStatus}" == "fail") {
-		alert('로그인에 실패하였습니다.\n 아이디 비밀번호를 확인해주세요.');
-	}
-</script>
 </html>

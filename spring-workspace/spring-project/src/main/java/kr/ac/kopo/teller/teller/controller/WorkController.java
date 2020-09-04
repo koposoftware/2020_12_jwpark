@@ -264,9 +264,7 @@ public class WorkController {
 		saving.setInterest(interest);
 		saving.setNameCode(String.valueOf(codeKey));
 		
-		
 		savingService.insertSaving(saving);
-		
 		
 		AccountVO account = new AccountVO();
 		account.setAccountNo(saving.getRefAccountNo());

@@ -76,7 +76,8 @@
 	function getLocalMediaStream() {
 		
 		// 되는 코드.
-		navigator.mediaDevices.getUserMedia({video : true, audio : true})
+		//navigator.mediaDevices.getUserMedia({video : true, audio : true})
+		navigator.mediaDevices.getUserMedia({video: {width: {exact: 640}, height: {exact: 480}}, audio : true})
 		.then(gotStream)
 		.then(connectToServer)
 		//.catch((err) => console.log(err.name, err.message));
@@ -374,7 +375,12 @@
 			
 			socket.on('clientDisconnect', function(room) {
 				
-				alert('손님이 나갔어요!');
+				alert('손님이 브라우저를 종료했어요!');
+			})
+			
+			socket.on('clientForcedOut', function(room) {
+				
+				alert('손님이 브라우저를 나갔어요');
 			})
 			
 			///////////////////// socket server로부터의 이벤트 정의 //////////////////
@@ -426,8 +432,12 @@
 				remoteVideo.srcObject = remoteStream;
 				
 				$('#chatDiv').height($('#tellerVideoDiv').height());
-				$('#client-info').height($('#clientVideoDiv').height()/2);
+				$('#client-info').height($('#shareVideoDiv').height());
+				//$('#shareVideoDiv').height($('#clientVideoDiv').height()/2);
 				
+				$('#camAndchat').height($('#clientVideoDiv').height());
+				
+    		
 				/* 요게 원래거.
 				remoteVideo.srcObject = event.streams[0];
 				*/
@@ -465,6 +475,7 @@
 						candidate : event.candidate.candidate
 					});
 				} else {
+					
 					console.log('End of candidates.');
 				}
 			};
@@ -476,6 +487,13 @@
 				console.log('(share)remote Stream add.')
 	
 				println('공유 성공!');
+				
+				$('#chatDiv').height($('#tellerVideoDiv').height());
+				$('#client-info').height($('#shareVideoDiv').height());
+				//$('#shareVideoDiv').height($('#clientVideoDiv').height()/2);
+				
+				$('#camAndchat').height($('#clientVideoDiv').height());
+				$('#shareVideoDiv').height($('#client-info').height())
 				
 			};
 			
@@ -677,7 +695,11 @@
 			screenShareVideo.srcObject = screen;
 		
 			shareStream = screenShareVideo.srcObject;
-			println(shareStream)
+			//$('#chatDiv').height($('#tellerVideoDiv').height());
+			//$('#client-info').height($('#clientVideoDiv').height()/2);
+			//$('#camAndchat').height($('#clientVideoDiv').height());
+			$('#shareVideoDiv').height($('#client-info').height())
+			//println(shareStream)
 			sendShareMessage('startShare');
 			isSharing = true;
 		
@@ -768,6 +790,28 @@
 		}
 	}
 	
+	function post_to_url(path, key, param) {
+		let method = "post"; // 전송 방식 기본값을 POST로
+  	 	
+  	    var form = document.createElement("form");
+  	    form.setAttribute("method", method);
+  	    form.setAttribute("action", path);
+  	    
+  	    for(let i = 0; i < key.length; i++) {
+  	    	var hiddenField = document.createElement("input");
+  	    	hiddenField.setAttribute("type", "hidden");
+  	    	hiddenField.setAttribute("name", key[i]);
+  	    	hiddenField.setAttribute("value", param[i]);
+  	    	console.log(key[i]);
+  	    	console.log(param[i]);
+  	    	
+  	    	form.appendChild(hiddenField);
+  	    }
+  	    
+  	    document.body.appendChild(form);
+  	    form.submit();
+	}
+	
 	$("#sendChat").bind('click', function(event) {
 			
 		let msg = $('#message').val();
@@ -787,6 +831,14 @@
 		
 		//document.getElementById("modal").style.display="none";
 		socket.emit('bankTellerDisconnect');
-		location.href="${pageContext.request.contextPath}/teller";
+		
+		var keys = new Array();
+		keys.push('userID');
+		var values = new Array();
+		values.push('${clientVO.id}');
+		
+		post_to_url("https://192.168.0.7:8811/spring-project/teller/outRoom", keys, values);
+		
+		//location.href="${pageContext.request.contextPath}/teller/outRoom";
 	}   
 </script>

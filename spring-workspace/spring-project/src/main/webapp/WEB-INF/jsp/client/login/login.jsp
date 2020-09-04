@@ -84,4 +84,9 @@
 		<%@include file="/WEB-INF/jsp/include/footer.jsp" %>
 	</footer>
 </body>
+<script>
+	if("${loginStatus}" == "fail") {
+		alert('로그인에 실패하였습니다.\n 아이디 비밀번호를 확인해주세요.');
+	}
+</script>
 </html>
