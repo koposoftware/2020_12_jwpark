@@ -118,7 +118,7 @@ public class TellerController {
 		
 		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
 		
-		log.infoLog("teller bankCounter go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 창구 입장 / 손님 : " + client.getId() + "(" + client.getName() + ")");
+		//log.infoLog("teller bankCounter go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 창구 입장 / 손님 : " + client.getId() + "(" + client.getName() + ")");
 		
 		return mav;
 	}

@@ -255,6 +255,10 @@
 			<input type="text" id="message">
 			<button class="btn btn-primary" id="sendChat">전 송</button>
 		</div>
+		
+		<div>
+			<button id="exit">상담 종료</button>
+		</div>
 	</div>
 	
 </body>

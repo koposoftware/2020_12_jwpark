@@ -33,7 +33,7 @@
 					console.log(event);
 					println('check Event');
 					//socket.emit('type', 'client:' + 'jinwoo11')
-					socket.emit('type', 'client:' + '${userVO.id}' + ':' + jobType)
+					socket.emit('waitRoom', 'client:' + '${userVO.id}' + ':' + jobType)
 				})
 				
 				socket.on('ready', function(id) {
@@ -42,7 +42,7 @@
 					location.href= "https://192.168.0.7:8811/spring-project/bankCounter";
 				})
 				
-				socket.on('waitClient', function(event) {
+				socket.on('waitingClients', function(event) {
 					console.log('wait Client : ' + event);
 					$("#clientCount").empty();
 					$("#clientCount").append('상담 대기중인 손님 ' + event + '명');
@@ -109,7 +109,7 @@
 			
 			$("#modal").fadeOut();
 			//document.getElementById("modal").style.display="none";
-			socket.emit('clientDisconnect');
+			socket.emit('waitRoomClientDisconnect');
     	}   
 		
 		function println(data) {

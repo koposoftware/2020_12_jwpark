@@ -372,13 +372,18 @@
 				}
 			});
 			
+			socket.on('clientDisconnect', function(room) {
+				
+				alert('손님이 나갔어요!');
+			})
+			
 			///////////////////// socket server로부터의 이벤트 정의 //////////////////
 			
 			// 연결 붙으면 방 만든다. 만일 사람이 있으면 조인한다.
 			//socket.emit('create or join', room);
 			//console.log('Attempted to create or  join room', room);
 			console.log('send teller msg');
-			socket.emit('teller', room);
+			socket.emit('bankTeller', room);
 			
 		});
 		
@@ -776,4 +781,12 @@
 			$('#message').val('');
 		}
 	})
+	
+	document.getElementById("exit").onclick = function() {
+	
+		
+		//document.getElementById("modal").style.display="none";
+		socket.emit('bankTellerDisconnect');
+		location.href="${pageContext.request.contextPath}/teller";
+	}   
 </script>

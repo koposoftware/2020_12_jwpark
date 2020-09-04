@@ -96,7 +96,7 @@ public class UserController {
 		
 		UserVO userVO = (UserVO)session.getAttribute("userVO");
 		
-		log.infoLog("user bankCounter go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 창구 입장");
+		//log.infoLog("user bankCounter go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 창구 입장");
 		return "/client/bankCounter/bankCounter-client";
 	}
 	

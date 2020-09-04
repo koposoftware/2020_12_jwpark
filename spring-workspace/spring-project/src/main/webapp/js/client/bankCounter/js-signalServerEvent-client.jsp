@@ -94,6 +94,7 @@ function gotStream(stream) {
 	
 }
 
+
 // 서버에 연결하는 함수 정의
 function connectToServer() {
 
@@ -301,11 +302,17 @@ function connectToServer() {
 			
 		})
 		
+		
+		socket.on('tellerDisconnect', function(room) {
+			
+			alert('텔러가 나갔어요!');
+		})
+		
 	///////////////////// socket server로부터의 이벤트 정의 //////////////////
 		
 		// 연결 붙으면 방 만든다. 만일 사람이 있으면 조인한다.
 		//socket.emit('create or join', room);
-		socket.emit('client', room);
+		socket.emit('bankClient', room);
 		console.log('Attempted to create or  join room', room);
 	});
 	
@@ -597,4 +604,12 @@ $("#sendChat").bind('click', function(event) {
 	}
 	
 })
+
+document.getElementById("exit").onclick = function() {
+	
+	
+	//document.getElementById("modal").style.display="none";
+	socket.emit('bankClientDisconnect');
+	location.href="${pageContext.request.contextPath}/";
+}   
 </script>

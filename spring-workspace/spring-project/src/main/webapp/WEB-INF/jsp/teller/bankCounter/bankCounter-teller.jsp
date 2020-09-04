@@ -273,7 +273,10 @@
     			${clientVO.name } 손님
     			<button id="sendSMSAuth">문자 인증</button>
     			<div id="authStatus" style="color: red;">휴대폰 본인인증 미완료</div>
-    			<button id="screenShareBtn">화면 공유</button>	
+    			<button id="screenShareBtn">화면 공유</button>
+				<button id="exit">상담 종료</button>
+				핸드폰 번호.
+				주민등록번호.(갖다대면 바뀌게)
     		</div>
     			
     		<div id="shareVideoDiv">
@@ -285,7 +288,7 @@
     		<div id="workTitle"></div>
     		<div id="workBtns"></div>
     		<div id="workDiv">
-    			
+    		
 			</div>
 				
    		</div>

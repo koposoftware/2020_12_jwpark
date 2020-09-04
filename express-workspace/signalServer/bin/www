@@ -7,7 +7,6 @@
 //var app = require('../app');
 var debug = require('debug')('web-rtc:server');
 
-// jinwoo
 //var http = require('http');
 var https = require('https');
 
@@ -15,21 +14,23 @@ var os = require('os');
 var nodeStatic = require('node-static');
 var socketIO = require('socket.io');
 
-// jinwoo
 var fs = require('fs');
 
-var clients = new Array();
-var clientsIDs = new Array();
-var clientsIDsTemp = new Array();
-var clientSocketID = new Array();
-var clientJobTypes = new Array(); 
+// 서버에서 관리할 자원
+var clientArr = new Array();
+// 연결 시에 텀이 생기수있어 동기가 필요한데, 그때만 쓰일 자원
+var clientConn = new Array();
+
+//대기실에 접속중인 텔러.
 var waitTellers = new Array();
-var tellers = new Array();
-var tellerSocketID = new Array();
+// 대기실에서 창구로 들어가는 텔러
+var tellerArr = new Array();
 
+// 창구의 텔러
+var bankTeller = new Array();
 
-
-//var socketIO=require('socket.io');
+// 창구의 손님
+var bankClient = new Array();
 
 const option = {
 		ca : fs.readFileSync('D:/hanaProject-workspace/bin/openssl/openssl-1.0.2j-fips-x86_64/OpenSSL/bin/rootca.pem'),
@@ -63,118 +64,78 @@ io.sockets.on('connection', function(socket) {
     array.push.apply(array, arguments);
     socket.emit('log', array);
   }
-
-  socket.on('type', function(type) {
+  
+  socket.on('waitRoom', function(type) {
 	  
 	  var str = type.slice(0, 6);
-	  console.log(str);
+	  console.log('waitRoom come: ' + str);
 	  
 	  if(str == 'client') {
 		  
 		  var clientID = type.split(':')[1];
 		  var jobType = type.split(':')[2];
-		  console.log(clientID);
-		  console.log(jobType);
+		  console.log('clientID : ' + clientID);
+		  console.log('jobType : ' + jobType);
 		  
-		  socket.emit('waitClient', clients.length);
+		  socket.emit('waitingClients', clientArr.length);
 		  
-		  //console.dir(type);
-		  clients.push(socket);
-		  clientsIDs.push(clientID);
-		  clientsIDsTemp.push(clientID);
-		  clientSocketID.push(socket.id);
-		  clientJobTypes.push(jobType);
+		  clientArr.push({client : socket, ID : clientID, socketID : socket.id});
+		  clientConn.push({clientID : clientID, jobType : jobType });
 		  
-		  if(tellers.length > 0) {
+		  if(tellerArr.length > 0) {
+			  var tellerInfo = tellerArr.shift();
+			  var teller = tellerInfo.teller;
 			  
-			  var teller = tellers.shift();
-			  tellerSocketID.shift();
-			  
-			  //clients.shift();
-			  //clientsIDs.shift();
-			  //clientSocketID.shift();
-			  
-			  console.log('client event | teller length : ' + tellers.length)
-			  
-			  //teller.join(clientID);
-			  //socket.join(clientID);
-			  
-			  teller.emit('ready', clientID);
-			  
-			  
-			  //io.sockets.in(clientID).emit('ready');
-			  
+			  teller.emit('ready', clientID + ':' + jobType);
 		  } else {
-			  console.log('no teller')
-			  waitTellers.forEach(function(e) {
-				  e.emit('waitClient', clients.length);
-			  })
-		  } 
 			  
-			   
+			  waitTellers.forEach(function(e) {
+				  e.emit('waitingClients', clientArr.length);
+			  })
+		  }
+		  
+		  console.log('client event | teller length : ' + tellerArr.length)
 	  }
 	  
 	  if(type == 'waitTeller') {
 		  waitTellers.push(socket);
-		  socket.emit('waitClient', clients.length);
+		  socket.emit('waitingClients', clientArr.length);
 	  }
 	  
 	  if(type == 'teller') {
 		  
-		  console.log('type : teller');
-		  console.dir(type);
-		  tellers.push(socket);
-		  tellerSocketID.push(socket.id);
-		  if(clients.length > 0) {
+		  console.log('teller');
+		  
+		  //tellers.push(socket);
+		  //tellerSocketID.push(socket.id);
+		  
+		  tellerArr.push({teller : socket, socketID : socket.id});
+
+		  if(clientArr.length > 0) {
 			  
 			  console.log('client exists');
-			  //let client = clients.shift();
-			  //let clientID = clientsIDs.shift();
-			  //clientSocketID.shift();
 			  
-			  tellers.shift();
-			  tellerSocketID.shift();
+			  tellerArr.shift();
 			  waitTellers.shift();
-			  console.log('teller event | clientIDs length : ' + waitTellers.length)
 			  
-			  console.log('teller event | clientIDs length : ' + clientsIDs.length)
-			  console.log('teller event | clients length : ' + clients.length)
-			  
-			  //socket.join(clientID);
-			  //client.join(clientID);
-			  
-			  clientID = clientsIDsTemp.shift();
-			  jobtype = clientJobTypes.shift();
+			  let clientID = clientConn[0].clientID;
+			  let jobtype = clientConn[0].jobType;
+			  clientConn.shift();
 			  socket.emit('ready', clientID + ':' + jobtype);
 			  
-			  //io.sockets.in(clientID).emit('ready');
-			  
-		      log('Teller ID ' + socket.id + ' created room ' + clientID);
-		      //socket.emit('created', room, socket.id);
+		      console.log('Teller ID ' + socket.id + ' created room ' + clientID);
 			  
 			  ////////////////////
 		  } else {
-			  console.log('no client')
+			  console.log('teller event | waitTellers length : ' + waitTellers.length)
+			  console.log('teller event | clientArr length : ' + clientArr.length)
+			  
 		  }
 	  }
 	  
-	  
-	  //console.dir('나를 포함한 모든 클라이언트에게 메시지 이벤트 전송.')
-	  
-	  // 나중에 상대방에게 넘겨주는 걸로 바꿔야함.
-	  //io.sockets.emit('message', message);
-	  //socket.broadcast.emit('message', message);
   })
   
-  
   socket.on('message', function(message) {
-	  console.log('message 이벤트를 받았습니다.');
-	  console.dir(message);
-	  
-	  console.dir('나를 포함한 모든 클라이언트에게 메시지 이벤트 전송.')
-	  
-	  // 나중에 상대방에게 넘겨주는 걸로 바꿔야함.
-	  //socket.broadcast.emit('message', message);
 	  
 	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
 	  socket.broadcast.to(room).emit('message', message)
@@ -187,39 +148,41 @@ io.sockets.on('connection', function(socket) {
 	  
 	  console.dir('나를 포함한 모든 클라이언트에게 메시지 이벤트 전송.');
 	  
-	  // 나중에 상대방에게 넘겨주는 걸로 바꿔야함.
-	  //io.sockets.emit('message', message);
-	  //socket.broadcast.emit('shareVideoMsg', message);
-	  //console.log(io.sockets.manager.roomClients[socket.id])
 	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
 	  socket.broadcast.to(room).emit('shareVideoMsg', message)
 	  
   })
 
-  socket.on('teller', function(room) {
+  socket.on('bankTeller', function(room) {
 	  
-	  console.log('teller go.')
+	  console.log('teller enter bankCounter.')
 	  
 	  socket.join(room);
-	  log('Client ID ' + socket.id + ' created room ' + room);
+	  console.log('Client ID ' + socket.id + ' created room ' + room);
 	  socket.emit('created', room, socket.id);
 	  
-	  //////////// 클라이언트 한테 ready 메시지
-	  let index = clientsIDs.indexOf(room);
-	  let client = clients.splice(index, 1);
-	  clientsIDs.splice(index, 1);
-	  clientSocketID.splice(index, 1); 
-	  
-	  client[0].emit('ready');
-	  
-	  for(let i = 0; i < clients.length; i++) {
-		  clients[i].emit('waitClient', i);
+	  let index;
+	  let client;
+	  for(let i = 0; i < clientArr.length; i++) {
+		  if(clientArr[i].ID == room){
+			  index = i;
+			  client = clientArr[i].client;
+		  }
 	  }
 	  
+	  clientArr.splice(index, 1);
+	  
+	  client.emit('ready');
+	  
+	  for(let i = 0; i < clientArr.length; i++) {
+		  clientArr[i].client.emit('waitingClients', i);
+	  }
 	  
   });
   
-  socket.on('client', function(room) {
+  socket.on('bankClient', function(room) {
+	  
+	  console.log('client enter bankCounter.')
 	  
 	  let clientsInRoom = io.sockets.adapter.rooms[room];
 	  let numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
@@ -229,7 +192,6 @@ io.sockets.on('connection', function(socket) {
 		  numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
 	  }
 	  
-	  log('Client ID ' + socket.id + ' joined room ' + room);
 	  io.sockets.in(room).emit('join', room);
 	  socket.join(room);
 	  socket.emit('joined', room, socket.id);
@@ -259,60 +221,111 @@ io.sockets.on('connection', function(socket) {
 	  socket.broadcast.to(room).emit('work', msg)
   });
   
-  socket.on('clientDisconnect', function() {
+  socket.on('waitRoomClientDisconnect', function() {
 
-	  let index = clientSocketID.indexOf(socket.id);
-	  
-	  if(index != -1)  {
-		  clients.splice(index, 1);
-		  clientsIDs.splice(index, 1);
-		  clientsIDsTemp.splice(index, 1);
-		  clientSocketID.splice(index, 1);
-		  clientJobTypes.splice(index, 1);
+	  let clientSocektID = [];
+	  let index = -1;
+	  for(let i = 0; i < clientArr.length; i++) {
 		  
-		  for(let i = 0; i < clients.length; i++) {
-			  clients[i].emit('waitClient', i);
+		  if(clientArr[i].socketID == socket.id)
+			  index = i;
+		  
+	  }
+	  
+	  clientArr.splice(index, 1);
+	  clientConn.splice(index, 1);
+	  
+	  for(let i = 0; i < clientArr.length; i++) {
+		  clientArr[i].client.emit('waitingClients', i);
+	  }
+	  
+	  waitTellers.forEach(function(e) {
+		  e.emit('waitingClients', clientArr.length);
+	  })
+	  
+	  /*
+	  if(index != -1)  {
+		  
+		  clientArr.splice(index, 1);
+		  clientConn.splice(index, 1);
+		  
+		  for(let i = 0; i < clientArr.length; i++) {
+			  clientArr[i].client.emit('waitingClients', i);
 		  }
 		  
 		  waitTellers.forEach(function(e) {
-			  e.emit('waitClient', clients.length);
+			  e.emit('waitingClients', clientArr.length);
 		  })
 		  
 	  } else {
-		  index = tellerSocketID.indexOf(socket.id);
+		  for(let i = 0; i < tellerArr.length; i++) {
+			  if(tellerArr[i].socketID == socket.id)
+				  index = i;
+		  }
 		  
-		  tellers.splice(index, 1);
-		  tellerSocketID.splice(index, 1);
+		  tellerArr.splice(index, 1);
 		  waitTellers.splice(index, 1);
 	  }
+	  */
+	  socket.disconnect();
+  });
+  
+  socket.on('waitRoomTellerDisconnect', function() {
 	  
+	  for(let i = 0; i < tellerArr.length; i++) {
+		  if(tellerArr[i].socketID == socket.id){
+			  index = i;
+		  }
+	  }
+	  tellerArr.splice(index, 1);
+	  waitTellers.splice(index, 1);
+	  
+	  socket.disconnect();
+  });
+  
+  socket.on('bankClientDisconnect', function() {
+	  
+	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
+	  socket.broadcast.to(room).emit('clientDisconnect');
+	  socket.disconnect();
+  });
+  
+  socket.on('bankTellerDisconnect', function() {
+	  
+	  let room = Object.keys(io.sockets.adapter.sids[socket.id])[1];
+	  socket.broadcast.to(room).emit('tellerDisconnect');
 	  socket.disconnect();
   });
   
   socket.on('disconnect', function() {
 	  console.log("SOCKETIO disconnect EVENT: ", socket.id, " client disconnect");
 	  
-	  let index = clientSocketID.indexOf(socket.id);
+	  let clientSocektID = [];
+	  let index = -1;
+	  for(let i = 0; i < clientArr.length; i++) {
+		  
+		  if(clientArr[i].socketID == socket.id)
+			  index = i;
+		  
+	  }
 	  
 	  if(index != -1)  {
-		  clients.splice(index, 1);
-		  clientsIDs.splice(index, 1);
-		  clientsIDsTemp.splice(index, 1);
-		  clientSocketID.splice(index, 1);
-		  clientJobTypes.splice(index, 1);
+		  clientArr.splice(index, 1);
+		  clientConn.splice(inde, 1);
 		  
-		  for(let i = 0; i < clients.length; i++) {
-			  clients[i].emit('waitClient', i);
+		  for(let i = 0; i < clientArr.length; i++) {
+			  clientArr[i].client.emit('waitingClients', i);
 		  }
 		  
 		  waitTellers.forEach(function(e) {
-			  e.emit('waitClient', clients.length);
+			  e.emit('waitingClients', clientArr.length);
 		  })
 	  } else {
-		  index = tellerSocketID.indexOf(socket.id);
-		  
-		  tellers.splice(index, 1);
-		  tellerSocketID.splice(index, 1);
+		  for(let i = 0; i < tellerArr.length; i++) {
+			  if(tellerArr[i].socketID == socket.id)
+				  index = i;
+		  }
+		  tellerArr.splice(index, 1);
 	  }
 	  
   });

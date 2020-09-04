@@ -26,7 +26,7 @@
 			socket.on('check', function(event) {
 				
 				console.log('check Event');
-				socket.emit('type', 'waitTeller')
+				socket.emit('waitRoom', 'waitTeller')
 			})
 			
 			socket.on('ready', function(room) {
@@ -55,7 +55,7 @@
 				
 			});
 			
-			socket.on('waitClient', function(event) {
+			socket.on('waitingClients', function(event) {
 				console.log('wait Client : ' + event);
 				$("#clientCount").empty();
 				$("#clientCount").append('상담 대기중인 손님 ' + event + '명');
@@ -77,7 +77,7 @@
 		
 		$("#modal").fadeOut();
 		//document.getElementById("modal").style.display="none";
-		socket.emit('clientDisconnect');
+		socket.emit('waitRoomTellerDisconnect');
 	}   
 	
 	function sendStart() {
@@ -87,7 +87,7 @@
 			return;
 		}
 		
-		socket.emit('type', 'teller');
+		socket.emit('waitRoom', 'teller');
 	}
 	
 	function post_to_url(path, key, param) {

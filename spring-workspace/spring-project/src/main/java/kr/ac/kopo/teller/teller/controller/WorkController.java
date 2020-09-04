@@ -307,6 +307,7 @@ public class WorkController {
         credsProvider.setCredentials(
             new AuthScope(hostname, 443, AuthScope.ANY_REALM),
             new UsernamePasswordCredentials("hanaProject", "283c6d80ec5711ea8a440cc47a1fcfae")
+            //new UsernamePasswordCredentials("hana_onepick", "ecc54adcedd311eaa4f10cc47a1fcfae")
         );
 
         // Create AuthCache instance
@@ -324,7 +325,9 @@ public class WorkController {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader("Content-type", "application/json; charset=utf-8");
             String json = "{\"sender\":\""+ "01050967347" +"\",\"receivers\":[\""+ receiver +"\"],\"content\":\""+ "하나화상창구 인증코드 [ " + code + " ] 본 문자를 화면에 입력해주세요."  +"\"}";
-            
+            //String json = "{\"sender\":\""+ "01092768500" +"\",\"receivers\":[\""+ receiver +"\"],\"content\":\""+ "청기와청기와감자탕"  +"\"}";
+            //String json = "{\"sender\":\""+ "01099194276" +"\",\"receivers\":[\""+ receiver +"\"],\"content\":\""+ "오늘은 모임통장 회비를 보내는 날입니다"  +"\"}";
+
             StringEntity se = new StringEntity(json, "UTF-8");
             httpPost.setEntity(se);
 
