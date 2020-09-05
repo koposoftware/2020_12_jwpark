@@ -48,31 +48,29 @@
     				<div class="reportDiv">
     				<div id="client-info" style="text-align:left; font-size:xx-large;">${clientVO.name} 손님</div>
     				
-    				<form class="form-horizontal" action="${pageContext.request.contextPath }/teller/report" method="post" name="lForm" >
+    				<form class="form-horizontal" action="${pageContext.request.contextPath }/teller/report" onsubmit="return checkInput()" method="post" name="lForm" >
     					<div class="middleCategory" style="text-align:left; font-size:x-large; margin-bottom:10px;">
     						상담 분류
     						<div id="check">
-	    						<input type="radio" name="chk_info" value="예금">예금
-	    						<input type="radio" name="chk_info" value="적금">적금
-	    						<input type="radio" name="chk_info" value="카드">카드
-	    						<input type="radio" name="chk_info" value="대출">대출
-	    						<input type="radio" name="chk_info" value="연금">연금
-	    						<input type="radio" name="chk_info" value="펀드">펀드
-	    						<input type="radio" name="chk_info" value="보험">보험
-	    						<input type="radio" name="chk_info" value="외환">외환
-	    						<input type="radio" name="chk_info" value="수표">수표
-	    						<input type="radio" name="chk_info" value="금">금
-    						<!-- <input type="radio" name="chk_info" value="단순 상담">단순 상담  -->
+	    						<input type="radio" name="chk_info" value="1">예금
+	    						<input type="radio" name="chk_info" value="2">적금
+	    						<input type="radio" name="chk_info" value="3">카드
+	    						<input type="radio" name="chk_info" value="4">대출
+	    						<input type="radio" name="chk_info" value="5">연금
+	    						<input type="radio" name="chk_info" value="6">펀드
+	    						<input type="radio" name="chk_info" value="7">보험
+	    						<input type="radio" name="chk_info" value="8">외환
+	    						<input type="radio" name="chk_info" value="9">수표
+	    						<input type="radio" name="chk_info" value="10">금
     						</div>
     					</div>
     					
 						<div class="input-group input-group-lg">
-  							
-  							<input type="text" class="form-control" aria-label="Large" id="empNo" name="empNo" maxlength="20" placeholder="한줄 제목" autocomplete="off" aria-describedby="inputGroup-sizing-sm">
+  							<input id="reportTitle" name="reportTitle" type="text" class="form-control" aria-label="Large" maxlength="20" placeholder="한줄 제목" autocomplete="off" aria-describedby="inputGroup-sizing-sm">
 						</div>
 						<br>
 						<div class="input-group input-group-lg">
-  							<textarea id="reportArea" rows="5" placeholder="한줄 상담리포트" class="form-control" autocomplete="off" aria-describedby="inputGroup-sizing-sm">
+  							<textarea id="reportArea" name="reportArea" rows="5" placeholder="한줄 상담리포트" class="form-control" autocomplete="off" aria-describedby="inputGroup-sizing-sm">
   							
   							</textarea>
 						</div>
@@ -93,8 +91,5 @@
 		<%@include file="/WEB-INF/jsp/include/footer.jsp" %>
 	</footer>
 </body>
-<script>
-	$('#reportArea').empty();
-	$("input:radio[name='chk_info']:radio[value='예금']").prop('checked', true); // 선택하기
-</script>
+<%@include file="/js/teller/outRoom/js-outRoom-teller.jsp" %>
 </html>

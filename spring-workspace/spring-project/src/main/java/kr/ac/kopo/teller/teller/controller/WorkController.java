@@ -40,6 +40,7 @@ import kr.ac.kopo.deposit.service.DepositService;
 import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.service.DepositProductService;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
+import kr.ac.kopo.report.service.ReportService;
 import kr.ac.kopo.saving.service.SavingService;
 import kr.ac.kopo.saving.vo.SavingVO;
 import kr.ac.kopo.savingProduct.service.SavingProductService;
@@ -62,6 +63,7 @@ public class WorkController {
 	private SavingService savingService;
 	@Autowired
 	private SmsService smsService;
+	
 	
 	/*
 	@GetMapping("/user/{userID}")

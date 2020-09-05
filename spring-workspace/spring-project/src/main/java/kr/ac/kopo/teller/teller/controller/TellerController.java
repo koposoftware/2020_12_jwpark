@@ -1,5 +1,8 @@
 package kr.ac.kopo.teller.teller.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.ac.kopo.client.user.service.UserService;
 import kr.ac.kopo.client.user.vo.UserVO;
 import kr.ac.kopo.logger.Log4j2;
+import kr.ac.kopo.report.service.ReportService;
+import kr.ac.kopo.report.vo.ReportVO;
 import kr.ac.kopo.teller.teller.service.TellerService;
 import kr.ac.kopo.teller.teller.vo.TellerVO;
 
@@ -26,6 +31,8 @@ public class TellerController {
 	private TellerService tellerService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ReportService reportService;
 	@Autowired
 	private Log4j2 log;
 	
@@ -95,7 +102,7 @@ public class TellerController {
 			log.infoLog("teller waitRoom go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 대기실 입장");
 			retUrl ="/teller/waitRoom/waitRoom-teller";
 		} else {
-			retUrl ="redirect:/";
+			retUrl ="redirect:/teller";
 		}
 		
 		return retUrl;
@@ -135,23 +142,48 @@ public class TellerController {
 			log.infoLog("teller bankCounter go", "텔러 정보 없음. 창구 입장." + "/ 손님 : " + client.getId() + "(" + client.getName() + ")");
 		}
 		
-		
-		
 		return mav;
 	}
 	
 	@PostMapping("/teller/outRoom")
-	public ModelAndView outRoom(@RequestParam(name="userID") String id) {
+	public ModelAndView outRoom(@RequestParam(name="userID") String id, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
-		
 		UserVO client = userService.getUserInfo(id);
+		ReportVO report = new ReportVO();
+		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
 		
+		report.setClientId(id);
+		report.setTellerEmpNo(tellerVO.getEmpNo());
+		
+		SimpleDateFormat format = new SimpleDateFormat ("yy-MM-dd kk:mm:ss");
+		Calendar time = Calendar.getInstance();
+		
+		String expired = format.format(time.getTime());
+		
+		report.setConsultingDate(expired);
+		reportService.insertReport(report);
 		mav.addObject("clientVO", client);
-		
 		mav.setViewName("/teller/outRoom/outRoom-teller");
 		
 		return mav;
+	}
+	
+	@PostMapping("/teller/report")
+	public String report(@RequestParam(name="chk_info") String code, @RequestParam(name="reportTitle") String title, @RequestParam(name="reportArea") String consultingReport, HttpSession session) {
+		
+		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
+		
+		ReportVO report = new ReportVO();
+		
+		report.setTellerEmpNo(tellerVO.getEmpNo());
+		report.setMiddleCategory(code);
+		report.setTitle(title);
+		report.setConsultingReport(consultingReport);
+		
+		reportService.updateReport(report);
+		
+		return "/teller/waitRoom/waitRoom-teller";
 	}
 	
 }
