@@ -100,7 +100,12 @@ public class UserController {
 		
 		UserVO userVO = (UserVO)session.getAttribute("userVO");
 		
-		log.infoLog("user bankCounter go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 창구 입장");
+		if(userVO != null) {
+			log.infoLog("user bankCounter go", "손님 " + userVO.getId() + "(" + userVO.getName() + ") 창구 입장");
+		} else {
+			log.infoLog("user bankCounter go", "손님 정보 없음. 창구 입장.");
+		}
+		
 		return "/client/bankCounter/bankCounter-client";
 	}
 	

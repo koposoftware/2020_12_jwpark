@@ -613,8 +613,26 @@ $("#sendChat").bind('click', function(event) {
 
 document.getElementById("exit").onclick = function() {
 	
+	$('.modal-header').empty();
+	let content = '';
+	content += '<div>상담을 종료하시겠습니까?</div>';
+	
+	$('.modal-header').append(content);
+	
+	$("#mi-modal").modal('show');
+	
+	$("#modal-btn-si").on("click", function(){
+		
+		socket.emit('bankClientDisconnect');
+		location.href="${pageContext.request.contextPath}/outRoom";
+		
+	});
+	
+	$("#modal-btn-no").on("click", function(){
+		$("#mi-modal").modal('hide');
+	});
+	
 	//document.getElementById("modal").style.display="none";
-	socket.emit('bankClientDisconnect');
-	location.href="${pageContext.request.contextPath}/outRoom";
+	
 }   
 </script>

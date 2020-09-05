@@ -128,22 +128,30 @@ public class TellerController {
 		
 		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
 		
-		System.out.println(tellerVO.getEmpNo());
-		System.out.println(tellerVO.getName());
-		System.out.println(client.getId());
-		System.out.println(client.getName());
+		if(tellerVO != null) {
+			
+			log.infoLog("teller bankCounter go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 창구 입장 / 손님 : " + client.getId() + "(" + client.getName() + ")");
+		} else {
+			log.infoLog("teller bankCounter go", "텔러 정보 없음. 창구 입장." + "/ 손님 : " + client.getId() + "(" + client.getName() + ")");
+		}
 		
-		log.infoLog("teller bankCounter go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 창구 입장 / 손님 : " + client.getId() + "(" + client.getName() + ")");
+		
 		
 		return mav;
 	}
 	
 	@PostMapping("/teller/outRoom")
-	public String outRoom(@RequestParam(name="userID") String id) {
+	public ModelAndView outRoom(@RequestParam(name="userID") String id) {
 		
-		System.out.println(id);
+		ModelAndView mav = new ModelAndView();
 		
-		return "/teller/outRoom/outRoom-teller";
+		UserVO client = userService.getUserInfo(id);
+		
+		mav.addObject("clientVO", client);
+		
+		mav.setViewName("/teller/outRoom/outRoom-teller");
+		
+		return mav;
 	}
 	
 }

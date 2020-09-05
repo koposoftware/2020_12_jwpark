@@ -201,9 +201,6 @@
 	#modal-btn-si {
 		float : right;
 	}
-	#modal-btn-si {
-		float : right;
-	}
 	
 	div .modal-content {
 		width : 500px;

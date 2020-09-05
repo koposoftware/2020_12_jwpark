@@ -828,17 +828,30 @@
 	
 	document.getElementById("exit").onclick = function() {
 	
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div>상담을 종료하시겠습니까?</div>';
 		
-		//document.getElementById("modal").style.display="none";
-		socket.emit('bankTellerDisconnect');
+		$('.modal-header').append(content);
 		
-		var keys = new Array();
-		keys.push('userID');
-		var values = new Array();
-		values.push('${clientVO.id}');
+		$("#mi-modal").modal('show');
 		
-		post_to_url("https://192.168.0.7:8811/spring-project/teller/outRoom", keys, values);
+		$("#modal-btn-si").on("click", function(){
+			
+			//document.getElementById("modal").style.display="none";
+			socket.emit('bankTellerDisconnect');
+			
+			var keys = new Array();
+			keys.push('userID');
+			var values = new Array();
+			values.push('${clientVO.id}');
+			
+			post_to_url("https://192.168.0.7:8811/spring-project/teller/outRoom", keys, values);
+		});
 		
-		//location.href="${pageContext.request.contextPath}/teller/outRoom";
+		$("#modal-btn-no").on("click", function(){
+			$("#mi-modal").modal('hide');
+		});
+		
 	}   
 </script>
