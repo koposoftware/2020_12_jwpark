@@ -309,7 +309,23 @@ function connectToServer() {
 		
 		socket.on('tellerDisconnect', function(room) {
 			
-			alert('텔러가 상담을 종료했어요!');
+			$('.modal-header').empty();
+			let content = '';
+			content += '상담이 종료되었습니다. 상담을 마치시겠습니까?';
+			
+			$('.modal-header').append(content);
+			
+			$("#mi-modal").modal('show');
+			
+			$("#modal-btn-si").on("click", function(){
+				
+				$("#mi-modal").modal('hide');
+				location.href="${pageContext.request.contextPath}/waitRoom";
+			});
+			
+			$("#modal-btn-no").on("click", function(){
+				$("#mi-modal").modal('hide');
+			});
 		})
 		
 		socket.on('tellerForcedOut', function(room) {
@@ -636,7 +652,7 @@ document.getElementById("exit").onclick = function() {
 	$("#modal-btn-si").on("click", function(){
 		
 		socket.emit('bankClientDisconnect');
-		location.href="${pageContext.request.contextPath}/outRoom";
+		location.href="${pageContext.request.contextPath}/waitRoom";
 		
 	});
 	

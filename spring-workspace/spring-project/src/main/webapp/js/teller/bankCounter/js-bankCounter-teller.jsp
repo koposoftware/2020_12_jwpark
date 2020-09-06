@@ -100,8 +100,8 @@
 	window.onbeforeunload = function() {
 		sendMessage('bye');
 	};
-
 	
+
 	function makeHyphen(accountNo, code){
 	
 		let str="";

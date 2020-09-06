@@ -23,7 +23,7 @@
     	color: #fff;
     	background-color: #008c8c;
     	border-color: #008c8c;
-    	width : 150px;
+    	width : 200px;
 	}
 	
 </style>
@@ -39,7 +39,6 @@
     			<div class="col-md-7">
     				<div class="title">이용해주셔서 감사합니다.</div>
     				<button class="btn btn-primary btn-lg" style="background-color: #008c8c; border-color: #008c8c; float: right; margin-right: 10px;">이어서 상담하기</button>
-    				<button class="btn btn-primary btn-lg" style="background-color: #008c8c; border-color: #008c8c; float: right; margin-right: 10px;">상담 내역 확인</button>
     			</div>
     		</div>
     	</div>

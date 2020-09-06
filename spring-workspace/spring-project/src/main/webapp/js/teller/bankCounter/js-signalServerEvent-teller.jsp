@@ -378,7 +378,32 @@
 			
 			socket.on('clientDisconnect', function(room) {
 				
-				alert('손님이 브라우저를 종료했어요!');
+				//alert('손님이 브라우저를 종료했어요!');
+				$('.modal-header').empty();
+				let content = '';
+				content += '손님이 상담을 종료했습니다. 상담을 마치시겠습니까?';
+				
+				$('.modal-header').append(content);
+				
+				$("#mi-modal").modal('show');
+				
+				$("#modal-btn-si").on("click", function(){
+					
+					$("#mi-modal").modal('hide');
+					//document.getElementById("modal").style.display="none";
+					socket.emit('bankTellerDisconnect');
+					
+					var keys = new Array();
+					keys.push('userID');
+					var values = new Array();
+					values.push('${clientVO.id}');
+					
+					post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+				});
+				
+				$("#modal-btn-no").on("click", function(){
+					$("#mi-modal").modal('hide');
+				});
 			})
 			
 			socket.on('clientForcedOut', function(room) {
@@ -442,11 +467,15 @@
 				
 				document.getElementById("localVideo").muted = true;
 				
-				console.log('remoteStream audio: ')
-				console.log(remoteStream.getAudioTracks())
-				console.log('remoteStream video: ')
-				console.log(remoteStream.getVideoTracks())
-					
+				//console.log('remoteStream audio: ')
+				//console.log(remoteStream.getAudioTracks())
+				//console.log('remoteStream video: ')
+				//console.log(remoteStream.getVideoTracks())
+				
+				var job = '${jobType}'
+				if(job == 'bankJob') {
+					$("#work_selectAccount1000").trigger("click");
+				}
 				/* 요게 원래거.
 				remoteVideo.srcObject = event.streams[0];
 				*/

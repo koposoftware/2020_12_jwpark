@@ -213,6 +213,16 @@ public class TellerController {
 		
 		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(tellerVO.getEmpNo());
 		
+		for(int i = 0; i < list.size(); i++) {
+			String str = list.get(i).getConsultingReport();
+			if(str.length() >= 30) {
+				
+				str = str.substring(0, 30) + "...";
+				list.get(i).setConsultingReport(str);
+				
+			}
+		}
+		
 		mav.addObject("records", list);
 		mav.setViewName("/teller/outRoom/outRoom-teller");
 		
@@ -227,6 +237,16 @@ public class TellerController {
 		ModelAndView mav = new ModelAndView();
 		
 		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(tellerVO.getEmpNo());
+		
+		for(int i = 0; i < list.size(); i++) {
+			String str = list.get(i).getConsultingReport();
+			if(str.length() >= 30) {
+				
+				str = str.substring(0, 30) + "...";
+				list.get(i).setConsultingReport(str);
+				
+			}
+		}
 		
 		mav.addObject("records", list);
 		mav.setViewName("/teller/outRoom/outRoom-teller");

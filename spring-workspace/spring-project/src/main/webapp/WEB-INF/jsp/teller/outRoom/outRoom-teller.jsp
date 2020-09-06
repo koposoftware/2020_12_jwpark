@@ -13,6 +13,7 @@
 		font-size: xxx-large;
 		text-align: center;
 		margin-top : 60px;
+		display:block;
 	}
 	
 	.reportDiv {
@@ -42,31 +43,36 @@
 	<section>
 		<div id="page-content">
     	<div class="container text-center">
-    		<div class="row justify-content-center">
+    		<div class="row justify-content-center" style="display : block">
     			<div class="title">업무 기록 관리</div>
-    				<div class="reportDiv">
-    					<table class="table table-hover" style="width: 100%; text-align:center">
-    					<!-- <table border="1" style="width: 100%">  -->
+    			<br>
+    			<div class="reportDiv">
+    				<!-- <table border="1" style="width: 100%">  -->
+    				<table class="table table-hover" style="width: 100%; text-align:center">
+						<tr>
+							<th>손님</th>
+							<th>상담 분류</th>
+							<th>제목</th>
+							<th style="width:40%">내용</th>
+							<th>텔러</th>
+							<th>상담 일시</th>
+						</tr>
+						<c:forEach items="${records}" var="record" varStatus="loop">
 							<tr>
-								<th>손님</th>
-								<th>상담 분류</th>
-								<th>제목</th>
-								<th>내용</th>
-								<th>텔러</th>
-								<th>상담 일시</th>
+								<td>${record.name}(${record.id})</td>
+								<td>${record.middleCategory}</td>
+								<td>${record.title}</td>
+								<td>${record.consultingReport}</td>
+								<td>${record.adminName}(${record.empNo})</td>
+								<td>${record.reportYMD}</td>
 							</tr>
-							<c:forEach items="${records}" var="record" varStatus="loop">
-								<tr>
-									<td>${record.name}(${record.id})</td>
-									<td>${record.middleCategory}</td>
-									<td>${record.title}</td>
-									<td>${record.consultingReport}</td>
-									<td>${record.adminName}(${record.empNo})</td>
-									<td>${record.reportYMD}</td>
-								</tr>
-							</c:forEach>
-						</table>
-    				</div>
+						</c:forEach>
+					</table>
+    			</div>
+    			<div style="text-align: right">
+    				<button id="go">대기실로 이동</button>
+    				
+    			</div>			
     		</div>
     	</div>
     </div>
@@ -76,4 +82,10 @@
 		<%@include file="/WEB-INF/jsp/include/footer.jsp" %>
 	</footer>
 </body>
+<script>
+	$(document).on('click', "#go", function() {
+		
+		location.href="${pageContext.request.contextPath}/teller/waitRoom";
+	})
+</script>
 </html>

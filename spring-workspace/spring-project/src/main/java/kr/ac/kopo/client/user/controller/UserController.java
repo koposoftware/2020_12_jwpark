@@ -111,6 +111,7 @@ public class UserController {
 	
 	@GetMapping("/outRoom")
 	public String outRoom() {
-		return "/client/outRoom/outRoom-client";
+		//return "/client/outRoom/outRoom-client";
+		return "/client/waitRoom/waitRoom-client";
 	}
 }
