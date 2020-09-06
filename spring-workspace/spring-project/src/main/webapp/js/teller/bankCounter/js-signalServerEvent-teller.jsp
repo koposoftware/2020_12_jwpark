@@ -33,8 +33,9 @@
 
 	// for stream
 	let localStream;
-	let remoteStream;
-
+	//let remoteStream;
+	let remoteStream = new MediaStream();
+	
 	// shareVideo
 	let shareStream;
 	//////////////
@@ -76,8 +77,8 @@
 	function getLocalMediaStream() {
 		
 		// 되는 코드.
-		//navigator.mediaDevices.getUserMedia({video : true, audio : true})
-		navigator.mediaDevices.getUserMedia({video: {width: {exact: 640}, height: {exact: 480}}, audio : true})
+		navigator.mediaDevices.getUserMedia({video : true, audio : true})
+		//navigator.mediaDevices.getUserMedia({video: {width: {exact: 640}, height: {exact: 480}}, audio : true})
 		.then(gotStream)
 		.then(connectToServer)
 		//.catch((err) => console.log(err.name, err.message));
@@ -89,6 +90,8 @@
 		console.log('Adding local stream.');
 		localStream = stream;
 		
+		console.log('locatStream : ' + localStream.getAudioTracks());
+		console.log('locatStream label: ' + localStream.getAudioTracks()[0].label);
 	}
 	
 	function println(data) {
@@ -426,7 +429,7 @@
 				console.log('remote Stream add.')
 	
 				println('ontrack event')
-				remoteStream = new MediaStream();
+				//remoteStream = new MediaStream();
 				remoteStream.addTrack(event.track, remoteStream);
 				
 				remoteVideo.srcObject = remoteStream;
@@ -437,7 +440,13 @@
 				
 				$('#camAndchat').height($('#clientVideoDiv').height());
 				
-    		
+				document.getElementById("localVideo").muted = true;
+				
+				console.log('remoteStream audio: ')
+				console.log(remoteStream.getAudioTracks())
+				console.log('remoteStream video: ')
+				console.log(remoteStream.getVideoTracks())
+					
 				/* 요게 원래거.
 				remoteVideo.srcObject = event.streams[0];
 				*/

@@ -302,7 +302,8 @@
 	    		</div>
     			
 	    		<div id="tellerVideoDiv">
-    				<video id="localVideo" autoplay muted playsinline>
+    				<!-- <video id="localVideo" autoplay muted playsinline> -->
+    				<video id="localVideo" autoplay playsinline>
     					<source style="width: 100%">
     				</video>
 	    		</div>

@@ -38,7 +38,9 @@ requestTurn();
 
 // for stream
 let localStream;
-let remoteStream;
+//let remoteStream;
+//let remoteStream;
+	let remoteStream = new MediaStream();
 
 // shareVideo
 let shareStream;
@@ -79,8 +81,8 @@ getLocalMediaStream();
 function getLocalMediaStream() {
 	
 	
-	//navigator.mediaDevices.getUserMedia({video : true, audio : true})
-	navigator.mediaDevices.getUserMedia({video: {width: {exact: 640}, height: {exact: 480}}, audio : true})
+	navigator.mediaDevices.getUserMedia({video : true, audio : true})
+	//navigator.mediaDevices.getUserMedia({video: {width: {exact: 640}, height: {exact: 480}}, audio : true})
 	.then(gotStream)
 	.then(connectToServer)
 	//.catch((err) => console.log(err.name, err.message));
@@ -92,7 +94,8 @@ function gotStream(stream) {
 	console.log('Adding local stream.');
 	localStream = stream;
 	
-	
+	console.log('locatStream : ' + localStream.getAudioTracks());
+	console.log('locatStream label: ' + localStream.getAudioTracks()[0].label);
 }
 
 
@@ -352,9 +355,9 @@ function createPeerConnection() {
 		pc.ontrack = function(event) {
 			console.log('onTrack Event.')
 			console.log('remote Stream add.')
-
+			
 			println('ontrack event')
-			remoteStream = new MediaStream();
+			//remoteStream = new MediaStream();
 			remoteStream.addTrack(event.track, remoteStream);
 			
 			remoteVideo.srcObject = remoteStream;
@@ -362,7 +365,16 @@ function createPeerConnection() {
 			$('#chatDiv').height($('#clientVideoDiv').height());
 			//$('#chatDiv').height($('#clientVideoDiv').height());
 			
+			//console.log('remoteStream audio: ' + remoteStream.getAudioTracks())
+			//console.log('remoteStream video: ' + remoteStream.getVideoTracks())
 			
+			document.getElementById("localVideo").muted = true;
+			
+			console.log('remoteStream audio: ')
+			console.log(remoteStream.getAudioTracks())
+			console.log('remoteStream video: ')
+			console.log(remoteStream.getVideoTracks())
+				
 			/* 요게 원래거.
 			remoteVideo.srcObject = event.streams[0];
 			*/
