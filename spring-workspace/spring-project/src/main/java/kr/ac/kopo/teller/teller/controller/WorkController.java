@@ -184,7 +184,7 @@ public class WorkController {
 		String interest = depositProductService.selectDepositProduct(deposit.getNameCode()).getMaxInterest();
 		int codeKey = accountService.selectCodeVal(deposit.getNameCode());
 		
-		SimpleDateFormat format = new SimpleDateFormat ("yy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 				
 		Calendar time = Calendar.getInstance();
 		
@@ -255,7 +255,7 @@ public class WorkController {
 		String interest = savingProductService.selectSavingProduct(saving.getNameCode()).getMaxInterest();
 		int codeKey = accountService.selectCodeVal(saving.getNameCode());
 		
-		SimpleDateFormat format = new SimpleDateFormat ("yy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 		Calendar time = Calendar.getInstance();
 		
 		time.add(Calendar.MONTH, Integer.parseInt(saving.getExpiredDate()));

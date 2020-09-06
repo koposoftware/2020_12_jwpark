@@ -114,4 +114,8 @@
 	if("${connectStatus}" == "fail") {
 		alert('유저의 세션이 없습니다. 잘못된 연결입니다.');
 	}
+	
+	$(document).on('click', "#goOutRoom", function() {
+		location.href="${pageContext.request.contextPath}/teller/outRoom"
+	})
 </script>

@@ -846,7 +846,7 @@
 			var values = new Array();
 			values.push('${clientVO.id}');
 			
-			post_to_url("https://192.168.0.7:8811/spring-project/teller/outRoom", keys, values);
+			post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
 		});
 		
 		$("#modal-btn-no").on("click", function(){

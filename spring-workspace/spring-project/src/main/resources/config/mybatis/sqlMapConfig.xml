@@ -18,6 +18,7 @@
 		<typeAlias type="kr.ac.kopo.saving.vo.SavingVO" alias="savingVO" />
 		<typeAlias type="kr.ac.kopo.sms.vo.SmsVO" alias="smsVO" />
 		<typeAlias type="kr.ac.kopo.report.vo.ReportVO" alias="reportVO" />
+		<typeAlias type="kr.ac.kopo.reportDetail.vo.ReportDetailVO" alias="reportDetailVO" />
 	</typeAliases>
    
 </configuration>

@@ -33,16 +33,33 @@
 		height:100%;
 		width:50%;
 		text-align:center;
-		margin-top: 15%;
+		margin-top: 10%;
 		display:inline-block;
+	}
+	#btnArea {
+		
+		text-align:right;
+	}
+	
+	#goOutRoom {
+	
+		width: 150px;
+		height : 40px;
+		border-color: white;
+		font-size: large;
+		border-width: inherit;
+		background-color: lightgray;
+		border-radius: 20px 20px 20px 20px
+		
 	}
 	
 	#clientCount {
 		
 		font-size: xx-large;
-		height:100%;
+		/*height:100%;*/
 		text-align:center;
 		margin-top: 5%;
+		margin-bottom: 10%;
 	}
 	
 	#start {
@@ -178,9 +195,16 @@
 							</svg>
 						</div>
 						<div id="info">
-							오늘의 기준금리 : 0.50%<br>
-							오늘 맞이한 손님 1명<br>
+						
 							<div id="clientCount">상담 대기 손님 0명</div>
+							
+							오늘의 기준금리 : 0.50%<br>
+							오늘 맞이한 손님 ${reportCount}명<br>
+							<div id="btnArea">
+								<button id="goOutRoom">상담 내역 확인</button>
+							</div>
+							
+							
 						</div>
 						
 						<div id="start">

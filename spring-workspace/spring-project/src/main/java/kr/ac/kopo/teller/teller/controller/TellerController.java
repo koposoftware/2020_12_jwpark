@@ -2,6 +2,7 @@ package kr.ac.kopo.teller.teller.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +21,8 @@ import kr.ac.kopo.client.user.vo.UserVO;
 import kr.ac.kopo.logger.Log4j2;
 import kr.ac.kopo.report.service.ReportService;
 import kr.ac.kopo.report.vo.ReportVO;
+import kr.ac.kopo.reportDetail.service.ReportDetailServiceImpl;
+import kr.ac.kopo.reportDetail.vo.ReportDetailVO;
 import kr.ac.kopo.teller.teller.service.TellerService;
 import kr.ac.kopo.teller.teller.vo.TellerVO;
 
@@ -33,6 +36,8 @@ public class TellerController {
 	private UserService userService;
 	@Autowired
 	private ReportService reportService;
+	@Autowired
+	private ReportDetailServiceImpl reportDetailService;
 	@Autowired
 	private Log4j2 log;
 	
@@ -93,19 +98,40 @@ public class TellerController {
 	*/
 	
 	@RequestMapping("/teller/waitRoom")
-	public String waitRoom(HttpSession session) {
+	public ModelAndView waitRoom(HttpSession session) {
 		
 		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
 		
+		ModelAndView mav = new ModelAndView();
+		
 		String retUrl = "";
 		if(tellerVO != null) {
+			
+			mav.setViewName("/teller/waitRoom/waitRoom-teller");
+			
+			ReportDetailVO reportDetail = new ReportDetailVO();
+			
+			SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+			Calendar time = Calendar.getInstance();
+			
+			String expired = format.format(time.getTime());
+			
+			reportDetail.setEmpNo(tellerVO.getEmpNo());
+			reportDetail.setReportYMD(expired);
+			
+			int reportCount = reportDetailService.selectReportCountByEmpNo(reportDetail);
+			
+			mav.addObject("reportCount", reportCount);
+			
 			log.infoLog("teller waitRoom go", "텔러 " + tellerVO.getEmpNo() + "(" + tellerVO.getName() + ") 대기실 입장");
-			retUrl ="/teller/waitRoom/waitRoom-teller";
+			//retUrl ="/teller/waitRoom/waitRoom-teller";
 		} else {
-			retUrl ="redirect:/teller";
+			mav.setViewName("redirect:/teller");
+			mav.addObject("reportCount", 0);
+			//retUrl ="redirect:/teller";
 		}
 		
-		return retUrl;
+		return mav;
 	}
 	
 	/*
@@ -145,7 +171,7 @@ public class TellerController {
 		return mav;
 	}
 	
-	@PostMapping("/teller/outRoom")
+	@PostMapping("/teller/report/insert")
 	public ModelAndView outRoom(@RequestParam(name="userID") String id, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -156,7 +182,7 @@ public class TellerController {
 		report.setClientId(id);
 		report.setTellerEmpNo(tellerVO.getEmpNo());
 		
-		SimpleDateFormat format = new SimpleDateFormat ("yy-MM-dd kk:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd kk:mm:ss");
 		Calendar time = Calendar.getInstance();
 		
 		String expired = format.format(time.getTime());
@@ -164,15 +190,17 @@ public class TellerController {
 		report.setConsultingDate(expired);
 		reportService.insertReport(report);
 		mav.addObject("clientVO", client);
-		mav.setViewName("/teller/outRoom/outRoom-teller");
+		mav.setViewName("/teller/report/report-teller");
 		
 		return mav;
 	}
 	
 	@PostMapping("/teller/report")
-	public String report(@RequestParam(name="chk_info") String code, @RequestParam(name="reportTitle") String title, @RequestParam(name="reportArea") String consultingReport, HttpSession session) {
+	public ModelAndView report(@RequestParam(name="chk_info") String code, @RequestParam(name="reportTitle") String title, @RequestParam(name="reportArea") String consultingReport, HttpSession session) {
 		
 		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
+		
+		ModelAndView mav = new ModelAndView();
 		
 		ReportVO report = new ReportVO();
 		
@@ -183,7 +211,27 @@ public class TellerController {
 		
 		reportService.updateReport(report);
 		
-		return "/teller/waitRoom/waitRoom-teller";
+		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(tellerVO.getEmpNo());
+		
+		mav.addObject("records", list);
+		mav.setViewName("/teller/outRoom/outRoom-teller");
+		
+		return mav;
+	}
+	
+	@GetMapping("/teller/outRoom")
+	public ModelAndView outRoom(HttpSession session) {
+		
+		TellerVO tellerVO = (TellerVO)session.getAttribute("tellerVO");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(tellerVO.getEmpNo());
+		
+		mav.addObject("records", list);
+		mav.setViewName("/teller/outRoom/outRoom-teller");
+		
+		return mav;
 	}
 	
 }
