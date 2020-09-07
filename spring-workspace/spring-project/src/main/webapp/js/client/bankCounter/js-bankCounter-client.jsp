@@ -666,6 +666,7 @@
 		phoneCheck();
 	})
 	
+	
 	function phoneCheck() { 
 		$.ajax({ 
 			url: '${pageContext.request.contextPath}/smsCheck/',
@@ -693,6 +694,34 @@
 		}); 
 	}
 
+	function elecFinancePwChange() {
+		
+		$('#workModal').empty();
+		let content = '';
+		content += '<input type="password" name="password" id="password" maxlength="20" placeholder="비밀번호를 입력해주세요." class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">';
+		content += '<div id="pw_check"></div>';
+		content += '<button id="changeElecFinancePassword">설정하기</button>';
+		
+		$('#modal_close_btn').empty();
+		$('#modal_close_btn').append('취소하기');
+		
+		$('#workModal').append(content);
+		
+		$("#modal").fadeIn();
+		
+	}
+	
+	$(document).on('click', "#changeElecFinancePassword", function(event) {
+		if(!checkElecFinancePasswordPattern($('#password').val())) {
+			$("#pw_check").text("비밀번호는 8자리 이상의 문자+숫자+특수문자로 구성해주세요.");
+			$("#pw_check").css("color", "red");
+		} else {
+			$("#pw_check").text("사용 가능한 비밀번호입니다.");
+			$("#pw_check").css("color", "green");
+			socket.emit('work', 'elecFinancePasswordChangeComp:' + encoding($('#password').val()));
+			$("#modal").fadeOut();
+		}
+	})
 	
 	
 	function checkPasswordPattern(str) {
@@ -702,6 +731,27 @@
 		else
 			return true;
 	}
+	
+	  function checkIdPattern(str) {
+		  var pattern2 = /[a-zA-Z]/; // 문자
+		  var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/;	// 특수문자 
+
+		  if(!pattern2.test(str) || pattern3.test(str) || str.length < 6) {
+			  return false
+		  }
+		  else
+			  return true;
+	  }
+	  
+	  function checkElecFinancePasswordPattern(str) {
+		  var pattern1 = /[0-9]/; // 숫자 
+		  var pattern2 = /[a-zA-Z]/; // 문자 
+		  var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 
+		  if(!pattern1.test(str) || !pattern2.test(str) || !pattern3.test(str) || str.length < 8) 
+			  return false; 
+		  else
+			  return true;
+	  }
 	
 	function encoding(text) {
 		output = new String;

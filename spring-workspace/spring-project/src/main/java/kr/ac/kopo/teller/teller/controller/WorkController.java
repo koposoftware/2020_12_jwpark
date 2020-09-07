@@ -40,6 +40,8 @@ import kr.ac.kopo.deposit.service.DepositService;
 import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.service.DepositProductService;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
+import kr.ac.kopo.elecFinanceUser.service.ElecFinanceUserService;
+import kr.ac.kopo.elecFinanceUser.vo.ElecFinanceUserVO;
 import kr.ac.kopo.logger.Log4j2;
 import kr.ac.kopo.report.service.ReportService;
 import kr.ac.kopo.saving.service.SavingService;
@@ -62,6 +64,8 @@ public class WorkController {
 	private SavingProductService savingProductService;
 	@Autowired
 	private SavingService savingService;
+	@Autowired
+	private ElecFinanceUserService elecFinanceUserService;
 	@Autowired
 	private SmsService smsService;
 	@Autowired
@@ -371,5 +375,22 @@ public class WorkController {
 			}
 		}
 		return ret;
+	}
+	
+	@GetMapping("/elecFinance/{regNo}")
+	public ElecFinanceUserVO selectElecFinanceUser(@PathVariable("regNo") String regNo) {
+		
+		return elecFinanceUserService.selectElecFinanceUser(regNo);
+	}
+	
+	@PostMapping("/elecFinance/password")
+	public void updateElecFinanceUserPassword(@RequestParam("regNo") String regNo, @RequestParam("password") String password) {
+		
+		ElecFinanceUserVO elecFinanceUser = new ElecFinanceUserVO();
+		
+		elecFinanceUser.setRegNo(regNo);
+		elecFinanceUser.setPassword(password);
+		
+		elecFinanceUserService.updatePasswordByRegNo(elecFinanceUser);
 	}
 }

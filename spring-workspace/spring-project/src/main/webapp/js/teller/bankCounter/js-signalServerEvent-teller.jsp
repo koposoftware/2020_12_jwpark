@@ -244,6 +244,47 @@
 					
 					chkPassword = true;
 				}
+				else if(cmd == 'elecFinancePasswordChangeComp') {	
+					
+					//alert(decoding(msg.split(':')[1]));
+					
+					$('.modal-header').empty();
+					let content = '';
+					content += '<div>손님이 비밀번호 입력을 완료했습니다.</div>';
+					content += '<div>변경을 진행하시겠습니까?</div>';
+					
+					$('.modal-header').append(content);
+	
+					$("#mi-modal").modal('show');
+					
+					$("#modal-btn-si").unbind("click");
+					$("#modal-btn-si").bind("click",function(){
+						$.ajax({
+							url : '${pageContext.request.contextPath}/elecFinance/password',
+							type : 'post',
+							data : {
+								regNo : '${clientVO.regNo}',
+								password : decoding(msg.split(':')[1])
+							},
+							success : function() {
+								console.log('dd');
+							}, error : function() {
+								console.log('ff');
+							}
+							
+						})
+						
+						$("#mi-modal").modal('hide');
+					})
+					
+					
+					$("#modal-btn-no").unbind("click");
+					$("#modal-btn-no").bind("click",function(){
+						$("#mi-modal").modal('hide');
+					})
+					
+					
+				}
 				else if(cmd == 'depositAgreeComp') {
 					$('#workModal').empty();
 					let content = '';

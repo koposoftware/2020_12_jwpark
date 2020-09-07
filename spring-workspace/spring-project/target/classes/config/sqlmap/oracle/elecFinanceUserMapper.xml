@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="elecFinanceUser.dao.ElecFinanceUserDAO">
+
+	<resultMap type="ElecFinanceUserVO" id="elecFinanceUserMap">
+		<result column="reg_no" property="regNo"/>
+		<result column="ref_account_no" property="refAccountNo"/>
+		<result column="reg_date" property="regDate"/>
+	</resultMap>
+
+	<insert id="insertElecFinanceUser" parameterType="ElecFinanceUserVO">
+		INSERT INTO t_hana_electric_finance_user(ID, PASSWORD, reg_no, ref_account_no, tel, reg_date) 
+			VALUES(#{id}, (SELECT standard_hash (#{password}, 'SHA256') FROM dual), #{regNo}, #{refAccountNo}, #{tel}, #{regDate})
+	</insert>
+	
+	<update id="updatePasswordByRegNo" parameterType="ElecFinanceUserVO">
+		UPDATE t_hana_electric_finance_user SET password=(SELECT standard_hash (#{password}, 'SHA256') FROM dual)
+			where reg_no=#{regNo}
+	</update>
+	
+	<select id="selectElecFinanceUser" resultMap="elecFinanceUserMap" resultType="ElecFinanceUserVO" parameterType="string">
+		select id, reg_no, ref_account_no, tel, reg_date
+			from t_hana_electric_finance_user
+			where reg_no=#{regNo}
+	</select>
+</mapper>

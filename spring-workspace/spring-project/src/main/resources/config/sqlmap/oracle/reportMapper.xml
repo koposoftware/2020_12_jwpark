@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report.dao.ReportDAO">
+
+	<resultMap type="ReportVO" id="reportMap">
+		<result column="client_id" property="clientId"/>
+		<result column="main_category" property="mainCategory"/>
+		<result column="middle_category" property="middleCategory"/>
+		<result column="consulting_report" property="consultingReport"/>
+		<result column="teller_emp_no" property="tellerEmpNo"/>
+		<result column="consulting_date" property="consultingDate"/>
+	</resultMap>
+
+	<insert id="insertReport" parameterType="ReportVO">
+		INSERT INTO T_HANA_REPORT (no, client_id, main_category, teller_emp_no, consulting_date)
+    		values(seq_t_hana_report_no.nextval, #{clientId}, '금융상품', #{tellerEmpNo}, to_date(#{consultingDate}, 'yyyy/mm/dd hh24:mi:ss'))
+	</insert>
+	
+	<update id="updateReport" parameterType="ReportVO">
+		UPDATE t_hana_report SET middle_category=#{middleCategory}, title=#{title}, consulting_report=#{consultingReport} 
+		where teller_emp_no=#{tellerEmpNo} and 
+        	consulting_date = 
+        	(select consulting_date 
+            	from (select consulting_date from t_hana_report where teller_emp_no = #{tellerEmpNo} order by consulting_date desc) 
+            	where ROWNUM = 1)
+	</update>
+</mapper>

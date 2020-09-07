@@ -302,6 +302,12 @@ function connectToServer() {
 				
 				smsAuth();
 			}
+			else if(cmd == 'elecFinancePwChange') {
+				
+				workType = 'elecFinancePwChange';
+				elecFinancePwChange();
+			}
+			
 			
 		})
 		
@@ -690,4 +696,6 @@ document.getElementById("exit").onclick = function() {
 	//document.getElementById("modal").style.display="none";
 	
 }   
+
+
 </script>
