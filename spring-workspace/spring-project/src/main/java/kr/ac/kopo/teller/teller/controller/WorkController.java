@@ -40,6 +40,7 @@ import kr.ac.kopo.deposit.service.DepositService;
 import kr.ac.kopo.deposit.vo.DepositVO;
 import kr.ac.kopo.depositProduct.service.DepositProductService;
 import kr.ac.kopo.depositProduct.vo.DepositProductVO;
+import kr.ac.kopo.logger.Log4j2;
 import kr.ac.kopo.report.service.ReportService;
 import kr.ac.kopo.saving.service.SavingService;
 import kr.ac.kopo.saving.vo.SavingVO;
@@ -63,7 +64,8 @@ public class WorkController {
 	private SavingService savingService;
 	@Autowired
 	private SmsService smsService;
-	
+	@Autowired
+	private Log4j2 log;
 	
 	/*
 	@GetMapping("/user/{userID}")
@@ -165,6 +167,8 @@ public class WorkController {
 	@PostMapping("/deposit")
 	public void insertDeposit(DepositVO deposit) {
 		
+		log.infoLog("deposit", "deposit insert");
+		
 		String randAccountNo = null;
 		
 		boolean b = false;
@@ -235,6 +239,8 @@ public class WorkController {
 	@Transactional
 	@PostMapping("/saving")
 	public void insertSaving(SavingVO saving) {
+		
+		log.infoLog("deposit", "saving insert");
 		
 		System.out.println(saving);
 		String randAccountNo = null;

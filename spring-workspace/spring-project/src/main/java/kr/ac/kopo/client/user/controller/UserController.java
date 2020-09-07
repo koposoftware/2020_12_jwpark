@@ -57,7 +57,6 @@ public class UserController {
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		
-		
 		UserVO userVO = (UserVO)session.getAttribute("userVO");
 		
 		if(userVO != null) {

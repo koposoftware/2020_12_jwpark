@@ -242,8 +242,7 @@ function connectToServer() {
 			
 			if(cmd == 'accountPwChange') {
 				workType = 'pwChange';
-				accoountPwChange();
-				
+				accountPwChange();
 				
 			} 
 			else if(cmd == 'lostReport') {
@@ -253,9 +252,7 @@ function connectToServer() {
 			else if(cmd == 'cancleLostReport') {
 				
 				workType = 'cancleLostReport';
-				
 				cancleLostReport();
-				
 			}
 			else if(cmd == 'askPassword') {
 				
@@ -273,6 +270,7 @@ function connectToServer() {
 				depositAgree();
 			}
 			else if(cmd == 'depositInputComp') {
+				console.log('socket message : depositInputComp')
 				workType = 'depositInputComp';
 				var productName = msg.split(':')[1];
 				var accountNo = msg.split(':')[2];
@@ -288,6 +286,7 @@ function connectToServer() {
 				savingAgree();
 			}
 			else if(cmd == 'savingInputComp') {
+				console.log('socket message : savingInputComp')
 				workType = 'savingInputComp';
 				var productName = msg.split(':')[1];
 				var accountNo = msg.split(':')[2];
@@ -317,15 +316,28 @@ function connectToServer() {
 			
 			$("#mi-modal").modal('show');
 			
+			$("#modal-btn-si").unbind("click");
+			$("#modal-btn-si").bind("click",function(){
+				$("#mi-modal").modal('hide');
+				location.href="${pageContext.request.contextPath}/waitRoom";
+			});
+			/*
 			$("#modal-btn-si").on("click", function(){
 				
 				$("#mi-modal").modal('hide');
 				location.href="${pageContext.request.contextPath}/waitRoom";
 			});
+			*/
 			
+			$("#modal-btn-no").unbind("click");
+			$("#modal-btn-no").bind("click",function(){
+				$("#mi-modal").modal('hide');
+			});
+			/*
 			$("#modal-btn-no").on("click", function(){
 				$("#mi-modal").modal('hide');
 			});
+			*/
 		})
 		
 		socket.on('tellerForcedOut', function(room) {
@@ -649,17 +661,32 @@ document.getElementById("exit").onclick = function() {
 	
 	$("#mi-modal").modal('show');
 	
+	$("#modal-btn-si").unbind("click");
+	$("#modal-btn-si").bind("click",function(){
+		socket.emit('bankClientDisconnect');
+		location.href="${pageContext.request.contextPath}/waitRoom";
+	});
+	
+	/*
 	$("#modal-btn-si").on("click", function(){
 		
 		socket.emit('bankClientDisconnect');
 		location.href="${pageContext.request.contextPath}/waitRoom";
 		
 	});
+	*/
 	
-	$("#modal-btn-no").on("click", function(){
+	$("#modal-btn-no").unbind("click");
+	$("#modal-btn-no").bind("click",function(){
+		
 		$("#mi-modal").modal('hide');
 	});
 	
+	/*
+	$("#modal-btn-no").on("click", function(){
+		$("#mi-modal").modal('hide');
+	});
+	*/
 	//document.getElementById("modal").style.display="none";
 	
 }   

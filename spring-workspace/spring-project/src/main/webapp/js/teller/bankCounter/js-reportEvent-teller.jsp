@@ -15,7 +15,7 @@
 		socket.emit('work', 'accountPwChange');
 	})
 	
-		$(document).on('click', "#changePasswordBtn", function(event) {
+	$(document).on('click', "#changePasswordBtn", function(event) {
 		
 		$('#workModal').empty();
 		$.ajax({

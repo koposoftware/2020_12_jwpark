@@ -177,6 +177,27 @@
 	
 					$("#mi-modal").modal('show');
 					
+					$("#modal-btn-si").unbind("click");
+					$("#modal-btn-si").bind("click",function(){
+						$.ajax({
+							url : '${pageContext.request.contextPath}/account/password',
+							type : 'post',
+							data : {
+								accountNo : passChangeAccount,
+								password : decoding(msg.split(':')[1])
+							},
+							success : function() {
+								console.log('dd');
+							}, error : function() {
+								console.log('ff');
+							}
+							
+						})
+						
+						$("#mi-modal").modal('hide');
+					})
+					
+					/*
 					$("#modal-btn-si").on("click", function(){
 						
 						$.ajax({
@@ -196,10 +217,18 @@
 						
 						$("#mi-modal").modal('hide');
 					});
+					*/
 					
+					$("#modal-btn-no").unbind("click");
+					$("#modal-btn-no").bind("click",function(){
+						$("#mi-modal").modal('hide');
+					})
+					
+					/*
 					$("#modal-btn-no").on("click", function(){
 						$("#mi-modal").modal('hide');
 					});
+					*/
 				}
 				else if(cmd =='checkPasswordComp') {
 					
@@ -229,6 +258,8 @@
 					chkDepositAgree = true;
 				}
 				else if(cmd == 'depositSigninSuccess') {
+					alert('event');
+					console.log('socket Message : depositSigninSuccess')
 					depositSuccess();
 				}
 				else if(cmd == 'depositSigninFailure') {
@@ -253,6 +284,7 @@
 					chkSavingAgree = true;
 				}
 				else if(cmd == 'savingSigninSuccess') {
+					console.log('socket Message : savingSigninSuccess')
 					savingSuccess();
 				}
 				else if(cmd == 'savingSigninFailure') {
@@ -387,6 +419,21 @@
 				
 				$("#mi-modal").modal('show');
 				
+				$("#modal-btn-si").unbind("click");
+				$("#modal-btn-si").bind("click",function(){
+					
+					$("#mi-modal").modal('hide');
+					//document.getElementById("modal").style.display="none";
+					socket.emit('bankTellerDisconnect');
+					
+					var keys = new Array();
+					keys.push('userID');
+					var values = new Array();
+					values.push('${clientVO.id}');
+					
+					post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+				})
+				/*
 				$("#modal-btn-si").on("click", function(){
 					
 					$("#mi-modal").modal('hide');
@@ -400,10 +447,16 @@
 					
 					post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
 				});
-				
+				*/
+				$("#modal-btn-no").unbind("click");
+				$("#modal-btn-no").bind("click",function(){
+					$("#mi-modal").modal('hide');
+				})
+				/*
 				$("#modal-btn-no").on("click", function(){
 					$("#mi-modal").modal('hide');
 				});
+				*/
 			})
 			
 			socket.on('clientForcedOut', function(room) {
@@ -874,6 +927,20 @@
 		
 		$("#mi-modal").modal('show');
 		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			//document.getElementById("modal").style.display="none";
+			socket.emit('bankTellerDisconnect');
+			
+			var keys = new Array();
+			keys.push('userID');
+			var values = new Array();
+			values.push('${clientVO.id}');
+			
+			post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+		})
+		
+		/*
 		$("#modal-btn-si").on("click", function(){
 			
 			//document.getElementById("modal").style.display="none";
@@ -886,10 +953,17 @@
 			
 			post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
 		});
+		*/
 		
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
+			$("#mi-modal").modal('hide');
+		})
+		/*
 		$("#modal-btn-no").on("click", function(){
 			$("#mi-modal").modal('hide');
 		});
+		*/
 		
 	}   
 </script>

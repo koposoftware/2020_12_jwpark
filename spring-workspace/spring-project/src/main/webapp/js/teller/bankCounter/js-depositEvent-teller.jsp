@@ -57,7 +57,7 @@
 					content +=         '</tbody>';
 					content +=     '</table>';
 					content += '</div>';
-					console.log(content);
+					
 					$('#workDiv').append(content);
 					
 				}
@@ -142,7 +142,7 @@
 					content +=         '</tbody>';
 					content +=     '</table>';
 					content += '</div>';
-					console.log(content);
+					
 					$('#workDiv').append(content);
 					
 				}
@@ -511,7 +511,6 @@
 			return;
 		}
 		
-		
 		$('.modal-header').empty();
 		let content = '';
 		content += '<div style="text-align : left;">';
@@ -531,13 +530,26 @@
 		content +=         '</tr>';
 		content +=         '</tbody>';
 		content +=     '</table>';
-		content += 		'<div>가입 정보를 확인 후 손님에게 안내해주세요. 손님이 동의하시면 가입이 완료됩니다.</div>';
+		content += 		'<div>가입 정보를 확인 후 손님에게 안내해주세요.</div>';
 		content += '</div>';
 		
 		$('.modal-header').append(content);
 		
 		$("#mi-modal").modal('show');
 		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			
+			depositSigninAmmount = $('#depositAmmount').val(); 
+			depositSigninPeriod = $('#depositPeriod').val();
+			depositSigninAccountNo = selectValue;
+			depositSigninProductName = $(".depositProductName").attr('id');
+			
+			socket.emit('work', 'depositInputComp:' + $(".depositProductName").attr('id') + ':' + makeHyphen(selectValue, 4) + ':' + $('#depositAmmount').val() + ':' + $('#depositPeriod').val())
+			
+			$("#mi-modal").modal('hide');
+		})
+		/*
 		$("#modal-btn-si").on("click", function(){
 			
 			depositSigninAmmount = $('#depositAmmount').val(); 
@@ -549,40 +561,121 @@
 			
 			$("#mi-modal").modal('hide');
 		});
+		*/
 		
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
+			$("#mi-modal").modal('hide');
+		})
+		/*
 		$("#modal-btn-no").on("click", function(){
 			$("#mi-modal").modal('hide');
 		});
+		*/
 	})
 	
 	function depositSuccess(){
 		
-		$.ajax({
-			url : '${pageContext.request.contextPath}/deposit',
-			type : 'post',
-			data : {		
-				
-				regNo : '${clientVO.regNo}',
-				nameCode : depositSigninProductName,
-				depositAmmount : depositSigninAmmount,
-				expiredDate : depositSigninPeriod,
-				refAccountNo : depositSigninAccountNo 
-				
-			},
-			success : function(data) {
-				
-				$('#workModal').empty();
-				let content = '';
-				content += '예금가입에 성공하였습니다.';
-				$('#workModal').append(content);
-				$("#modal").fadeIn();
-				$('#workDiv').empty();
-				$("#userDepositList").trigger("click");
-			},error : function() {
-				alert('실패');
-			}
-				
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div>손님이 동의서 작성을 완료하였습니다. 가입을 진행하시겠습니까?</div>';
+		
+		$('.modal-header').append(content);
+		
+		$("#mi-modal").modal('show');
+		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			console.log('depositSuccess ok btn click')
+			$.ajax({
+				url : '${pageContext.request.contextPath}/deposit',
+				type : 'post',
+				data : {		
+					
+					regNo : '${clientVO.regNo}',
+					nameCode : depositSigninProductName,
+					depositAmmount : depositSigninAmmount,
+					expiredDate : depositSigninPeriod,
+					refAccountNo : depositSigninAccountNo 
+					
+				},
+				success : function(data) {
+					
+					chkPassword = false;
+					chkDepositAgree = false;
+
+					depositMinAmmount = 0, depositMaxAmmount = 0;
+					depositMinPeriod = '', depositMaxPeriod = '';
+
+					depositSigninAmmount = 0, depositSigninPeriod = 0;
+					depositSigninAccountNo = '', depositSigninProductName ='';
+					
+					$('#workModal').empty();
+					let content = '';
+					content += '예금가입에 성공하였습니다.';
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+					$('#workDiv').empty();
+					$("#userDepositList").trigger("click");
+				},error : function() {
+					alert('실패');
+				}
+			})
+			
+			$("#mi-modal").modal('hide');
 		})
+		/*
+		$("#modal-btn-si").on("click", function(){
+			console.log('depositSuccess ok btn click')
+			$.ajax({
+				url : '${pageContext.request.contextPath}/deposit',
+				type : 'post',
+				data : {		
+					
+					regNo : '${clientVO.regNo}',
+					nameCode : depositSigninProductName,
+					depositAmmount : depositSigninAmmount,
+					expiredDate : depositSigninPeriod,
+					refAccountNo : depositSigninAccountNo 
+					
+				},
+				success : function(data) {
+					
+					chkPassword = false;
+					chkDepositAgree = false;
+
+					depositMinAmmount = 0, depositMaxAmmount = 0;
+					depositMinPeriod = '', depositMaxPeriod = '';
+
+					depositSigninAmmount = 0, depositSigninPeriod = 0;
+					depositSigninAccountNo = '', depositSigninProductName ='';
+					
+					$('#workModal').empty();
+					let content = '';
+					content += '예금가입에 성공하였습니다.';
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+					$('#workDiv').empty();
+					$("#userDepositList").trigger("click");
+				},error : function() {
+					alert('실패');
+				}
+			})
+			
+			$("#mi-modal").modal('hide');
+		});
+		*/
+		
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
+			$("#mi-modal").modal('hide');
+		})
+		
+		/*
+		$("#modal-btn-no").on("click", function(){
+			$("#mi-modal").modal('hide');
+		});
+		*/
 		
 	}
 	

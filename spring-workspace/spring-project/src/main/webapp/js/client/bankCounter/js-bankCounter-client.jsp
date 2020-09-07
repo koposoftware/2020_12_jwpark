@@ -350,17 +350,33 @@
 		
 		$("#mi-modal").modal('show');
 		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			socket.emit('work', 'depositSigninSuccess')
+			
+			$("#mi-modal").modal('hide');
+		});
+		/*
 		$("#modal-btn-si").on("click", function(){
 			
 			socket.emit('work', 'depositSigninSuccess')
 			
 			$("#mi-modal").modal('hide');
 		});
+		*/
 		
-		$("#modal-btn-no").on("click", function(){
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
 			socket.emit('work', 'depositSigninFailure')
 			$("#mi-modal").modal('hide');
 		});
+		/*
+		$("#modal-btn-no").on("click", function(){
+			
+			socket.emit('work', 'depositSigninFailure')
+			$("#mi-modal").modal('hide');
+		});
+		*/
 	}
 	
 	function savingAgree(){
@@ -563,17 +579,32 @@
 		
 		$("#mi-modal").modal('show');
 		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			
+			socket.emit('work', 'savingSigninSuccess')
+			$("#mi-modal").modal('hide');
+		});
+		/*
 		$("#modal-btn-si").on("click", function(){
 			
 			socket.emit('work', 'savingSigninSuccess')
 			
 			$("#mi-modal").modal('hide');
 		});
+		*/
 		
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
+			socket.emit('work', 'savingSigninFailure')
+			$("#mi-modal").modal('hide');
+		});
+		/*
 		$("#modal-btn-no").on("click", function(){
 			socket.emit('work', 'savingSigninFailure')
 			$("#mi-modal").modal('hide');
 		});
+		*/
 	}
 	
 	function smsAuth() {

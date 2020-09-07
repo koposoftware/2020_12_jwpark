@@ -59,7 +59,7 @@
 					content +=         '</tbody>';
 					content +=     '</table>';
 					content += '</div>';
-					console.log(content);
+					
 					$('#workDiv').append(content);
 					
 				}
@@ -157,7 +157,7 @@
 					content +=         '</tbody>';
 					content +=     '</table>';
 					content += '</div>';
-					console.log(content);
+					
 					$('#workDiv').append(content);
 					
 				}
@@ -622,6 +622,24 @@
 		
 		$("#mi-modal").modal('show');
 		
+		document.getElementById("modal-btn-si").onclick = null;
+		
+		$("#modal-btn-si").unbind("click");
+		
+		$("#modal-btn-si").bind("click",function(){
+			savingSigninEntryAmmount = $('#savingEntryAmmount').val();
+			savingSinginSavingAmmount = $('#savingSavingAmmount').val();
+			savingSigninPeriod = $('#savingPeriod').val();
+			savingSigninAccountNo = selectValue;
+			savingSigninProductName = $(".savingProductName").attr('id');
+			
+			console.log('send Message : savingInputcomp')
+			socket.emit('work', 'savingInputComp:' + $(".savingProductName").attr('id') + ':' + makeHyphen(selectValue, 4) + ':' + $('#savingEntryAmmount').val() + ':' + $('#savingSavingAmmount').val() + ':' + $('#savingPeriod').val())
+			
+			$("#mi-modal").modal('hide');
+		});
+		
+		/*
 		$("#modal-btn-si").on("click", function(){
 			
 			savingSigninEntryAmmount = $('#savingEntryAmmount').val();
@@ -630,11 +648,12 @@
 			savingSigninAccountNo = selectValue;
 			savingSigninProductName = $(".savingProductName").attr('id');
 			
+			console.log('send Message : savingInputcomp')
 			socket.emit('work', 'savingInputComp:' + $(".savingProductName").attr('id') + ':' + makeHyphen(selectValue, 4) + ':' + $('#savingEntryAmmount').val() + ':' + $('#savingSavingAmmount').val() + ':' + $('#savingPeriod').val())
 			
 			$("#mi-modal").modal('hide');
 		});
-		
+		*/
 		$("#modal-btn-no").on("click", function(){
 			$("#mi-modal").modal('hide');
 		});
@@ -642,33 +661,54 @@
 
 	function savingSuccess(){
 		
-		$.ajax({
-			url : '${pageContext.request.contextPath}/saving',
-			type : 'post',
-			data : {		
-				
-				regNo : '${clientVO.regNo}',
-				nameCode : savingSigninProductName,
-				savingAmmount : savingSigninEntryAmmount,
-				plannedAmmount : savingSinginSavingAmmount,
-				expiredDate : savingSigninPeriod,
-				refAccountNo : savingSigninAccountNo 
-				
-			},
-			success : function(data) {
-				
-				$('#workModal').empty();
-				let content = '';
-				content += '적금가입에 성공하였습니다.';
-				$('#workModal').append(content);
-				$("#modal").fadeIn();
-				$('#workDiv').empty();
-				$("#userSavingList").trigger("click");
-				
-			},error : function() {
-				alert('실패');
-			}
-				
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div>손님이 동의서 작성을 완료하였습니다. 가입을 진행하시겠습니까?</div>';
+		
+		$('.modal-header').append(content);
+		
+		$("#mi-modal").modal('show');
+	
+		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/saving',
+				type : 'post',
+				data : {		
+					
+					regNo : '${clientVO.regNo}',
+					nameCode : savingSigninProductName,
+					savingAmmount : savingSigninEntryAmmount,
+					plannedAmmount : savingSinginSavingAmmount,
+					expiredDate : savingSigninPeriod,
+					refAccountNo : savingSigninAccountNo 
+					
+				},
+				success : function(data) {
+					
+					$('#workModal').empty();
+					let content = '';
+					content += '적금가입에 성공하였습니다.';
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+					$('#workDiv').empty();
+					$("#userSavingList").trigger("click");
+					
+				},error : function() {
+					alert('실패');
+				}
+					
+			})
+			
+			$("#mi-modal").modal('hide');
+		})
+
+		
+		$("#modal-btn-no").bind("click",function(){
+			
+			$("#mi-modal").modal('hide');
 		})
 		
 	}
