@@ -8,4 +8,5 @@ public interface ElecFinanceUserService {
 	void updatePasswordByRegNo(ElecFinanceUserVO elecFinanceUser);
 	
 	ElecFinanceUserVO selectElecFinanceUser(String regNo);
+	ElecFinanceUserVO selectElecFinanceUserID(String id);
 }

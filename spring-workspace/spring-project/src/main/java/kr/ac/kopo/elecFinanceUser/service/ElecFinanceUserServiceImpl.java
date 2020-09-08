@@ -29,5 +29,12 @@ public class ElecFinanceUserServiceImpl implements ElecFinanceUserService{
 		
 		return elecFinanceUserDAO.selectElecFinanceUser(regNo);
 	}
+
+	@Override
+	public ElecFinanceUserVO selectElecFinanceUserID(String id) {
+		
+		return elecFinanceUserDAO.selectElecFinanceUserID(id);
+	}
+	
 	
 }

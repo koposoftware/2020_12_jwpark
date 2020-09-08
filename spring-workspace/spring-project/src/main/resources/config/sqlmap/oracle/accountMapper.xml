@@ -72,6 +72,10 @@
 			UPDATE T_HANA_ACCOUNT SET balance=balance - #{balance} , withdrawable_balance=withdrawable_balance - #{withdrawableBalance} where account_no = #{accountNo}
 	</update>
 	
+	<update id="updateElecFinanceStatus" parameterType="string">
+			UPDATE T_HANA_ACCOUNT SET elec_finance_status = 'T' where account_no = #{accountNo}
+	</update>
+	
 	<select id="selectAccountNo" resultType="string" parameterType="string">
 		select 
 			account_no

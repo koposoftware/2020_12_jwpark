@@ -325,14 +325,14 @@
 						주민등록번호 : <div id="regNo" style="display:inline-block;">${clientVO.regNo}</div>
 					</div>
 					<br>
-					<div>
+					<div id="elecFinanceStatus">
 					전자금융 가입여부 :
 						<c:choose>
 							<c:when test="${ clientVO.elecFinanceStatus == 'T' }">
-								O (상담, 예적금 가입 / 제신고 및 모든 서비스 가능)
+								O
 							</c:when>
 							<c:otherwise>
-								X (상담, 계좌 조회 및 전자금융서비스 가입만 가능)
+								X
 							</c:otherwise>
 						</c:choose>
 					</div>

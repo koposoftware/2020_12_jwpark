@@ -22,4 +22,6 @@ public interface AccountService {
 	void updateBalance(AccountVO account);
 	
 	String selectPasswordByAccountNo(AccountVO account);
+	
+	void updateElecFinanceStatus(String accountNo);
 }

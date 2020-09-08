@@ -69,6 +69,8 @@ public class WorkController {
 	@Autowired
 	private SmsService smsService;
 	@Autowired
+	private UserService userService;
+	@Autowired
 	private Log4j2 log;
 	
 	/*
@@ -393,4 +395,38 @@ public class WorkController {
 		
 		elecFinanceUserService.updatePasswordByRegNo(elecFinanceUser);
 	}
+	
+	@GetMapping("/elecFinance/id/{id}")
+	public ElecFinanceUserVO selectElecFinanceUserID(@PathVariable("id") String id) {
+		
+		ElecFinanceUserVO elecFinanceUser = elecFinanceUserService.selectElecFinanceUserID(id);
+		System.out.println(elecFinanceUser);
+		
+		return elecFinanceUser;
+	}
+	
+	@Transactional
+	@PostMapping("/elecFinance")
+	public void insertElecFinanceUser(@RequestParam("id") String id, @RequestParam("password") String password, @RequestParam("refAccountNo") String refAccountNo, @RequestParam("regNo") String regNo, @RequestParam("tel") String tel) {
+		
+		ElecFinanceUserVO elecFinanceUser = new ElecFinanceUserVO();
+		
+		elecFinanceUser.setId(id);
+		elecFinanceUser.setPassword(password);
+		elecFinanceUser.setRefAccountNo(refAccountNo);
+		elecFinanceUser.setRegNo(regNo);
+		elecFinanceUser.setTel(tel);
+		
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd kk:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String date = format.format(time.getTime());
+		elecFinanceUser.setRegDate(date);
+		
+		elecFinanceUserService.insertElecFinanceUser(elecFinanceUser);
+		userService.updateElecFinanceStatus(regNo);
+		accountService.updateElecFinanceStatus(refAccountNo);
+		
+	}
+	
+	
 }

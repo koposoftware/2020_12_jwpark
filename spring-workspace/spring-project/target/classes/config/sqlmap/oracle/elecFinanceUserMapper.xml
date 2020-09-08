@@ -25,4 +25,10 @@
 			from t_hana_electric_finance_user
 			where reg_no=#{regNo}
 	</select>
+	
+	<select id="selectElecFinanceUserID" resultMap="elecFinanceUserMap" resultType="ElecFinanceUserVO" parameterType="string">
+		select id, reg_no, ref_account_no, tel, reg_date
+			from t_hana_electric_finance_user
+			where id=#{id}
+	</select>
 </mapper>

@@ -23,7 +23,11 @@ public class UserServiceImpl implements UserService {
 		
 		return userDAO.getUserInfo(id);
 	}
-	
-	
+
+	@Override
+	public void updateElecFinanceStatus(String regNo) {
+		
+		userDAO.updateElecFinanceStatus(regNo);
+	}
 	
 }

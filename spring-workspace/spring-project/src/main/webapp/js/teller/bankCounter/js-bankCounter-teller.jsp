@@ -5,6 +5,8 @@
 	// work /////
 	var passChangeAccount
 	
+	var telCheck = false;
+	
 	$("#menu-toggle").click(function(e) {
   		e.preventDefault();
   		$("#wrapper").toggleClass("toggled");

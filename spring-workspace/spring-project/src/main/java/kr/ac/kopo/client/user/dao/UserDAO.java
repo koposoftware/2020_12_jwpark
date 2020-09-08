@@ -6,4 +6,5 @@ public interface UserDAO {
 
 	UserVO login(UserVO user);
 	UserVO getUserInfo(String id);
+	void updateElecFinanceStatus(String regNo);
 }

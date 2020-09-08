@@ -26,7 +26,11 @@ public class UserDAOImpl implements UserDAO {
 		UserVO userVO = sqlSession.selectOne("client.user.dao.UserDAO.getUserInfo", id);
 		return userVO;
 	}
-	
-	
+
+	@Override
+	public void updateElecFinanceStatus(String regNo) {
+		
+		sqlSession.update("client.user.dao.UserDAO.updateElecFinanceStatus", regNo);
+	}
 
 }

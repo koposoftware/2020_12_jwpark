@@ -30,4 +30,10 @@ public class ElecFinanceUserDAOImpl implements ElecFinanceUserDAO {
 		return session.selectOne("selectElecFinanceUser", regNo);
 	}
 
+	@Override
+	public ElecFinanceUserVO selectElecFinanceUserID(String id) {
+		
+		return session.selectOne("selectElecFinanceUserID", id);
+	}
+	
 }

@@ -105,5 +105,10 @@ public class AccountServiceImpl implements AccountService {
 		return accountDAO.selectPasswordByAccountNo(account);
 	}
 
+	@Override
+	public void updateElecFinanceStatus(String accountNo) {
+		
+		accountDAO.updateElecFinanceStatus(accountNo);
+	}
 	
 }

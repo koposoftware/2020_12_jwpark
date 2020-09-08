@@ -164,6 +164,12 @@
 				else if(cmd == 'savingAgreeClose') {
 					alert('손님이 동의를 완료하지 않은채로 동의 화면을 닫았습니다.');
 				}
+				else if(cmd == 'elecFinancePwChangeClose') {
+					alert('손님이 입력을 완료하지 않은채로 비밀번호 입력창을 닫았습니다.');
+				}
+				else if(cmd == 'getElecIDPasswordClose') {
+					alert('손님이 입력을 완료하지 않은채로 비밀번호 입력창을 닫았습니다.');
+				}
 				else if(cmd == 'passwordChangeComp') {
 					
 					//alert(decoding(msg.split(':')[1]));
@@ -347,6 +353,8 @@
 					$('#authStatus').css("color", "green");
 					$('#authStatus').text("본인인증 완료");
 					
+					telCheck = true;
+					
 				} else if(cmd == 'authFailure') {
 					$('#workModal').empty();
 					let content = '';
@@ -354,7 +362,25 @@
 					
 					$('#workModal').append(content);
 					$("#modal").fadeIn();
-				}  
+				} else if(cmd == 'elecFinanceSetIdPassword') {
+					
+					let id= msg.split(':')[1];
+					let password = decoding(msg.split(':')[2]);
+					
+					$('#workModal').empty();
+					let content = '';
+					content += '손님이 아이디, 비밀번호 입력을 완료하였습니다.';
+					
+					elecFinanceSetIdPassword(id, password);
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				} else if(cmd == 'elecFinanceAgreeComp') {
+					
+					elecFinanceAgreeComp();
+				}
+				
+				
 				
 			})
 		

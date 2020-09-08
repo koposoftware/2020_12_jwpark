@@ -24,4 +24,8 @@
 			where id = #{id}
 	</select>
 	
+	<update id="updateElecFinanceStatus" parameterType="string">
+			UPDATE t_hana_user SET elec_finance_status = 'T' where reg_no = #{regNo}
+	</update>
+	
 </mapper>

@@ -8,6 +8,7 @@ public class ElecFinanceUserVO {
 	private String refAccountNo;
 	private String tel;
 	private String regDate;
+	
 	public String getId() {
 		return id;
 	}

@@ -22,5 +22,7 @@ public interface AccountDAO {
 	void updateWithdrawable(AccountVO account);
 	void updateBalance(AccountVO account);
 	
+	void updateElecFinanceStatus(String accountNo);
+	
 	String selectPasswordByAccountNo(AccountVO account);
 }

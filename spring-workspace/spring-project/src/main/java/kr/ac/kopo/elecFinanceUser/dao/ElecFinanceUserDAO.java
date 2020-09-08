@@ -10,4 +10,6 @@ public interface ElecFinanceUserDAO {
 	
 	ElecFinanceUserVO selectElecFinanceUser(String regNo);
 	
+	ElecFinanceUserVO selectElecFinanceUserID(String id);
+	
 }

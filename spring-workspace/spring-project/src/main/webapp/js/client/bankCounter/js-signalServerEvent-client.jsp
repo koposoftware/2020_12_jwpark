@@ -307,7 +307,16 @@ function connectToServer() {
 				workType = 'elecFinancePwChange';
 				elecFinancePwChange();
 			}
-			
+			else if(cmd == 'getElecIDPassword') {
+				
+				workType = 'getElecIDPassword';
+				getElecIDPassword();
+			}
+			else if(cmd == 'getElecFinanceAgreement') {
+				
+				workType = 'getElecFinanceAgreement';
+				getElecFinanceAgreement();
+			}
 			
 		})
 		
@@ -656,6 +665,7 @@ $("#sendChat").bind('click', function(event) {
 	}
 	
 })
+
 
 document.getElementById("exit").onclick = function() {
 	
