@@ -1,6 +1,11 @@
 package kr.ac.kopo.teller.teller.controller;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -8,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpHost;
@@ -24,6 +30,8 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,6 +39,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.kopo.account.service.AccountService;
 import kr.ac.kopo.account.vo.AccountVO;
@@ -50,6 +59,7 @@ import kr.ac.kopo.savingProduct.service.SavingProductService;
 import kr.ac.kopo.savingProduct.vo.SavingProductVO;
 import kr.ac.kopo.sms.service.SmsService;
 import kr.ac.kopo.sms.vo.SmsVO;
+import net.sourceforge.tess4j.Tesseract;
 
 @RestController
 public class WorkController {
@@ -426,6 +436,90 @@ public class WorkController {
 		userService.updateElecFinanceStatus(regNo);
 		accountService.updateElecFinanceStatus(refAccountNo);
 		
+	}
+
+	public void saveFile(MultipartFile file, String directoryPath) throws IOException {
+		
+		//String saveFolder = "D:/hanaProject-workspace/spring-workspace/spring-project/src/main/webapp/resources/images/capturedID";
+		// parent directory를 찾는다.
+		File saveFile = new File(directoryPath, "upload.png");
+		
+		try {
+			file.transferTo(saveFile);
+			File files = new File("C:/Users/Park Jinwoo/Desktop/cap.JPG");
+			
+			BufferedImage image = ImageIO.read(new File(directoryPath, "upload.png"));
+			
+			int avgRGB = 0;
+			int count = 0;
+			/*
+			for(int y = 0; y < image.getHeight(); y++) {
+				for(int x = 0; x < image.getWidth(); x++) {
+					Color colour = new Color(image.getRGB(x, y));
+					
+					int pointY = (int) (0.2126 * colour.getRed() + 0.7152 * colour.getGreen() + 0.0722 * colour.getBlue());
+					
+					//System.out.println(pointY);
+
+					count++;
+					avgRGB += pointY;
+					
+					//image.setRGB(x, y, new Color(pointY, pointY, pointY).getRGB());
+				}
+			}
+			avgRGB = (int)((double)(avgRGB/count) * 0.9 );
+			System.out.println(avgRGB);
+			*/
+			for(int y = 0; y < image.getHeight(); y++) {
+				for(int x = 0; x < image.getWidth(); x++) {
+					Color colour = new Color(image.getRGB(x, y));
+					int pointY = (int) (0.2126 * colour.getRed() + 0.7152 * colour.getGreen() + 0.0722 * colour.getBlue());
+					
+					/*
+					if(pointY > avgRGB) {
+						pointY = 255;
+					} else 
+						pointY = 0;
+					*/
+					image.setRGB(x, y, new Color(pointY, pointY, pointY).getRGB());
+				}
+			}
+			
+			ImageIO.write(image, "png", new File(directoryPath, "upload_grayScale.png"));
+			
+			Tesseract tesseract = new Tesseract(); 
+			
+			tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata"); 
+			tesseract.setLanguage("kor");
+			String text = tesseract.doOCR(saveFile);
+			//String text = tesseract.doOCR(f);
+			
+			System.out.println(text);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+	}
+	
+	
+	@PostMapping("/saveIDCardImage")
+	public String saveImage(@RequestParam(value="file", required=true) MultipartFile [] file) {
+		
+		String saveFolder = "D:/hanaProject-workspace/spring-workspace/spring-project/src/main/webapp/resources/images/capturedID";
+		
+		try {
+			saveFile(file[0], saveFolder);
+			
+			//Resource resource = new ClassPathResource("upload.png");
+			//BufferedImage resizedImage = resize(resource.getInputStream(), 800, 600);
+			//ImageIO.write(resizedImage, "jpg", new File(saveFolder + "/upload2.png"));
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		return "ok";
 	}
 	
 	

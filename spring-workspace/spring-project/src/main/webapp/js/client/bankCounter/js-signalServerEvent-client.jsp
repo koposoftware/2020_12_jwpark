@@ -317,6 +317,16 @@ function connectToServer() {
 				workType = 'getElecFinanceAgreement';
 				getElecFinanceAgreement();
 			}
+			else if(cmd == 'reverseScreen') {
+				
+				$('header').css('background-color', 'black');
+				$('header').css('color', 'white');
+				$('body').css('background-color', 'black');
+				$('body').css('color', 'white');
+				
+				screenShareVideo.srcObject='';
+			}
+			
 			
 		})
 		

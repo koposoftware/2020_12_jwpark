@@ -23,6 +23,70 @@
 		socket.emit('work', 'smsAuth');
 	})
 	
+	$("#captureID").bind('click', function(event) {
+		
+		$('#workModal').empty();
+		let content = '';
+		content += '<div id="cnvsDiv"><canvas id="cnvs" style="width: 100%"></canvas></div>'
+		content += '<button id="saveCapture">저장</button>'
+		//content += '<a href="" download="${clientVO.name}_${clientVO.id}.png">저장</a>'
+		$('#workModal').append(content);
+		$("#modal").fadeIn();
+		
+		var cnvs= document.getElementById('cnvs');
+		var ctx = cnvs.getContext('2d');
+		
+		var div = document.getElementById('cnvsDiv'); 
+		
+		var rate = remoteVideo.clientWidth / remoteVideo.clientHeight;
+		console.log(remoteVideo.clientWidth)
+		console.log(remoteVideo.clientHeight)
+		//cnvs.width= div.clientHeight * rate;
+		cnvs.width= div.clientWidth;
+		cnvs.height= div.clientWidth/rate;
+		ctx.drawImage(remoteVideo, 0, 0, cnvs.clientHeight * rate, cnvs.clientHeight);
+		
+	})
+	
+	
+	$(document).on('click', "#saveCapture", function() {
+		
+		//var canvas = document.createElement('canvas');
+		var imgDataUrl = cnvs.toDataURL('image/png');
+		
+		var blobBin = atob(imgDataUrl.split(',')[1]);
+		var array = [];
+		for(var i = 0; i < blobBin.length; i++) {
+			array.push(blobBin.charCodeAt(i));
+		}
+		var file = new Blob([new Uint8Array(array)], {type: 'image/png'});
+		var formdata = new FormData();
+		formdata.append("file", file);
+		
+		$.ajax({
+			type : 'post',
+			url : '${pageContext.request.contextPath}/saveIDCardImage',
+			data : formdata,
+			processData : false,
+			contentType : false,
+			success : function(result) {
+				
+			}
+		})
+	})
+	
+	$("#reverseClientScreen").bind('click', function(event) {
+		
+		$('#workModal').empty();
+		let content = '';
+		content += '손님의 바탕색을 반전하였습니다.'
+		//content += '<a href="" download="${clientVO.name}_${clientVO.id}.png">저장</a>'
+		$('#workModal').append(content);
+		$("#modal").fadeIn();
+		
+		socket.emit('work', 'reverseScreen');
+	})
+	
 	$("#work_selectAccount1000").bind('click', function(event) {
 		
 		$('#workBtns').empty();

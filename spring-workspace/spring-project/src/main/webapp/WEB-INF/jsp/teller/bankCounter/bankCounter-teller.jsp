@@ -338,6 +338,8 @@
 					</div>
 					<div style="text-align: right;">
 						<button id="screenShareBtn">화면 공유</button>
+						<button id="reverseClientScreen">화면 반전</button>
+						<button id="captureID">신분증 캡쳐</button>
 						<button id="exit">상담 종료</button>
 					</div>
     			</div>
