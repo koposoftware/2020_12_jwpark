@@ -273,9 +273,25 @@
 								password : decoding(msg.split(':')[1])
 							},
 							success : function() {
-								console.log('dd');
+								
+								$('#workModal').empty();
+								let content = '';
+								content += '비밀번호 변경을 완료하였습니다.';
+								
+								$('#workModal').append(content);
+								$("#modal").fadeIn();
+								
+								socket.emit('work', 'elecFinancePasswordChangeComp');
+								
 							}, error : function() {
-								console.log('ff');
+								
+								$('#workModal').empty();
+								let content = '';
+								content += '비밀번호 변경을 실패하였습니다.';
+								
+								$('#workModal').append(content);
+								$("#modal").fadeIn();
+								
 							}
 							
 						})
@@ -305,7 +321,6 @@
 					chkDepositAgree = true;
 				}
 				else if(cmd == 'depositSigninSuccess') {
-					alert('event');
 					console.log('socket Message : depositSigninSuccess')
 					depositSuccess();
 				}
@@ -594,7 +609,10 @@
 				
 				var job = '${jobType}'
 				if(job == 'bankJob') {
-					$("#work_selectAccount1000").trigger("click");
+					$("#work_selectMenu1000").trigger("click");
+				}
+				else if(job == 'efJob') {
+					$("#work_selectMenu1007").trigger("click");
 				}
 				/* 요게 원래거.
 				remoteVideo.srcObject = event.streams[0];
@@ -973,7 +991,7 @@
 	$("#sendChat").bind('click', function(event) {
 			
 		let msg = $('#message').val();
-		if(msg != null) {
+		if(msg != '') {
 			let str = '';
 			str += '<strong> 텔러 : ' + msg + '</strong>';
 			str += '<br>'

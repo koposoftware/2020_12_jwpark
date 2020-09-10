@@ -263,16 +263,20 @@
     	<div class="bg-light border-right" id="sidebar-wrapper">
     		<div class="sidebar-heading">
     			업무 목록
-    			<input type="text" id="workCode" >
+    			<div>
+    				<input type="text" id="workCode" style="width : 70%;">
+    				<button id="searchWork">검색</button>
+    			</div>
     		</div>
     		<div class="list-group list-group-flush">
 	   		<!-- <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>  -->
-	   		<a id="work_selectAccount1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1000)</a>
-    		<a id="work_selectAccount1003" class="list-group-item list-group-item-action bg-light">예금 업무(1003)</a>
-    		<a id="work_selectAccount1004" class="list-group-item list-group-item-action bg-light">적금 업무(1004)</a>
+	   		<a id="work_selectMenu1000" class="list-group-item list-group-item-action bg-light">계좌 조회(1000)</a>
+	   		<a id="work_selectMenu1001" class="list-group-item list-group-item-action bg-light">자유입출금 예금 업무(1001)</a>
+    		<a id="work_selectMenu1003" class="list-group-item list-group-item-action bg-light">예금 업무(1003)</a>
+    		<a id="work_selectMenu1004" class="list-group-item list-group-item-action bg-light">적금 업무(1004)</a>
     		<a class="list-group-item list-group-item-action bg-light">계좌 이체(1005)</a>
-    		<a id="work_selectAccount1006" class="list-group-item list-group-item-action bg-light">계좌 제신고(1006)</a>
-    		<a id="work_selectAccount1007" class="list-group-item list-group-item-action bg-light">전자금융(1007)</a>
+    		<a id="work_selectMenu1006" class="list-group-item list-group-item-action bg-light">계좌 제신고(1006)</a>
+    		<a id="work_selectMenu1007" class="list-group-item list-group-item-action bg-light">전자금융(1007)</a>
     		<a class="list-group-item list-group-item-action bg-light">카드 조회(1008)</a>
     		<a class="list-group-item list-group-item-action bg-light">체크 카드 업무(1009)</a>
     		<a class="list-group-item list-group-item-action bg-light">신용 카드 업무(1010)</a>
@@ -338,7 +342,9 @@
 					</div>
 					<div style="text-align: right;">
 						<button id="screenShareBtn">화면 공유</button>
+						<!-- 
 						<button id="reverseClientScreen">화면 반전</button>
+						 -->
 						<button id="captureID">신분증 캡쳐</button>
 						<button id="exit">상담 종료</button>
 					</div>
@@ -370,6 +376,8 @@
 </body>
 <%@include file="/js/teller/bankCounter/js-signalServerEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-bankCounter-teller.jsp" %>
+<%@include file="/js/teller/bankCounter/js-smsAuthEvent-teller.jsp" %>
+<%@include file="/js/teller/bankCounter/js-captureIDEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-accountViewEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-depositEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-savingEvent-teller.jsp" %>

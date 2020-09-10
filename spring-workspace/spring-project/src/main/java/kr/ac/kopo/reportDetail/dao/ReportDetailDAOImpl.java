@@ -15,9 +15,9 @@ public class ReportDetailDAOImpl implements ReportDetailDAO {
 	SqlSessionTemplate session;
 
 	@Override
-	public List<ReportDetailVO> selectReportDetailByEmpNo(String empNo) {
+	public List<ReportDetailVO> selectReportDetailByEmpNo(ReportDetailVO reportDetail) {
 		
-		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByEmpNo", empNo);
+		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByEmpNo", reportDetail);
 		
 		return list;
 	}
@@ -25,7 +25,7 @@ public class ReportDetailDAOImpl implements ReportDetailDAO {
 	@Override
 	public List<ReportDetailVO> selectReportCountByEmpNo(ReportDetailVO reportDetail) {
 		
-		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByEmpNo", reportDetail);
+		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportCountByEmpNo", reportDetail);
 		
 		return list;
 	}

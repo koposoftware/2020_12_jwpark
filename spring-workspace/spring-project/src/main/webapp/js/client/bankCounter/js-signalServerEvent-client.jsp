@@ -299,7 +299,6 @@ function connectToServer() {
 			else if(cmd == 'smsAuth') {
 				
 				workType = 'smsAuth';
-				
 				smsAuth();
 			}
 			else if(cmd == 'elecFinancePwChange') {
@@ -317,6 +316,35 @@ function connectToServer() {
 				workType = 'getElecFinanceAgreement';
 				getElecFinanceAgreement();
 			}
+			else if(cmd == 'captureId') {
+				
+				workType = 'captureId';
+				captureId();
+			}
+			else if(cmd == 'depositJoinSuccess') {
+				
+				workType = 'depositJoinSuccess';
+				depositJoinSuccess();
+			}
+			else if(cmd == 'savingJoinSucess') {
+				
+				workType = 'savingJoinSucess';
+				savingJoinSucess();
+			}
+			else if(cmd == 'elecFinanceJoinSuccess') {
+				
+				workType = 'elecFinanceJoinSuccess';
+				elecFinanceJoinSuccess();
+			}
+			else if(cmd == 'elecFinancePasswordChangeComp') {
+				
+				workType = 'elecFinancePasswordChangeComp';
+				elecFinancePasswordChangeComp();
+			}
+			
+			/*
+			
+			
 			else if(cmd == 'reverseScreen') {
 				
 				$('header').css('background-color', 'black');
@@ -326,7 +354,7 @@ function connectToServer() {
 				
 				screenShareVideo.srcObject='';
 			}
-			
+			*/
 			
 		})
 		
@@ -664,7 +692,7 @@ function sendChat(msg) {
 
 $("#sendChat").bind('click', function(event) {
 	let msg = $('#message').val();
-	if(msg != null) {
+	if(msg != '') {
 		let str = '';
 		str += '<strong> 손님 : ' + msg + '</strong>';
 		str += '<br>'

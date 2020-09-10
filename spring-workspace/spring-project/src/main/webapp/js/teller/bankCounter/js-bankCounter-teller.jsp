@@ -5,76 +5,12 @@
 	// work /////
 	var passChangeAccount
 	
-	var telCheck = false;
-	
 	$("#menu-toggle").click(function(e) {
   		e.preventDefault();
   		$("#wrapper").toggleClass("toggled");
   	});
 	
-	$("#sendSMSAuth").bind('click', function(event) {
-		
-		$('#workModal').empty();
-		let content = '';
-		content += '손님에게 문자인증 화면을 출력하였습니다.';
-		$('#workModal').append(content);
-		$("#modal").fadeIn();
-		
-		socket.emit('work', 'smsAuth');
-	})
-	
-	$("#captureID").bind('click', function(event) {
-		
-		$('#workModal').empty();
-		let content = '';
-		content += '<div id="cnvsDiv"><canvas id="cnvs" style="width: 100%"></canvas></div>'
-		content += '<button id="saveCapture">저장</button>'
-		//content += '<a href="" download="${clientVO.name}_${clientVO.id}.png">저장</a>'
-		$('#workModal').append(content);
-		$("#modal").fadeIn();
-		
-		var cnvs= document.getElementById('cnvs');
-		var ctx = cnvs.getContext('2d');
-		
-		var div = document.getElementById('cnvsDiv'); 
-		
-		var rate = remoteVideo.clientWidth / remoteVideo.clientHeight;
-		console.log(remoteVideo.clientWidth)
-		console.log(remoteVideo.clientHeight)
-		//cnvs.width= div.clientHeight * rate;
-		cnvs.width= div.clientWidth;
-		cnvs.height= div.clientWidth/rate;
-		ctx.drawImage(remoteVideo, 0, 0, cnvs.clientHeight * rate, cnvs.clientHeight);
-		
-	})
-	
-	
-	$(document).on('click', "#saveCapture", function() {
-		
-		//var canvas = document.createElement('canvas');
-		var imgDataUrl = cnvs.toDataURL('image/png');
-		
-		var blobBin = atob(imgDataUrl.split(',')[1]);
-		var array = [];
-		for(var i = 0; i < blobBin.length; i++) {
-			array.push(blobBin.charCodeAt(i));
-		}
-		var file = new Blob([new Uint8Array(array)], {type: 'image/png'});
-		var formdata = new FormData();
-		formdata.append("file", file);
-		
-		$.ajax({
-			type : 'post',
-			url : '${pageContext.request.contextPath}/saveIDCardImage',
-			data : formdata,
-			processData : false,
-			contentType : false,
-			success : function(result) {
-				
-			}
-		})
-	})
-	
+	/*
 	$("#reverseClientScreen").bind('click', function(event) {
 		
 		$('#workModal').empty();
@@ -86,8 +22,9 @@
 		
 		socket.emit('work', 'reverseScreen');
 	})
+	*/
 	
-	$("#work_selectAccount1000").bind('click', function(event) {
+	$("#work_selectMenu1000").bind('click', function(event) {
 		
 		$('#workBtns').empty();
 		$('#workTitle').text('자유 입출금 계좌 조회')
@@ -102,7 +39,22 @@
 		$("#userAccountList").trigger("click");
 	})
 	
-	$("#work_selectAccount1003").bind('click', function(event) {
+	$("#work_selectMenu1001").bind('click', function(event) {
+		
+		$('#workBtns').empty();
+		$('#workTitle').text('자유 입출금 예금가입 현황')
+		let content ='';
+		content +=     '<button class="btn btn-info" id="userFreeAccountList">자유 입출금 가입 현황</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		content +=     '<button class="btn btn-info" id="refFreeAccountList">자유 입출금 상품 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		content +=     '<button class="btn btn-info" id="freeAccountSignUp">자유 입츨금 예금 가입</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		
+		$('#workBtns').empty();
+		$('#workBtns').append(content)
+		
+		$("#userAccountList").trigger("click");
+	})
+	
+	$("#work_selectMenu1003").bind('click', function(event) {
 		
 		$('#workDiv').empty();
 		let content = '';
@@ -121,7 +73,7 @@
 		$("#userDepositList").trigger("click");
 	})
 	
-	$("#work_selectAccount1004").bind('click', function(event) {
+	$("#work_selectMenu1004").bind('click', function(event) {
 		
 		$('#workDiv').empty();
 		let content = '';
@@ -140,7 +92,7 @@
 		$("#userSavingList").trigger("click");
 	})
 	
-	$("#work_selectAccount1006").bind('click', function(event) {
+	$("#work_selectMenu1006").bind('click', function(event) {
 		
 		$('#workDiv').empty();
 		let content = '';
@@ -158,9 +110,14 @@
 		$("#changePasswordBtn").trigger("click");
 	})
 	
-	$("#work_selectAccount1007").bind('click', function(event) {
+	$("#work_selectMenu1007").bind('click', function(event) {
 		
-		$('#workDiv').empty();
+		
+		////////////////////////////////////		
+		
+		console.log('dd');
+		$('#workBtns').empty();
+//		$('#workDiv').empty();
 		let content = '';
 		
 		//content += '<div id="workName">예금 가입</div>';
@@ -171,19 +128,95 @@
 			//content +=     '<button class="btn btn-info" id="changeElecFinanceUserPass">전자금융 비밀번호 변경</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		} else {
 			content +=     '<button class="btn btn-info" id="insertElecFinanceUser">전자금융 가입</button>';
-		}
-		
-		$('#workBtns').empty();
-		$('#workBtns').append(content)
-		$('#workDiv').empty();
-		
-		if('${clientVO.elecFinanceStatus}' == 'T') {
-			content +=     '<button class="btn btn-info" id="selectElecFinanceUserInfo">전자금융 가입 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
-			$("#selectElecFinanceUserInfo").trigger("click");
-		} else {
-			content +=     '<button class="btn btn-info" id="insertElecFinanceUser">전자금융 가입</button>';
 			$("#insertElecFinanceUser").trigger("click");
 		}
+		
+		
+//		$('#workDiv').empty();
+		$('#workBtns').append(content)
+		
+		if('${clientVO.elecFinanceStatus}' == 'T') {
+			//content +=     '<button class="btn btn-info" id="selectElecFinanceUserInfo">전자금융 가입 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+			$("#selectElecFinanceUserInfo").trigger("click");
+		} else {
+			//content +=     '<button class="btn btn-info" id="insertElecFinanceUser">전자금융 가입</button>';
+			$("#insertElecFinanceUser").trigger("click");
+		}
+		
+		
+	})
+	
+	$("#searchWork").bind('click', function(event) {
+		
+		var workCode = document.getElementById("workCode")
+		
+		if(workCode.value == '1000')
+			$("#work_selectMenu1000").trigger("click");
+		else if(workCode.value == '1001')
+			$("#work_selectMenu1001").trigger("click");
+		else if(workCode.value == '1003')
+			$("#work_selectMenu1003").trigger("click");
+		else if(workCode.value == '1004')
+			$("#work_selectMenu1004").trigger("click");
+		/*
+		else if(workCode.value == '1005')
+			$("#work_selectMenu1005").trigger("click");
+		*/
+		else if(workCode.value == '1006')
+			$("#work_selectMenu1006").trigger("click");
+		else if(workCode.value == '1007')
+			$("#work_selectMenu1007").trigger("click");
+		/*
+		else if(workCode.value == '1008')
+			$("#work_selectMenu1008").trigger("click");
+		*/
+	})
+	
+	document.addEventListener('keydown', function(e){
+		const keyCode = e.keyCode;
+		
+		if(keyCode == 13){ 
+			var msg = document.getElementById("message")
+			var workCode = document.getElementById("workCode")
+			
+			if(document.activeElement === msg) {
+				if(msg.value != '') {
+					let str = '';
+					str += '<strong> 텔러 : ' + msg.value + '</strong>';
+					str += '<br>'
+					$('#chat').append(str);
+					sendChat(msg.value);
+				
+					$('#message').val('');
+					console.log('dd');
+				}
+			}
+			
+			else if(document.activeElement === workCode) {
+				
+				if(workCode.value == '1000')
+					$("#work_selectMenu1000").trigger("click");
+				else if(workCode.value == '1001')
+					$("#work_selectMenu1001").trigger("click");
+				else if(workCode.value == '1003')
+					$("#work_selectMenu1003").trigger("click");
+				else if(workCode.value == '1004')
+					$("#work_selectMenu1004").trigger("click");
+				/*
+				else if(workCode.value == '1005')
+					$("#work_selectMenu1005").trigger("click");
+				*/
+				else if(workCode.value == '1006')
+					$("#work_selectMenu1006").trigger("click");
+				else if(workCode.value == '1007')
+					$("#work_selectMenu1007").trigger("click");
+				/*
+				else if(workCode.value == '1008')
+					$("#work_selectMenu1008").trigger("click");
+				*/
+				
+			}
+		} 
 		
 	})
 	
@@ -196,7 +229,6 @@
 		sendMessage('bye');
 	};
 	
-
 	function makeHyphen(accountNo, code){
 	
 		let str="";

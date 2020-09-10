@@ -6,6 +6,6 @@ import kr.ac.kopo.reportDetail.vo.ReportDetailVO;
 
 public interface ReportDetailDAO {
 
-	List<ReportDetailVO> selectReportDetailByEmpNo(String empNo);
+	List<ReportDetailVO> selectReportDetailByEmpNo(ReportDetailVO reportDetail);
 	List<ReportDetailVO> selectReportCountByEmpNo(ReportDetailVO reportDetail);
 }

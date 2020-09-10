@@ -6,6 +6,6 @@ import kr.ac.kopo.reportDetail.vo.ReportDetailVO;
 
 public interface ReportDeatilService {
 
-	List<ReportDetailVO> selectReportDetailByEmpNo(String empNo);
+	List<ReportDetailVO> selectReportDetailByEmpNo(ReportDetailVO reportDetail);
 	int selectReportCountByEmpNo(ReportDetailVO reportDetail);
 }

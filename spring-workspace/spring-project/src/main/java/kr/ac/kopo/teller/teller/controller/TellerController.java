@@ -219,14 +219,31 @@ public class TellerController {
 		
 		reportService.updateReport(report);
 		
-		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(tellerVO.getEmpNo());
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		Calendar time = Calendar.getInstance();
+		String today = format.format(time.getTime());
+		
+		ReportDetailVO reportDetail = new ReportDetailVO();
+		reportDetail.setEmpNo(tellerVO.getEmpNo());
+		reportDetail.setReportYMD(today);
+		
+		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(reportDetail);
 		
 		for(int i = 0; i < list.size(); i++) {
-			String str = list.get(i).getConsultingReport();
-			if(str.length() >= 30) {
+			
+			String str1 = list.get(i).getTitle();
+			if(str1.length() >= 10) {
 				
-				str = str.substring(0, 30) + "...";
-				list.get(i).setConsultingReport(str);
+				str1 = str1.substring(0, 10) + "...";
+				list.get(i).setTitle(str1);
+				
+			}
+			
+			String str2 = list.get(i).getConsultingReport();
+			if(str2.length() >= 30) {
+				
+				str2 = str2.substring(0, 30) + "...";
+				list.get(i).setConsultingReport(str2);
 				
 			}
 		}
@@ -244,15 +261,31 @@ public class TellerController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(tellerVO.getEmpNo());
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		Calendar time = Calendar.getInstance();
+		String today = format.format(time.getTime());
+		
+		ReportDetailVO reportDetail = new ReportDetailVO();
+		reportDetail.setEmpNo(tellerVO.getEmpNo());
+		reportDetail.setReportYMD(today);
+		
+		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(reportDetail);
 		
 		for(int i = 0; i < list.size(); i++) {
-			String str = list.get(i).getConsultingReport();
-			if(str.length() >= 30) {
+			
+			String str1 = list.get(i).getTitle();
+			if(str1.length() >= 10) {
 				
-				str = str.substring(0, 30) + "...";
-				list.get(i).setConsultingReport(str);
+				str1 = str1.substring(0, 10) + "...";
+				list.get(i).setTitle(str1);
 				
+			}
+			
+			String str2 = list.get(i).getConsultingReport();
+			if(str2.length() >= 30) {
+				
+				str2 = str2.substring(0, 30) + "...";
+				list.get(i).setConsultingReport(str2);
 			}
 		}
 		

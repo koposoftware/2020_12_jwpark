@@ -15,9 +15,9 @@ public class ReportDetailServiceImpl implements ReportDeatilService{
 	ReportDetailDAO reportDetailDAO;
 	
 	@Override
-	public List<ReportDetailVO> selectReportDetailByEmpNo(String empNo) {
+	public List<ReportDetailVO> selectReportDetailByEmpNo(ReportDetailVO reportDetail) {
 		
-		return reportDetailDAO.selectReportDetailByEmpNo(empNo);
+		return reportDetailDAO.selectReportDetailByEmpNo(reportDetail);
 	}
 
 	@Override

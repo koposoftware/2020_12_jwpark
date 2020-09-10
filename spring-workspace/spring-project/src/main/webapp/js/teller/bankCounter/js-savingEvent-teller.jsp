@@ -654,6 +654,7 @@
 			$("#mi-modal").modal('hide');
 		});
 		*/
+		
 		$("#modal-btn-no").on("click", function(){
 			$("#mi-modal").modal('hide');
 		});
@@ -695,6 +696,8 @@
 					$("#modal").fadeIn();
 					$('#workDiv').empty();
 					$("#userSavingList").trigger("click");
+					
+					socket.emit('work', 'savingJoinSucess');
 					
 				},error : function() {
 					alert('실패');

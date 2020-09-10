@@ -35,6 +35,7 @@
 		$.ajax({
 			url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
 			type : 'get',
+			async : false,
 			success : function(data) {
 				$('#workDiv').empty();
 					
@@ -183,7 +184,9 @@
 				
 				$("elecFinanceStatus").text('전자금융 가입여부 : O');
 				
-				$("#work_selectAccount1007").trigger("click");
+				$("#work_selectMenu1007").trigger("click");
+				
+				socket('work', 'elecFinanceJoinSuccess');
 				
 			},error : function() {
 				$('#workModal').empty();
@@ -243,13 +246,15 @@
 		$.ajax({
 			url : '${pageContext.request.contextPath}/elecFinance/' + '${clientVO.regNo}',
 			type : 'get',
+			async : false,
 			success : function(data) {
 				
 				if(data.length != 0) {
+					
 					content += '<div style="width:100%; height:200px; overflow:auto">';
 					content +=     '<table class="table table-hover" style="text-align:center">';
 					content +=         '<thead>';
-					content +=             '<tr>'
+					content +=             '<tr>';
 					content +=                 '<th scope="col">아이디</th>';
 					content +=                 '<th scope="col">휴대폰 번호</th>';
 					content +=                 '<th scope="col">연결된 입출금 계좌 번호</th>';

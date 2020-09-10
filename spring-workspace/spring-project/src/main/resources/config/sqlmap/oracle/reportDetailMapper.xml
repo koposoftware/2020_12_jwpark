@@ -10,9 +10,10 @@
 		<result column="consulting_report" property="consultingReport"/>
 		<result column="admin_name" property="adminName"/>
 		<result column="consulting_date" property="reportYMD"/>
+		<result column="c_date" property="reportYMD"/>
 	</resultMap>
 
-	<select id="selectReportDetailByEmpNo" resultMap="reportDetailMap" resultType="reportDetailVO" parameterType="string">
+	<select id="selectReportDetailByEmpNo" resultMap="reportDetailMap" resultType="reportDetailVO" parameterType="reportDetailVO">
 		select 
 			client_id as id, 
 			(select name from t_hana_user where id= e.client_id) as name,
@@ -25,7 +26,7 @@
 			teller_emp_no as empNo,
 			<!-- to_char(consulting_date, 'yy-mm-dd') as consulting_date  -->
 			
-			case when to_char(sysdate, 'yyyy-mm-dd') = to_char(consulting_date, 'yyyy-mm-dd') then to_char(consulting_date, 'hh24:mi:ss') else to_char(consulting_date, 'yyyy-mm-dd') end as consulting_date
+			case when to_char(to_date(#{reportYMD}), 'yyyy-mm-dd') = to_char(consulting_date, 'yyyy-mm-dd') then to_char(consulting_date, 'hh24:mi:ss') else to_char(consulting_date, 'yyyy-mm-dd') end as c_date
 			
 		from t_hana_report e
 		where teller_emp_no = #{empNo}
@@ -37,6 +38,6 @@
 			client_id as id,
 			to_char(consulting_date, 'yy-mm-dd') as consulting_date
 		from t_hana_report
-		where teller_emp_no = #{empNo} and consulting_date = #{reportYMD}
+		where teller_emp_no = #{empNo} and to_char(consulting_date, 'yyyy-mm-dd') = #{reportYMD}
 	</select>	
 </mapper>

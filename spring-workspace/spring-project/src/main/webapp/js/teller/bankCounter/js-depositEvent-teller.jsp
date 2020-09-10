@@ -261,6 +261,8 @@
 		
 		$('#workDiv').empty();
 		
+		console.log($(this).attr("id"));
+		
 		let content = '';
 		
 		$('#workTitle').text('예금 가입');
@@ -617,6 +619,8 @@
 					$("#modal").fadeIn();
 					$('#workDiv').empty();
 					$("#userDepositList").trigger("click");
+					
+					socket.emit('work', 'depositJoinSuccess');
 				},error : function() {
 					alert('실패');
 				}
@@ -624,6 +628,7 @@
 			
 			$("#mi-modal").modal('hide');
 		})
+		
 		/*
 		$("#modal-btn-si").on("click", function(){
 			console.log('depositSuccess ok btn click')

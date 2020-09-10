@@ -265,4 +265,10 @@
 </body>
 <%@include file="/js/client/bankCounter/js-signalServerEvent-client.jsp" %>
 <%@include file="/js/client/bankCounter/js-bankCounter-client.jsp" %>
+<%@include file="/js/client/bankCounter/js-depositEvent-client.jsp" %>
+<%@include file="/js/client/bankCounter/js-elecFinanceEvent-client.jsp" %>
+<%@include file="/js/client/bankCounter/js-reportEvent-client.jsp" %>
+<%@include file="/js/client/bankCounter/js-savingEvent-client.jsp" %>
+<%@include file="/js/client/bankCounter/js-smsAuthEvent-client.jsp" %>
+<%@include file="/js/client/bankCounter/js-captureIdEvent-client.jsp" %>
 </html>

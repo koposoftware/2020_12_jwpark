@@ -8,12 +8,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpHost;
@@ -167,6 +169,7 @@ public class WorkController {
 	@GetMapping("/depositProductOne/{productName}")
 	public DepositProductVO getDepositProductOne(@PathVariable("productName")String codeVal) {
 		
+		System.out.println("예금 상품 이름 : " + codeVal);
 		DepositProductVO depositProduct = depositProductService.selectDepositProduct(codeVal);
 		return depositProduct;
 	}
@@ -438,17 +441,17 @@ public class WorkController {
 		
 	}
 
-	public void saveFile(MultipartFile file, String directoryPath) throws IOException {
+	public String saveFileAndDoOCR(MultipartFile file, String directoryPath, String id, String name) throws IOException {
 		
 		//String saveFolder = "D:/hanaProject-workspace/spring-workspace/spring-project/src/main/webapp/resources/images/capturedID";
 		// parent directory를 찾는다.
-		File saveFile = new File(directoryPath, "upload.png");
+		File saveFile = new File(directoryPath, id + "_" + name + "_" + "id.png");
 		
+		String text = "";
 		try {
 			file.transferTo(saveFile);
-			File files = new File("C:/Users/Park Jinwoo/Desktop/cap.JPG");
 			
-			BufferedImage image = ImageIO.read(new File(directoryPath, "upload.png"));
+			BufferedImage image = ImageIO.read(new File(directoryPath, id + "_" + name + "_" + "id.png"));
 			
 			int avgRGB = 0;
 			int count = 0;
@@ -485,32 +488,36 @@ public class WorkController {
 				}
 			}
 			
-			ImageIO.write(image, "png", new File(directoryPath, "upload_grayScale.png"));
+			ImageIO.write(image, "png", new File(directoryPath, id + "_" + name + "_" + "id_grayScale.png"));
 			
 			Tesseract tesseract = new Tesseract(); 
 			
 			tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata"); 
 			tesseract.setLanguage("kor");
-			String text = tesseract.doOCR(saveFile);
+
+			text = tesseract.doOCR(saveFile);
 			//String text = tesseract.doOCR(f);
-			
 			System.out.println(text);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 		}
+		return text;
 	}
 	
 	
-	@PostMapping("/saveIDCardImage")
-	public String saveImage(@RequestParam(value="file", required=true) MultipartFile [] file) {
+	@PostMapping("/saveIDCardImage/{id}/{name}")
+	public String saveImage(@RequestParam(value="file", required=true) MultipartFile [] file, @PathVariable("id") String id, @PathVariable("name") String name/*, HttpServletResponse hr*/) {
+		
+		//hr.setContentType("text/html;charset=UTF-8");
 		
 		String saveFolder = "D:/hanaProject-workspace/spring-workspace/spring-project/src/main/webapp/resources/images/capturedID";
+		String text="";
 		
 		try {
-			saveFile(file[0], saveFolder);
+			text = saveFileAndDoOCR(file[0], saveFolder, id, name);
 			
+			//PrintWriter out = hr.getWriter();
+			//out.println(text);
 			//Resource resource = new ClassPathResource("upload.png");
 			//BufferedImage resizedImage = resize(resource.getInputStream(), 800, 600);
 			//ImageIO.write(resizedImage, "jpg", new File(saveFolder + "/upload2.png"));
@@ -519,7 +526,7 @@ public class WorkController {
 			
 			e.printStackTrace();
 		}
-		return "ok";
+		return text;
 	}
 	
 	
