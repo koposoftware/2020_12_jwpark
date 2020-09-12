@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="accoundProduct.dao.AccountProductDAO">
+
+	<resultMap type="AccountProductVO" id="accountProductMap">
+		<result column="name_code" property="nameCode"/>
+		<result column="max_interest" property="maxInterest"/>
+		<result column="leaflet_url" property="leafletUrl"/>
+	</resultMap>
+	<!-- 
+	<insert id="insertElecFinanceUser" parameterType="ElecFinanceUserVO">
+		INSERT INTO t_hana_electric_finance_user(ID, PASSWORD, reg_no, ref_account_no, tel, reg_date) 
+			VALUES(#{id}, (SELECT standard_hash (#{password}, 'SHA256') FROM dual), #{regNo}, #{refAccountNo}, #{tel}, #{regDate})
+	</insert>
+	 -->
+	<select id="selectAccountProduct" resultMap="accountProductMap" resultType="AccountProductVO"> 
+		SELECT 
+			(SELECT code_val  FROM t_hana_code_table WHERE code_key = name_code AND code_category = 1) AS name_code, 
+			max_interest, 
+			leaflet_url 
+		FROM t_hana_account_product 
+	</select>
+</mapper>

@@ -25,4 +25,5 @@ public interface AccountDAO {
 	void updateElecFinanceStatus(String accountNo);
 	
 	String selectPasswordByAccountNo(AccountVO account);
+	void insertAccount(AccountVO account);
 }

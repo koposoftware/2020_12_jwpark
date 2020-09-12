@@ -20,6 +20,7 @@
 		<typeAlias type="kr.ac.kopo.report.vo.ReportVO" alias="reportVO" />
 		<typeAlias type="kr.ac.kopo.reportDetail.vo.ReportDetailVO" alias="reportDetailVO" />
 		<typeAlias type="kr.ac.kopo.elecFinanceUser.vo.ElecFinanceUserVO" alias="elecFinanceUserVO" />
+		<typeAlias type="kr.ac.kopo.accountProduct.vo.AccountProductVO" alias="accountProductVO" />
 	</typeAliases>
    
 </configuration>

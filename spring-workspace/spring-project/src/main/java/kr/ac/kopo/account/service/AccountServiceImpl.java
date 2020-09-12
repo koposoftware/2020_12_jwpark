@@ -110,5 +110,13 @@ public class AccountServiceImpl implements AccountService {
 		
 		accountDAO.updateElecFinanceStatus(accountNo);
 	}
+
+	@Override
+	public void insertAccount(AccountVO account) {
+		
+		accountDAO.insertAccount(account);
+	}
+	
+	
 	
 }

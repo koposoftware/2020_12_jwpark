@@ -15,6 +15,18 @@
 		$("#modal").fadeIn();
 	}
 	
+	$(document).on('click', "#savingAgreeSend", function(event) {
+		
+		if(document.getElementById("depositCheck1").checked && document.getElementById("depositCheck2").checked && document.getElementById("depositCheck3").checked && document.getElementById("depositCheck4").checked){
+			socket.emit('work', 'savingAgreeComp');
+			$("#modal").fadeOut();
+			
+		} else {
+			alert('동의항목에 모두 동의하셔야 상품에 가입할 수 있습니다.');
+		}
+		
+	})
+	
 	function savingInputComp(productName, accountNo, entryAmmount, savingAmmount, period){ 
 		
 		$('.modal-header').empty();

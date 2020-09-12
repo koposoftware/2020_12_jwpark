@@ -11,7 +11,9 @@
 		<result column="reg_no" property="regNo"/>
 		<result column="withdrawable_balance" property="withdrawableBalance"/>
 		<result column="elec_finance_status" property="elecFinanceStatus"/>
-	</resultMap>  
+		<result column="transaction_purpose" property="tansactionPurpose"/>
+		<result column="source_of_fund" property="sourceOfFund"/>
+	</resultMap>
 	
 	<select id="selectAccountByUserRegNo" resultMap="accountMap" resultType="AccountVO" parameterType="userVO">
 		select 
@@ -90,6 +92,43 @@
 			where code_val = #{codeVal}
 	</select>
 	
-	
+	<insert id="insertAccount" parameterType="AccountVO">
+		INSERT INTO t_hana_account (
+			account_no, 
+    		reg_no, 
+    		name_code, 
+    		balance, 
+    		withdrawable_balance, 
+    		limitation, 
+    		PASSWORD, 
+    		dormant, 
+    		LOST, 
+    		reg_date, 
+    		recently_use_date, 
+    		elec_finance_status,
+    		reason,
+    		property,
+    		transaction_purpose,
+    		source_of_fund
+    	)
+		VALUES(
+    		#{accountNo}, 
+    		#{regNo}, 
+    		(select code_key from t_hana_code_table where code_category = 1 and code_val = #{nameCode}), 
+    		0, 
+    		0, 
+    		1000000, 
+    		(SELECT standard_hash (#{password}, 'SHA256') FROM dual), 
+    		'F', 
+    		'F', 
+    		to_date(#{regDate}), 
+    		to_date(#{recentlyUseDate}), 
+    		'F',
+    		(select code_key from t_hana_code_table where code_category = 5 and code_val = #{reason}),
+    		(select code_key from t_hana_code_table where code_category = 6 and code_val = #{property}),
+    		(select code_key from t_hana_code_table where code_category = 7 and code_val = #{transactionPurpose}),
+    		(select code_key from t_hana_code_table where code_category = 8 and code_val = #{sourceOfFund})
+    	)
+	</insert>
 	
 </mapper>

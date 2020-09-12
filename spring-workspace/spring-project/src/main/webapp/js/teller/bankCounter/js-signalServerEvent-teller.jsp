@@ -164,12 +164,42 @@
 				else if(cmd == 'savingAgreeClose') {
 					alert('손님이 동의를 완료하지 않은채로 동의 화면을 닫았습니다.');
 				}
+				else if(cmd == 'accountAgreeClose') {
+					alert('손님이 동의를 완료하지 않은채로 동의 화면을 닫았습니다.');
+				}
 				else if(cmd == 'elecFinancePwChangeClose') {
 					alert('손님이 입력을 완료하지 않은채로 비밀번호 입력창을 닫았습니다.');
 				}
 				else if(cmd == 'getElecIDPasswordClose') {
 					alert('손님이 입력을 완료하지 않은채로 비밀번호 입력창을 닫았습니다.');
 				}
+				else if(cmd == 'askNewAccountPasswordClose') {
+					alert('손님이 입력을 완료하지 않은채로 비밀번호 입력창을 닫았습니다.');
+				}
+				else if(cmd == 'depositSigninFailure') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				}
+				else if(cmd == 'accountSigninFailure') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				}
+				else if(cmd == 'savingSigninFailure') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				} 
 				else if(cmd == 'passwordChangeComp') {
 					
 					//alert(decoding(msg.split(':')[1]));
@@ -305,7 +335,6 @@
 						$("#mi-modal").modal('hide');
 					})
 					
-					
 				}
 				else if(cmd == 'depositAgreeComp') {
 					$('#workModal').empty();
@@ -324,14 +353,6 @@
 					console.log('socket Message : depositSigninSuccess')
 					depositSuccess();
 				}
-				else if(cmd == 'depositSigninFailure') {
-					$('#workModal').empty();
-					let content = '';
-					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
-					
-					$('#workModal').append(content);
-					$("#modal").fadeIn();
-				}
 				else if(cmd == 'savingAgreeComp') {
 					$('#workModal').empty();
 					let content = '';
@@ -349,26 +370,8 @@
 					console.log('socket Message : savingSigninSuccess')
 					savingSuccess();
 				}
-				else if(cmd == 'savingSigninFailure') {
-					$('#workModal').empty();
-					let content = '';
-					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
-					
-					$('#workModal').append(content);
-					$("#modal").fadeIn();
-				} 
 				else if(cmd == 'authComp') {
-					$('#workModal').empty();
-					let content = '';
-					content += '손님이 휴대폰 본인인증을 완료하였습니다.';
-					
-					$('#workModal').append(content);
-					$("#modal").fadeIn();
-					
-					$('#authStatus').css("color", "green");
-					$('#authStatus').text("본인인증 완료");
-					
-					telCheck = true;
+					authComp();
 					
 				} else if(cmd == 'authFailure') {
 					$('#workModal').empty();
@@ -394,9 +397,17 @@
 					
 					elecFinanceAgreeComp();
 				}
-				
-				
-				
+				else if(cmd == 'setNewAccountPassword') {
+					
+					var pass = msg.split(':')[1]
+					setNewAccountPassword(decoding(pass));
+				}
+				else if(cmd == 'accountAgreeComp') {
+					accountAgreeComp();
+				}
+				else if(cmd == 'accountSigninSuccess') {
+					accountSigninSuccess();
+				}
 			})
 		
 			// 들어가려는 방이 이미 만들어져 있고 내가 그 방에 들어갔을 때에 나에게만 날아오는 이벤트. // ChannelReady상태 set

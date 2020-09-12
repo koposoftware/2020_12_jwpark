@@ -45,6 +45,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.kopo.account.service.AccountService;
 import kr.ac.kopo.account.vo.AccountVO;
+import kr.ac.kopo.accountProduct.service.AccountProductService;
+import kr.ac.kopo.accountProduct.vo.AccountProductVO;
 import kr.ac.kopo.client.user.service.UserService;
 import kr.ac.kopo.client.user.vo.UserVO;
 import kr.ac.kopo.deposit.service.DepositService;
@@ -68,6 +70,8 @@ public class WorkController {
 
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private AccountProductService accountProductService;
 	@Autowired
 	private DepositProductService depositProductService;
 	@Autowired
@@ -430,7 +434,7 @@ public class WorkController {
 		elecFinanceUser.setRegNo(regNo);
 		elecFinanceUser.setTel(tel);
 		
-		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd kk:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 		Calendar time = Calendar.getInstance();
 		String date = format.format(time.getTime());
 		elecFinanceUser.setRegDate(date);
@@ -473,6 +477,7 @@ public class WorkController {
 			avgRGB = (int)((double)(avgRGB/count) * 0.9 );
 			System.out.println(avgRGB);
 			*/
+			
 			for(int y = 0; y < image.getHeight(); y++) {
 				for(int x = 0; x < image.getWidth(); x++) {
 					Color colour = new Color(image.getRGB(x, y));
@@ -529,5 +534,42 @@ public class WorkController {
 		return text;
 	}
 	
+	@GetMapping("/accountProcutList")
+	public List<AccountProductVO> selectAccountPRodcut() {
+		
+		List<AccountProductVO> list = accountProductService.selectAccountProduct(); 
+		
+		return list;
+	}
+	
+	@Transactional
+	@PostMapping("/account")
+	public void insertAccount(AccountVO account) {
+		
+		log.infoLog("account", "account insert");
+		
+		String randAccountNo = null;
+		boolean b = false;
+		
+		//////////////////
+		while(!b) {
+			randAccountNo = makeRandomAccountNo();
+			
+			if(accountService.selectAccountNo(randAccountNo) == null) {
+				b = true;
+			}
+		}
+		
+		account.setAccountNo(randAccountNo);
+		System.out.println(account);
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		Calendar time = Calendar.getInstance();
+		String now = format.format(time.getTime());
+		
+		account.setRegDate(now);
+		account.setRecentlyUseDate(now);
+		
+		accountService.insertAccount(account);		
+	}
 	
 }

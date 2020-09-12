@@ -68,7 +68,7 @@
 						data[i].limitation = comma(data[i].limitation);
 							
 						content +=         '<tr>';
-						content +=             '<td>' + data[i].accountNo + '</td>';
+						content +=             '<td>' + makeHyphen(data[i].accountNo, 4) + '</td>';
 						content +=             '<td>' + data[i].nameCode + '</td>';
 						content +=             '<td style="text-align:right">' + data[i].balance + '원</td>';
 						content +=             '<td style="text-align:right">' + data[i].withdrawableBalance + '원</td>';
@@ -106,17 +106,26 @@
 		$('#workTitle').text('전자 금융 가입')
 		//content += '<div id="workName">예금 목록</div>';
 		content += '<div id="workSpace" style="text-align : left">';
-		content += '<div id="leftSpace" style="width:50%; display:inline; float:left;">';
-		content += '<button id="getElecIDPassword">ID, 비밀번호 입력받기</button>'
-		content += '<div id="elecInputCheck" style="color:red;">아이디, 비밀번호 입력이 완료되지 않았습니다.</div>'
-		content += '<button id="getIdentityDocument">신분증 확인 체크</button>'
-		content += '<div id="checkIdentityDocument" style="color:red;">신분증 확인이 완료되지 않았습니다.</div>'
-		content += '<button id="getElecFinanceAgreement">동의서 작성하기</button>'
-		content += '<div id="chkElecAgree" style="color:red;">동의서 작성이 완료되지 않았습니다.</div>'
-		content += '</div>';
-		content += '<div id="rightSpace" style="width:50%; display:inline; float:left;">';
-		content += '<button id="elecFinanceInputComp">가입하기</button>';
-		content += '</div>';
+		content += 		'<div id="leftSpace" style="width:50%; display:inline; float:left;">';
+		content += 			'<button id="getElecIDPassword">ID, 비밀번호 입력받기</button>';
+		content += 			'<div id="elecInputCheck" style="color:red;">아이디, 비밀번호 입력이 완료되지 않았습니다.</div>';
+		
+		if(chkTelAuth) {
+			content +=			'<div id="chkTelAuth" style="color:green">휴대폰 인증 완료</div>';
+		} else {
+			content +=			'<div id="chkTelAuth" style="color:red">휴대폰 인증 미완료</div>';
+		}
+		if(chkIdCard) {
+			content +=			'<div id="chkIDCard" style="color:green">신분증 확인 및 촬영 완료</div>';
+		} else {
+			content +=			'<div id="chkIDCard" style="color:red">신분증 확인 및 촬영 미완료</div>';
+		}
+		content += 				'<button id="getElecFinanceAgreement">동의서 작성하기</button>';
+		content += 			'<div id="chkElecAgree" style="color:red;">동의서 작성이 완료되지 않았습니다.</div>';
+		content += 		'</div>';
+		content += 		'<div id="rightSpace" style="width:50%; display:inline; float:left;">';
+		content += 			'<button id="elecFinanceInputComp">가입하기</button>';
+		content += 		'</div>';
 		
 		$('#workDiv').append(content);
 	})
@@ -152,17 +161,25 @@
 			$("#modal").fadeIn();
 			return;
 		}
-		/*
-		if(!telCheck) {
-			
+		
+		if(!chkTelAuth) {
 			$('#workModal').empty();
 			let content = '';
-			content += '휴대폰 인증이 완료되지 않았습니다.';
+			content += '휴대폰 본인인증이 완료되지않았습니다.';
 			$('#workModal').append(content);
 			$("#modal").fadeIn();
 			return;
-		}
-		*/
+		} 
+
+		if(!chkIdCard) {
+			$('#workModal').empty();
+			let content = '';
+			content += '신분증 확인이 완료되지않았습니다.';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		} 
+		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/elecFinance/',
 			type : 'post',
@@ -303,6 +320,7 @@
 		bInputIDPassword = true;
 	}
 	
+	/*
 	$(document).on('click', "#getIdentityDocument", function() {
 		
 		$('#workModal').empty();
@@ -311,4 +329,5 @@
 		$("#checkIdentityDocument").css("color", "green");
 		bcheckIdentityDoc = true;
 	})
+	*/
 </script>

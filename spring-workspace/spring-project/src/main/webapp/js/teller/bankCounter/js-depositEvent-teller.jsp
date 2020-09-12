@@ -500,7 +500,7 @@
 		if(!chkPassword) {
 			$('#workModal').empty();
 			let content = '';
-			content += '손님의 비밀번호를 입력이 완료되지않았습니다.';
+			content += '손님의 비밀번호를 입력 완료되지않았습니다.';
 			$('#workModal').append(content);
 			$("#modal").fadeIn();
 			return;

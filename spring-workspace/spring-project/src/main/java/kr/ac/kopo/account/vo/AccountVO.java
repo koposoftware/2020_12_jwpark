@@ -14,6 +14,11 @@ public class AccountVO {
 	private String regDate;
 	private String recentlyUseDate;
 	private String elecFinanceStatus;
+	private String reason;
+	private String property;
+	private String transactionPurpose;
+	private String sourceOfFund;
+	
 	public String getNameCode() {
 		return nameCode;
 	}
@@ -86,14 +91,39 @@ public class AccountVO {
 	public void setElecFinanceStatus(String elecFinanceStatus) {
 		this.elecFinanceStatus = elecFinanceStatus;
 	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	public String getProperty() {
+		return property;
+	}
+	public void setProperty(String property) {
+		this.property = property;
+	}
+	public String getTransactionPurpose() {
+		return transactionPurpose;
+	}
+	public void setTransactionPurpose(String transactionPurpose) {
+		this.transactionPurpose = transactionPurpose;
+	}
+	public String getSourceOfFund() {
+		return sourceOfFund;
+	}
+	public void setSourceOfFund(String sourceOfFund) {
+		this.sourceOfFund = sourceOfFund;
+	}
+	
 	@Override
 	public String toString() {
 		return "AccountVO [nameCode=" + nameCode + ", accountNo=" + accountNo + ", regNo=" + regNo + ", balance="
 				+ balance + ", withdrawableBalance=" + withdrawableBalance + ", password=" + password + ", dormant="
 				+ dormant + ", lost=" + lost + ", limitation=" + limitation + ", regDate=" + regDate
-				+ ", recentlyUseDate=" + recentlyUseDate + ", elecFinanceStatus=" + elecFinanceStatus + "]";
+				+ ", recentlyUseDate=" + recentlyUseDate + ", elecFinanceStatus=" + elecFinanceStatus + ", reason="
+				+ reason + ", property=" + property + ", transactionPurpose=" + transactionPurpose + ", sourceOfFund="
+				+ sourceOfFund + "]";
 	}
-	
-	
 	
 }

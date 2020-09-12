@@ -11,12 +11,16 @@
 			socket.emit('work', 'depositAgreeClose');
 		} else if(workType == 'savingAgree'){
 			socket.emit('work', 'savingAgreeClose');
+		} else if(workType == 'accountAgree') {
+			socket.emit('work', 'accountAgreeClose');
 		} else if(workType == 'smsAuth'){
 			socket.emit('work', 'authFailure');
 		} else if(workType == 'elecFinancePwChange'){
 			socket.emit('work', 'elecFinancePwChangeClose');
 		} else if(workType == 'getElecIDPassword'){
 			socket.emit('work', 'getElecIDPasswordClose');
+		} else if(workType == 'askNewAccountPassword') {
+			socket.emit('work', 'askNewAccountPasswordClose');
 		} 
 		$("#modal").fadeOut();
 		

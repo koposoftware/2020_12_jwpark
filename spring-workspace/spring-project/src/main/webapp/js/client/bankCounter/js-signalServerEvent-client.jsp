@@ -266,11 +266,10 @@ function connectToServer() {
 			else if(cmd == 'depositAgree') {
 				
 				workType = 'depositAgree';
-				
 				depositAgree();
 			}
 			else if(cmd == 'depositInputComp') {
-				console.log('socket message : depositInputComp')
+				
 				workType = 'depositInputComp';
 				var productName = msg.split(':')[1];
 				var accountNo = msg.split(':')[2];
@@ -282,7 +281,6 @@ function connectToServer() {
 			else if(cmd == 'savingAgree') {
 				
 				workType = 'savingAgree';
-				
 				savingAgree();
 			}
 			else if(cmd == 'savingInputComp') {
@@ -341,10 +339,35 @@ function connectToServer() {
 				workType = 'elecFinancePasswordChangeComp';
 				elecFinancePasswordChangeComp();
 			}
+			else if(cmd == 'askNewAccountPassword') {
+				
+				workType = 'askNewAccountPassword';
+				askNewAccountPassword();
+			}
+			else if(cmd == 'accountAgree') {
+				
+				workType = 'accountAgree';
+				accountAgree();
+			}
+			else if(cmd == 'accountInputComp') {
+				
+				workType = 'accountInputComp';
+				
+				var clientName = msg.split(':')[1];
+				var productName = msg.split(':')[2];
+				var reasonSelectValue = msg.split(':')[3];
+				var propertySelectValue = msg.split(':')[4];
+				var transactionPurposeSelectValue = msg.split(':')[5];
+				var sourceOfFundSelectValue = msg.split(':')[6];
+				accountInputComp(clientName, productName, reasonSelectValue, propertySelectValue, transactionPurposeSelectValue, sourceOfFundSelectValue);
+			}
+			else if(cmd == 'accountJoinSuccess') {
+				
+				workType = 'accountJoinSuccess';
+				accountJoinSuccess();
+			}
 			
 			/*
-			
-			
 			else if(cmd == 'reverseScreen') {
 				
 				$('header').css('background-color', 'black');

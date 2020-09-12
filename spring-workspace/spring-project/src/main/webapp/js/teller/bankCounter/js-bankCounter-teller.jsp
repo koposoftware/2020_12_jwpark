@@ -4,6 +4,8 @@
 
 	// work /////
 	var passChangeAccount
+	var chkTelAuth = false;
+	var chkIdCard = false;
 	
 	$("#menu-toggle").click(function(e) {
   		e.preventDefault();
@@ -27,7 +29,7 @@
 	$("#work_selectMenu1000").bind('click', function(event) {
 		
 		$('#workBtns').empty();
-		$('#workTitle').text('자유 입출금 계좌 조회')
+		$('#workTitle').text('자유 입출금 예금가입 현황')
 		let content ='';
 		content +=     '<button class="btn btn-info" id="userAccountList">자유 입출금 계좌 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		content +=     '<button class="btn btn-info" id="userDepositList">예금 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -44,9 +46,9 @@
 		$('#workBtns').empty();
 		$('#workTitle').text('자유 입출금 예금가입 현황')
 		let content ='';
-		content +=     '<button class="btn btn-info" id="userFreeAccountList">자유 입출금 가입 현황</button>&nbsp;&nbsp;&nbsp;&nbsp;';
-		content +=     '<button class="btn btn-info" id="refFreeAccountList">자유 입출금 상품 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
-		content +=     '<button class="btn btn-info" id="freeAccountSignUp">자유 입츨금 예금 가입</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		content +=     '<button class="btn btn-info" id="userAccountList">자유 입출금 가입 현황</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		content +=     '<button class="btn btn-info" id="refAccountList">자유 입출금 상품 조회</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		content +=     '<button class="btn btn-info" id="AccountSignUp">자유 입츨금 예금 가입</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		
 		$('#workBtns').empty();
 		$('#workBtns').append(content)

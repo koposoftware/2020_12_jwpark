@@ -16,10 +16,8 @@
 		$("#modal-btn-si").bind("click",function(){
 			
 			capture();
-			
 			$("#mi-modal").modal('hide');
 		})
-
 		
 		$("#modal-btn-no").bind("click",function(){
 			
@@ -53,7 +51,6 @@
 		cnvs.height= div.clientWidth/rate;
 		ctx.drawImage(remoteVideo, 0, 0, cnvs.clientHeight * rate, cnvs.clientHeight);
 		
-		
 		socket.emit('work', 'captureId');
 		//var canvas = document.createElement('canvas');
 		var imgDataUrl = cnvs.toDataURL('image/png');
@@ -74,7 +71,13 @@
 			processData : false,
 			contentType : false,
 			success : function(result) {
-				console.log(result)
+				
+				$('#idCardAuthStatus').css("color", "green");
+				$('#idCardAuthStatus').text("신분증 확인 완료");
+				
+				$('#chkIDCard').css("color", "green");
+				$('#chkIDCard').text("신분증 확인 및 촬영 완료");
+				chkIdCard = true;
 			}
 		})
 	}

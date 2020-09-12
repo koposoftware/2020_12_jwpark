@@ -327,8 +327,11 @@
     				</div>
 					<div>
 						주민등록번호 : <div id="regNo" style="display:inline-block;">${clientVO.regNo}</div>
+						<div style="text-align:right;">
+    						<div id="idCardAuthStatus" style="color: red; display: inline-block;">신분증 확인 미완료</div>
+	    					<button id="captureID">신분증 캡쳐</button>
+    					</div>
 					</div>
-					<br>
 					<div id="elecFinanceStatus">
 					전자금융 가입여부 :
 						<c:choose>
@@ -340,12 +343,12 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
+					<br>
 					<div style="text-align: right;">
 						<button id="screenShareBtn">화면 공유</button>
 						<!-- 
 						<button id="reverseClientScreen">화면 반전</button>
 						 -->
-						<button id="captureID">신분증 캡쳐</button>
 						<button id="exit">상담 종료</button>
 					</div>
     			</div>
@@ -368,7 +371,7 @@
 				
    		</div>
    	</div>
-	</div>
+	
     <!-- /#page-content-wrapper -->	
 	<footer>
 		<%@include file="/WEB-INF/jsp/include/footer.jsp" %>
@@ -383,6 +386,7 @@
 <%@include file="/js/teller/bankCounter/js-savingEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-reportEvent-teller.jsp" %>
 <%@include file="/js/teller/bankCounter/js-elecFinanceEvent-teller.jsp" %>
+<%@include file="/js/teller/bankCounter/js-accountEvent-teller.jsp" %>
 <script>
 	let phone = '';
 	for(let i = 0; i < $('#phone').text().length; i++) {

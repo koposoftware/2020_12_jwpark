@@ -88,5 +88,12 @@ public class AccountDAOImpl implements AccountDAO {
 	public void updateElecFinanceStatus(String accountNo) {
 		sqlSession.update("account.dao.AccountDAO.updateElecFinanceStatus", accountNo);
 	}
+
+	@Override
+	public void insertAccount(AccountVO account) {
+		
+		sqlSession.insert("account.dao.AccountDAO.insertAccount", account);
+	}
+	
 	
 }

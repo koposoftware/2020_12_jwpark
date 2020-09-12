@@ -271,4 +271,5 @@
 <%@include file="/js/client/bankCounter/js-savingEvent-client.jsp" %>
 <%@include file="/js/client/bankCounter/js-smsAuthEvent-client.jsp" %>
 <%@include file="/js/client/bankCounter/js-captureIdEvent-client.jsp" %>
+<%@include file="/js/client/bankCounter/js-accountEvent-client.jsp" %>
 </html>
