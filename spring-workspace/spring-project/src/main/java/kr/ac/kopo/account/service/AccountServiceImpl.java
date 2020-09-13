@@ -116,6 +116,12 @@ public class AccountServiceImpl implements AccountService {
 		
 		accountDAO.insertAccount(account);
 	}
+
+	@Override
+	public void updateAccountNameCode(AccountVO account) {
+		
+		accountDAO.updateAccountNameCode(account);
+	}
 	
 	
 	

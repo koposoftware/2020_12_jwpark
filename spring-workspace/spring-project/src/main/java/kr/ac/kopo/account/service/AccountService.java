@@ -26,4 +26,6 @@ public interface AccountService {
 	void updateElecFinanceStatus(String accountNo);
 	void insertAccount(AccountVO account);
 	
+	void updateAccountNameCode(AccountVO account);
+	
 }

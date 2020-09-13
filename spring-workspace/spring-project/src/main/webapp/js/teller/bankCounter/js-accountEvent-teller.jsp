@@ -11,16 +11,17 @@
 	var transactionPurposeSelectValue = '';
 	var sourceOfFundSelectValue = '';
 	
+	var convertAccountNo = '';
+	
 	$(document).on('click', "#refAccountList", function() {
 
 		$('#workDiv').empty();
 		let content = '';
 		
-		//content += '<div id="workName">예금 가입</div>';
-		$('#workTitle').text('자유 입출금 예금(비대면) 상품 정보')
+		$('#workTitle').text('자유 입출금 예금 상품 정보')
 		content += '<div id="workSpace">';
 		content += '<div id="linkBtn" style="text-align:left;" >';
-		//content +=     '<button class="btn btn-info" id="showAllDepositLink">예금 전체 상품 목록 링크</button>';
+		
 		content += '</div>';
 		$.ajax({
 			url : '${pageContext.request.contextPath}/accountProcutList',
@@ -33,6 +34,7 @@
 					content +=         '<thead>';
 					content +=             '<tr>'
 					content +=                 '<th scope="col">상품명</th>';
+					content +=                 '<th scope="col">종류</th>';
 					content +=                 '<th scope="col">최고 이율</th>';
 					content +=                 '<th scope="col">리플렛</th>';
 					content +=             '</tr>';
@@ -43,6 +45,13 @@
 						
 						content +=         '<tr>';
 						content +=             '<td>' + data[i].nameCode + '</td>';
+						if(data[i].faceToFace == 'T'){
+							content +=             '<td>대면 계좌</td>';
+						}
+						else {
+							content +=             '<td>비대면 계좌</td>';
+						}	
+						
 						content +=             '<td>' + data[i].maxInterest + '%</td>';
 						content +=             '<td><button class="depositLeaflet" id="' + data[i].leafletUrl + '">열기</button></td>';	
 						content +=         '</tr>';
@@ -82,15 +91,37 @@
 		$.ajax({
 			url : '${pageContext.request.contextPath}/accountProcutList',
 			type : 'get',
+			async : false,
 			success : function(data) {
 			
 				if(data.length != 0) {
+					
+					var account = null;
+					
+					$.ajax({
+						url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
+						type : 'get',
+						async : false,
+						success : function(data2) {
+							if(data2.length != 0) {
+								for(let i = 0; i < data2.length; i++) {
+									if(data2[i].faceToFace == 'F') {
+										account = data2;
+										break;
+									}
+								}
+							}
+						},error : function() {
+							alert('실패');
+						}
+					})
 					
 					content += '<div style="width:100%; height:200px; overflow:auto">';
 					content +=     '<table class="table table-hover" style="text-align:center">';
 					content +=         '<thead>';
 					content +=             '<tr>'
 					content +=                 '<th scope="col">상품명</th>';
+					content +=                 '<th scope="col">종류</th>';
 					content +=                 '<th scope="col">최고 이율</th>';
 					content +=                 '<th scope="col">가입 서비스</th>';
 					content +=             '</tr>';
@@ -99,11 +130,20 @@
 					
 					for(i = 0; i < data.length; i++) {
 						
-						content +=         '<tr>';
-						content +=             '<td>' + data[i].nameCode + '</td>';
-						content +=             '<td>' + data[i].maxInterest + '%</td>';
-						content +=             '<td><button class="accountSignUpBtn" id="' + data[i].nameCode + '">가입하기</button></td>';	
-						content +=         '</tr>';
+						if(data[i].faceToFace == 'F') {
+							content +=         '<tr>';
+							content +=             '<td>' + data[i].nameCode + '</td>';
+							content +=             '<td>비대면 계좌</td>';
+							content +=             '<td>' + data[i].maxInterest + '%</td>';
+							if(account != null) {
+								content +=             '<td><button class="accountConvertBtn" id="' + data[i].nameCode + '">전환하기</button></td>';
+							}
+							else {
+								content +=             '<td><button class="accountSignUpBtn" id="' + data[i].nameCode + '">가입하기</button></td>';
+							}
+							content +=         '</tr>';
+						}
+						
 					}							
 					content +=         '</tbody>';
 					content +=     '</table>';
@@ -134,7 +174,6 @@
 		$('#workTitle').text('자유 입출금 예금(비대면) 가입')
 		$('#workDiv').empty();
 		
-		console.log($(this).attr("id"));
 		
 		let content = '';
 		
@@ -428,5 +467,251 @@
 		});
 		*/
 		
+	}
+	
+	$(document).on('click', ".accountConvertBtn", function() {
+		
+		chkPasword = false;
+		
+		$('#workTitle').text('자유 입출금 예금(비대면) 전환')
+		$('#workDiv').empty();
+		
+		let content = '';
+		
+		content += 	'<div id="workSpace" style="text-align : left">';
+		content += 	'<div id="leftSpace" style="width:50%; display:inline; float:left;">';
+		content += 		'<div class="accountProductName" id="' + $(this).attr('id') +'"style="font-size:x-large;">상품명 : ' + $(this).attr('id') + '</div>';
+		content += 		'<div style="font-size:x-large;">기존 계좌</div>';
+		$.ajax({
+			url : '${pageContext.request.contextPath}/account/'+'${clientVO.regNo}',
+			type : 'get',
+			async : false,
+			success : function(data) {
+				
+				if(data.length != 0) {
+					
+					content += 		'<select name="account" id="convertAccountSelect" style="text-align-last:center;width:90%;height:50px;font-size:22px;">'
+					for(let i = 0; i < data.length; i++) {
+					
+						if(data[i].faceToFace == 'F') {
+						
+							content += 		'<option class="accountlist" value=' + data[i].accountNo + ' selected>' + makeHyphen(data[i].accountNo, 4) +', ' +  comma(data[i].withdrawableBalance) +'원</option>'
+						}
+					}
+					content +=		'</select>';
+				}
+				else {
+					content += '존재하는 사용자 계좌가 없습니다.';
+					$('#workDiv').append(content);
+				}
+				//$('#workDiv').append(content);
+					
+			},error : function() {
+				
+				$('#workModal').empty();
+				let content = '';
+				content += '손님의 계좌 조회에 실패했습니다.';
+				$('#workModal').append(content);
+				$("#modal").fadeIn();
+			}
+		})
+		content += 		'<div id="inputPassword" style="text-align:right; padding-right:10%;">'
+		content +=			'<div id="chkPass" >';
+		content +=			'</div>';
+		content +=			'<br>';
+		content +=			'<button id="askConvertAccountPassword" class="btn btn-info" style="width:150px; height:40px;">비밀번호 입력받기</button>';
+		content += 		'</div>'	
+		content += 	'</div>';
+		content += 	'<div id="rightSpace" style="width:50%; display:inline; float:right;">';
+		content += 		'<div id="inputPassword" style="text-align:right; padding-right:10%;">'
+		content += 		'<br>';
+		if(chkTelAuth) {
+			content +=			'<div id="chkTelAuth" style="color:green">휴대폰 인증 완료</div>';
+		} else {
+			content +=			'<div id="chkTelAuth" style="color:red">휴대폰 인증 미완료</div>';
+		}
+		if(chkIdCard) {
+			content +=			'<div id="chkIDCard" style="color:green">신분증 확인 및 촬영 완료</div>';
+		} else {
+			content +=			'<div id="chkIDCard" style="color:red">신분증 확인 및 촬영 미완료</div>';
+		}
+		
+		content +=			'<div id="chkPass"></div>';
+		
+		/*
+		content +=			'<button id="askNewAccountPassword" class="sbtn btn-info" style="width:150px; height:40px;">비밀번호 입력받기</button>';
+		content +=			'<div id="chkNewPassword" style="color:red">비밀번호 입력 미완료</div>';
+		*/
+		
+		content += 			'<div id="inputAgreement" style="text-align:right; padding-right:5%;">';
+		content +=				'<div id="chkAccountAgree" style="color:red">사용자 동의 미완료</div>';
+		content +=				'<button id="accountAgree" class="btn btn-info" style="width:150px; height:40px;">동의서 전송하기</button>';
+		content += 			'</div>';
+		content += 			'<div style="text-align:right; padding-right:5%; margin-top:10px;">';
+		content +=				'<button id="accountConvertInputComp" class="btn btn-info" style="width:150px; height:40px;">전환 진행하기</button>';
+		content += 			'</div>';
+		content += 		'</div>';
+		content += 	'</div>';
+		
+		$('#workDiv').append(content);
+	})
+	
+	
+	$(document).on('click', "#askConvertAccountPassword", function() {
+		
+		var accountSelect = document.getElementById("convertAccountSelect");
+		console.log(accountSelect)
+		
+		// select element에서 선택된 option의 value가 저장된다.
+		var selectValue = accountSelect.options[accountSelect.selectedIndex].value;
+		
+		socket.emit('work', 'askPassword:'+selectValue);
+		
+		$('#workModal').empty();
+		let content = '';
+		content += '손님에게 비밀번호 입력 화면을 출력하였습니다.';
+		$('#workModal').append(content);
+		$("#modal").fadeIn();
+		
+	})
+	
+	$(document).on('click', "#accountConvertInputComp", function() {
+		
+		
+		if(!chkPassword) {
+			$('#workModal').empty();
+			let content = '';
+			content += '손님의 비밀번호를 입력 완료되지않았습니다.';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		} 
+		
+		if(!chkAccountAgree) {
+			$('#workModal').empty();
+			let content = '';
+			content += '손님의 동의서 작성이 완료되지않았습니다.';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		}
+		/*
+		if(!chkTelAuth) {
+			$('#workModal').empty();
+			let content = '';
+			content += '휴대폰 본인인증이 완료되지않았습니다.';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		} 
+		*/
+		if(!chkIdCard) {
+			$('#workModal').empty();
+			let content = '';
+			content += '신분증 확인이 완료되지않았습니다.';
+			$('#workModal').append(content);
+			$("#modal").fadeIn();
+			return;
+		} 
+		
+		var accountSelect = document.getElementById("convertAccountSelect");
+		convertAccountNo = accountSelect.options[accountSelect.selectedIndex].value;
+		// select element에서 선택된 option의 value가 저장된다.
+		productName = $(".accountProductName").attr('id');
+
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div style="text-align : left;">';
+		content +=     '<table class="table table-hover" style="text-align:left">';
+		content +=         '<tbody>';
+		content +=         '<tr>';
+		content +=             '<td>이름 : ' + '${clientVO.name}' + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>기존 계좌 : ' + makeHyphen(convertAccountNo, 4) + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>상품명 : ' + productName + '</td>';
+		content +=         '</tr>';
+		content +=         '</tbody>';
+		content +=     '</table>';
+		content += 		'<div>가입 정보를 확인 후 손님에게 안내해주세요.</div>';
+		content += '</div>';
+		
+		$('.modal-header').append(content);
+		
+		$("#mi-modal").modal('show');
+		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			
+			socket.emit('work', 'accountConvertInputComp:' + '${clientVO.name}' + ':' + makeHyphen(convertAccountNo, 4)  + ':' + productName);
+			$("#mi-modal").modal('hide');
+		})
+		
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
+			$("#mi-modal").modal('hide');
+		})
+		
+	})
+	
+	function accountConvertSuccess() {
+		
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div>손님이 동의서 작성을 완료하였습니다. 전환을 진행하시겠습니까?</div>';
+		
+		$('.modal-header').append(content);
+		
+		$("#mi-modal").modal('show');
+		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/convertAccount',
+				type : 'post',
+				data : {		
+					
+					regNo : '${clientVO.regNo}',
+					nameCode : productName,
+					accountNo : convertAccountNo
+				},
+				success : function(data) {
+					
+					chkAccountAgree = false;
+					
+					productName = ''; 
+					convertAccountNo = '';
+					
+					$('#workModal').empty();
+					let content = '';
+					content += '입출금 예금가입에 전환하였습니다.';
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+					$('#workDiv').empty();
+					$("#userAccountList").trigger("click");
+					
+					socket.emit('work', 'accountConvertSuccess');
+				},error : function() {
+					alert('실패');
+				}
+			})
+			
+			$("#mi-modal").modal('hide');
+		})
+		
+		
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
+			$("#mi-modal").modal('hide');
+		})
+		
+		/*
+		$("#modal-btn-no").on("click", function(){
+			$("#mi-modal").modal('hide');
+		});
+		*/
 	}
 </script>

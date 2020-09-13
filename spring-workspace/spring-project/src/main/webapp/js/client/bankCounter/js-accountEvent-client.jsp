@@ -2,11 +2,24 @@
     pageEncoding="UTF-8"%>
 <script>
 
-	function depositJoinSuccess() {
+	function accountJoinSuccess() {
 	
 		$('#workModal').empty();
 		let content = '';
-		content += '입출금 예금에 성공적으로 가입되었습니다.';
+		content += '자유 입출금예금에 성공적으로 가입되었습니다.';
+	
+		$('#modal_close_btn').empty();
+		$('#modal_close_btn').append('확인');
+	
+		$('#workModal').append(content);
+		$("#modal").fadeIn();
+	}
+	
+	function accountConvertSuccess() {
+		
+		$('#workModal').empty();
+		let content = '';
+		content += '자유 입출금예금이 성공적으로 전환되었습니다.';
 	
 		$('#modal_close_btn').empty();
 		$('#modal_close_btn').append('확인');
@@ -271,5 +284,42 @@
 		
 		$('#workModal').append(content);
 		$("#modal").fadeIn();
+	}
+	
+	function accountConvertInputComp(clientName, convertAccountNo, productName) {
+		$('.modal-header').empty();
+		let content = '';
+		content += '<div style="text-align : left;">';
+		content +=     '<table class="table table-hover" style="text-align:left">';
+		content +=         '<tbody>';
+		content +=         '<tr>';
+		content +=             '<td>이름 : ' + clientName + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>기존 계좌 : ' + convertAccountNo + '</td>';
+		content +=         '</tr>';
+		content +=         '<tr>';
+		content +=             '<td>상품명 : ' + productName + '</td>';
+		content +=         '</tr>';
+		content +=         '</tbody>';
+		content +=     '</table>';
+		content += 		'<div>가입 정보를 확인 하신 후 확인 버튼을 눌러주세요.</div>';
+		content += '</div>';
+		
+		$('.modal-header').append(content);
+		
+		$("#mi-modal").modal('show');
+		
+		$("#modal-btn-si").unbind("click");
+		$("#modal-btn-si").bind("click",function(){
+			socket.emit('work', 'accountConvertSuccess');
+			$("#mi-modal").modal('hide');
+		});
+		
+		$("#modal-btn-no").unbind("click");
+		$("#modal-btn-no").bind("click",function(){
+			socket.emit('work', 'accountConvertFailure');
+			$("#mi-modal").modal('hide');
+		});
 	}
 </script>

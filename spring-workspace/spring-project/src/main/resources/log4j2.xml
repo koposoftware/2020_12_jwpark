@@ -6,18 +6,6 @@
 			<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
 		</Console>
 		
-		<!-- JDBCAppender -->
-		<!-- 
-        <JDBC name="jdbc" tableName="T_HANA_LOG">
-            <ConnectionFactory class="kr.ac.kopo.connectionFactory.ConnectionFactory" method="getConnection"/>
-            
-            <Column name="event_time" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}" />
-            <Column name="log_level" pattern="%level"/>
-            <Column name="logger" pattern="%logger"/>
-            <Column name="message" pattern="%message"/>
-            
-        </JDBC>
-         -->
 	</Appenders>
 	
 	<Loggers>

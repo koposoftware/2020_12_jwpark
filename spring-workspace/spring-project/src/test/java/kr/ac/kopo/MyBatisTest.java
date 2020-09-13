@@ -161,4 +161,13 @@ public class MyBatisTest {
 		
 	}
 	
+	
+	@Test
+	public void 계좌개수조회() throws Exception {
+		
+		int count  = session.selectOne("account.dao.AccountDAO.selectDefaultCnt", "F"); 
+		
+		System.out.println(count);
+		
+	}
 }

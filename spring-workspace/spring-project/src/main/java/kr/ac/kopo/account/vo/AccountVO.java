@@ -18,6 +18,7 @@ public class AccountVO {
 	private String property;
 	private String transactionPurpose;
 	private String sourceOfFund;
+	private String faceToFace;
 	
 	public String getNameCode() {
 		return nameCode;
@@ -115,6 +116,12 @@ public class AccountVO {
 	public void setSourceOfFund(String sourceOfFund) {
 		this.sourceOfFund = sourceOfFund;
 	}
+	public String getFaceToFace() {
+		return faceToFace;
+	}
+	public void setFaceToFace(String faceToFace) {
+		this.faceToFace = faceToFace;
+	}
 	
 	@Override
 	public String toString() {
@@ -123,7 +130,7 @@ public class AccountVO {
 				+ dormant + ", lost=" + lost + ", limitation=" + limitation + ", regDate=" + regDate
 				+ ", recentlyUseDate=" + recentlyUseDate + ", elecFinanceStatus=" + elecFinanceStatus + ", reason="
 				+ reason + ", property=" + property + ", transactionPurpose=" + transactionPurpose + ", sourceOfFund="
-				+ sourceOfFund + "]";
+				+ sourceOfFund + ", faceToFace=" + faceToFace + "]";
 	}
 	
 }

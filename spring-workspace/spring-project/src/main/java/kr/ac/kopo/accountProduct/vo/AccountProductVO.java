@@ -5,6 +5,7 @@ public class AccountProductVO {
 	private String nameCode;
 	private String maxInterest;
 	private String leafletUrl;
+	private String faceToFace;
 	
 	public String getNameCode() {
 		return nameCode;
@@ -24,11 +25,16 @@ public class AccountProductVO {
 	public void setLeafletUrl(String leafletUrl) {
 		this.leafletUrl = leafletUrl;
 	}
-	
+	public String getFaceToFace() {
+		return faceToFace;
+	}
+	public void setFaceToFace(String faceToFace) {
+		this.faceToFace = faceToFace;
+	}
 	@Override
 	public String toString() {
-		return "accountProductVO [nameCode=" + nameCode + ", maxInterest=" + maxInterest + ", leafletUrl=" + leafletUrl
-				+ "]";
+		return "AccountProductVO [nameCode=" + nameCode + ", maxInterest=" + maxInterest + ", leafletUrl=" + leafletUrl
+				+ ", faceToFace=" + faceToFace + "]";
 	}
 	
 }

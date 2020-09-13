@@ -55,8 +55,6 @@ var app = https.createServer(option, function(req, res) {
 
 var io = socketIO.listen(app);
 io.sockets.on('connection', function(socket) {
-
-  console.log('새로운 접속 : ' + socket);
   
   socket.emit('check');
   
@@ -70,25 +68,39 @@ io.sockets.on('connection', function(socket) {
   socket.on('waitRoom', function(type) {
 	  
 	  var str = type.slice(0, 6);
-	  console.log('waitRoom come: ' + str);
 	  
 	  if(str == 'client') {
 		  
 		  var clientID = type.split(':')[1];
 		  var jobType = type.split(':')[2];
-		  console.log('clientID : ' + clientID);
-		  console.log('jobType : ' + jobType);
+		  
+		  
+		  //console.log('clientID : ' + clientID);
+		  //console.log('jobType : ' + jobType);
 		  
 		  socket.emit('waitingClients', clientArr.length);
 		  
 		  clientArr.push({client : socket, ID : clientID, socketID : socket.id});
 		  clientConn.push({clientID : clientID, jobType : jobType });
 		  
+		  console.log('=============== client want to go to Room=============================')
+		  console.log('waitRoom Come : client, id : ' + clientID + ', jobType : ' + jobType);
+		  //console.log('client event | teller length : ' + tellerArr.length)
+		  console.log('client event | clientArr length : ' + clientArr.length)
+		  console.log('client event | clientConn length : ' + clientConn.length)
+		  console.log('============================================')
 		  if(tellerArr.length > 0) {
 			  var tellerInfo = tellerArr.shift();
 			  var teller = tellerInfo.teller;
+			  console.log('=============== teller exist=============================')
+			  console.log('after shift tellerarr, teller Count: ' + tellerArr.length)
+			  console.log('============================================')
 			  
-			  teller.emit('ready', clientID + ':' + jobType);
+			  let tempClientID = clientConn[0].clientID;
+			  let tempJobtype = clientConn[0].jobType;
+			  clientConn.shift();
+			  teller.emit('ready', tempClientID + ':' + tempJobtype);
+			  
 		  } else {
 			  
 			  waitTellers.forEach(function(e) {
@@ -96,24 +108,23 @@ io.sockets.on('connection', function(socket) {
 			  })
 		  }
 		  
-		  console.log('client event | teller length : ' + tellerArr.length)
 	  }
 	  
 	  if(type == 'waitTeller') {
 		  waitTellers.push(socket);
+		  
+		  console.log('waitRoom Come : teller, count : ' + waitTellers.length);
 		  socket.emit('waitingClients', clientArr.length);
 	  }
 	  
 	  if(type == 'teller') {
-		  
-		  console.log('teller');
 		  
 		  //tellers.push(socket);
 		  //tellerSocketID.push(socket.id);
 		  
 		  tellerArr.push({teller : socket, socketID : socket.id});
 
-		  if(clientArr.length > 0) {
+		  if(clientConn.length > 0) {
 			  
 			  console.log('client exists');
 			  
@@ -122,15 +133,22 @@ io.sockets.on('connection', function(socket) {
 			  
 			  let clientID = clientConn[0].clientID;
 			  let jobtype = clientConn[0].jobType;
+			  console.log('클라이언트 커넥션 빼기 전 ' + clientConn.length)
 			  clientConn.shift();
+			  console.log('클라이언트 커넥션 빼기 후 ' + clientConn.length)
 			  socket.emit('ready', clientID + ':' + jobtype);
+			  console.log('[teller click go Room]clientConn : ' + clientConn.length)
 			  
 		      console.log('Teller ID ' + socket.id + ' created room ' + clientID);
 			  
+			  
 			  ////////////////////
 		  } else {
+			  console.log('===============teller want to go to Room=============================')
 			  console.log('teller event | waitTellers length : ' + waitTellers.length)
 			  console.log('teller event | clientArr length : ' + clientArr.length)
+			  console.log('teller event | clientConn length : ' + clientConn.length)
+			  console.log('=============================')
 			  
 		  }
 	  }
@@ -162,7 +180,7 @@ io.sockets.on('connection', function(socket) {
 	  bankTellerArr.push({socket : socket, socketID : socket.id});
 	  
 	  socket.join(room);
-	  console.log('Client ID ' + socket.id + ' created room ' + room);
+	  console.log('[teller create room] Client ID ' + socket.id + ' created room ' + room);
 	  socket.emit('created', room, socket.id);
 	  
 	  let index;
@@ -205,7 +223,7 @@ io.sockets.on('connection', function(socket) {
 	  io.sockets.in(room).emit('roomReady');
 	  //console.log(clientsInRoom.sockets[0])
 	  //console.log(clientsInRoom.sockets[1])
-	  console.log(socket)
+	  //console.log(socket)
 	  //rooms.push({ tellerSock : io.sockets.in(room)[0], clientSock : io.sockets.in(room)[1]})
 	  //console.log(io.sockets.in(room)[0])
 	  //console.log(io.sockets.in(room)[1])
@@ -257,6 +275,11 @@ io.sockets.on('connection', function(socket) {
 		  e.emit('waitingClients', clientArr.length);
 	  })
 	  
+	  
+	  console.log('[waitRoom Client] Disconnect : clientArr : ' + clientArr.length)
+	  console.log('[waitRoom Client] Disconnect : clientConn : ' + clientConn.length)
+	  console.log('[waitRoom Client] Disconnect : tellerArr : ' + tellerArr.length)
+	  console.log('[waitRoom Client] Disconnect : waitTellers : ' + waitTellers.length)
 	  /*
 	  if(index != -1)  {
 		  
@@ -294,6 +317,10 @@ io.sockets.on('connection', function(socket) {
 	  tellerArr.splice(index, 1);
 	  waitTellers.splice(index, 1);
 	  
+	  console.log('[waitRoom Teller] Disconnect : tellerArr : ' + tellerArr.length)
+	  console.log('[waitRoom Teller] Disconnect : waitTellers : ' + waitTellers.length)
+	  console.log('[waitRoom Teller] Disconnect : clientArr : ' + clientArr.length)
+	  console.log('[waitRoom Teller] Disconnect : clientConn : ' + clientConn.length)
 	  socket.disconnect();
   });
   
@@ -327,7 +354,7 @@ io.sockets.on('connection', function(socket) {
 	  
 	  if(index != -1)  {
 		  clientArr.splice(index, 1);
-		  clientConn.splice(inde, 1);
+		  clientConn.splice(index, 1);
 		  
 		  for(let i = 0; i < clientArr.length; i++) {
 			  clientArr[i].client.emit('waitingClients', i);
@@ -347,6 +374,18 @@ io.sockets.on('connection', function(socket) {
 		  }
 		  if(index != -1){
 			  tellerArr.splice(index, 1); 
+		  }
+		  index = -1;
+		  for(let i = 0; i < waitTellers.length; i++) {
+			  
+			  if(waitTellers[i].id == socket.id) {
+				  index = i;
+				  //bool = true;
+			  }
+				  
+		  }
+		  if(index != -1){
+			  waitTellers.splice(index, 1); 
 		  } 
 		  /*
 		  else {
@@ -368,6 +407,11 @@ io.sockets.on('connection', function(socket) {
 		  }
 		  */
 	}
+	  
+	  console.log('[disconnect] Disconnect : tellerArr : ' + tellerArr.length)
+	  console.log('[disconnect] Disconnect : waitTellers : ' + waitTellers.length)
+	  console.log('[disconnect] Disconnect : clientArr : ' + clientArr.length)
+	  console.log('[disconnect] Disconnect : clientConn : ' + clientConn.length)
 
 	  
   });

@@ -572,4 +572,13 @@ public class WorkController {
 		accountService.insertAccount(account);		
 	}
 	
+	@Transactional
+	@PostMapping("/convertAccount")
+	public void convertAccount(AccountVO account) {
+		
+		log.infoLog("account", "account update");
+		System.out.println(account);
+		
+		accountService.updateAccountNameCode(account);		
+	}
 }

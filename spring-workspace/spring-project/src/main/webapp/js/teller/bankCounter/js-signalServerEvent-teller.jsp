@@ -200,6 +200,14 @@
 					$('#workModal').append(content);
 					$("#modal").fadeIn();
 				} 
+				else if(cmd == 'accountConvertFailure') {
+					$('#workModal').empty();
+					let content = '';
+					content += '손님의 동의를 받지 못한채로 동의 화면이 닫혔습니다.';
+					
+					$('#workModal').append(content);
+					$("#modal").fadeIn();
+				} 
 				else if(cmd == 'passwordChangeComp') {
 					
 					//alert(decoding(msg.split(':')[1]));
@@ -407,6 +415,9 @@
 				}
 				else if(cmd == 'accountSigninSuccess') {
 					accountSigninSuccess();
+				}
+				else if(cmd == 'accountConvertSuccess') {
+					accountConvertSuccess();
 				}
 			})
 		

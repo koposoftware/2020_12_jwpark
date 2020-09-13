@@ -26,4 +26,6 @@ public interface AccountDAO {
 	
 	String selectPasswordByAccountNo(AccountVO account);
 	void insertAccount(AccountVO account);
+	
+	void updateAccountNameCode(AccountVO account);
 }

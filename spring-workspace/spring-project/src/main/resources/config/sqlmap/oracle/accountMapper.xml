@@ -13,6 +13,7 @@
 		<result column="elec_finance_status" property="elecFinanceStatus"/>
 		<result column="transaction_purpose" property="tansactionPurpose"/>
 		<result column="source_of_fund" property="sourceOfFund"/>
+		<result column="face_to_face" property="faceToFace"/>
 	</resultMap>
 	
 	<select id="selectAccountByUserRegNo" resultMap="accountMap" resultType="AccountVO" parameterType="userVO">
@@ -27,7 +28,8 @@
 			lost,  
 			elec_finance_status,
 			to_char(reg_date, 'yyyy-mm-dd') as regDate, 
-			to_char(recently_use_date, 'yyyy-mm-dd') as recentlyUseDate 
+			to_char(recently_use_date, 'yyyy-mm-dd') as recentlyUseDate,
+			face_to_face
 			from T_HANA_ACCOUNT 
     		where reg_no = (select reg_no from t_hana_user where reg_no = #{regNo}) 
     		order by recentlyUseDate desc
@@ -131,4 +133,15 @@
     	)
 	</insert>
 	
+	<select id="selectDefaultCnt" parameterType="String" resultType="int">
+		select count(*) from t_hana_account where lost = #{lost}
+	</select>
+	
+	<update id="updateAccountNameCode" parameterType="accountVO">
+		UPDATE 
+			t_hana_account 
+			SET 
+			name_code = (select code_key from t_hana_code_table where code_val = #{nameCode}) 
+		WHERE account_no = #{accountNo}
+	</update>
 </mapper>

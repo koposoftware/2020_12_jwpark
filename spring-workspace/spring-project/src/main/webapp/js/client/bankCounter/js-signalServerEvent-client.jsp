@@ -365,6 +365,29 @@ function connectToServer() {
 				
 				workType = 'accountJoinSuccess';
 				accountJoinSuccess();
+				$('#workModal').empty();
+				let content = '';
+				content += '입출금 예금에 성공적으로 가입되었습니다.';
+			
+				$('#modal_close_btn').empty();
+				$('#modal_close_btn').append('확인');
+			
+				$('#workModal').append(content);
+				$("#modal").fadeIn();
+			}
+			else if(cmd == 'accountConvertInputComp') {
+				
+				workType = 'accountConvertInputComp';
+				var clientName = msg.split(':')[1];
+				var convertAccountNo = msg.split(':')[2];
+				var productName = msg.split(':')[3];
+				
+				accountConvertInputComp(clientName, convertAccountNo, productName);
+			}
+			else if(cmd == 'accountConvertSuccess') {
+				
+				workType = 'accountConvertSuccess';
+				accountConvertSuccess();
 			}
 			
 			/*

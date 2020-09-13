@@ -7,6 +7,7 @@
 	<resultMap type="AccountProductVO" id="accountProductMap">
 		<result column="name_code" property="nameCode"/>
 		<result column="max_interest" property="maxInterest"/>
+		<result column="face_to_face" property="faceToFace"/>
 		<result column="leaflet_url" property="leafletUrl"/>
 	</resultMap>
 	<!-- 
@@ -18,8 +19,9 @@
 	<select id="selectAccountProduct" resultMap="accountProductMap" resultType="AccountProductVO"> 
 		SELECT 
 			(SELECT code_val  FROM t_hana_code_table WHERE code_key = name_code AND code_category = 1) AS name_code, 
-			max_interest, 
-			leaflet_url 
+			max_interest,
+			face_to_face, 
+			leaflet_url
 		FROM t_hana_account_product 
 	</select>
 </mapper>
