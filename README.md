@@ -1,4 +1,4 @@
-# 프로젝트 제목
+# 하나은행 화상창구
 
 [프로젝트 홈페이지 - https://koposoftware.github.io/template/](https://koposoftware.github.io/template/)
 
@@ -28,12 +28,14 @@
 
 본인 소개를 추가하세요
 
-|이름 |고길동|![gdKO](/gdko.jpg)|
-|연락처 | gdko(@)kopo.ac.kr|
-|skill set| Frontend - HTML, CSS, Javascript|
-| | Backend - Java, Spring, Oracle|
+|이름 |박진우|
+|![gdKO](/gdko.jpg)|
+|연락처 | 2060340015(@)kopo.ac.kr|
+|skill set
+| Frontend - HTML, CSS, Javascript|
+| Backend - Java, C, C++, Spring, Oracle, NodeJS
 |자격증|  |
-|수상| |
+|수상| 스마트 시티 해커톤 대상|
 |특기사항|  TOEIC 990 |
 
 # 5. 기타
