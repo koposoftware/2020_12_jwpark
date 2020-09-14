@@ -4,9 +4,10 @@
 
 	var host = 'https://192.168.217.52';
 	var port = '1337';
-	//var url = 'https://192.168.217.52:1337'
 	//var url = 'https://localhost:1337'
-	var url = 'https://192.168.0.7:1337';
+	//var url = 'https://192.168.0.7:1337';
+	var nodeUrl = 'https://192.168.217.52:1337'
+	var springUrl = 'https://192.168.217.52:8811'
 	var socket;
 	
 	connectToServer();
@@ -19,7 +20,8 @@
 		//var url = "http://" + host + ":" + port;
 		//var url = "https://" + host + ":" + port;
 		
-		socket = io.connect(url, options);
+		//socket = io.connect(url, options);
+		socket = io.connect(nodeUrl, options);
 
 		socket.on('connect', function() {
 
@@ -45,7 +47,9 @@
 				
 				//post_to_url("https://localhost:8811/spring-project/teller/bankCounter", "userID", clientID);
 				//post_to_url("https://localhost:8811/spring-project/teller/bankCounter", keys, values);
-				post_to_url("https://192.168.0.7:8811/spring-project/teller/bankCounter", keys, values);
+				//post_to_url("https://192.168.0.7:8811/spring-project/teller/bankCounter", keys, values);
+				//post_to_url("https://192.168.217.52:8811/spring-project/teller/bankCounter", keys, values);
+				post_to_url(springUrl + "/spring-project/teller/bankCounter", keys, values);
 				//location.href="https://localhost:8811/spring-project/teller/bankCounter";
 				console.log('joined: ' + room);
 			})

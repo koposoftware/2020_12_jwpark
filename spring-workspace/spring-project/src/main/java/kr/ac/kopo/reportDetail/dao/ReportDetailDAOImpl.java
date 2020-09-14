@@ -29,7 +29,27 @@ public class ReportDetailDAOImpl implements ReportDetailDAO {
 		
 		return list;
 	}
-	
-	
+
+	@Override
+	public List<ReportDetailVO> selectReportDetail() {
+		
+		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetail");
+		
+		return list;
+	}
+
+	@Override
+	public List<ReportDetailVO> selectReportDetailByReportYMD(ReportDetailVO reportDetail) {
+		
+		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByReportYMD", reportDetail);
+		
+		return list;
+	}
+
+	@Override
+	public String selectApiKey(String apiKey) {
+
+		return session.selectOne("reportDetail.dao.ReportDetailDAO.selectApiKey", apiKey);
+	}
 	
 }

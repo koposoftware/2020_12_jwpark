@@ -25,5 +25,24 @@ public class ReportDetailServiceImpl implements ReportDeatilService{
 		
 		return reportDetailDAO.selectReportCountByEmpNo(reportDetail).size();
 	}
+
+	@Override
+	public List<ReportDetailVO> selectReportDetail() {
+		
+		return reportDetailDAO.selectReportDetail();
+	}
+
+	@Override
+	public List<ReportDetailVO> selectReportDetailByReportYMD(ReportDetailVO reportDetail) {
+		
+		return reportDetailDAO.selectReportDetailByReportYMD(reportDetail);
+	}
+
+	@Override
+	public String selectApiKey(String apiKey) {
+		
+		return reportDetailDAO.selectApiKey(apiKey);
+	}
+	
 	
 }

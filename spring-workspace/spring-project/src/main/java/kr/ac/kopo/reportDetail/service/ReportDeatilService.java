@@ -8,4 +8,8 @@ public interface ReportDeatilService {
 
 	List<ReportDetailVO> selectReportDetailByEmpNo(ReportDetailVO reportDetail);
 	int selectReportCountByEmpNo(ReportDetailVO reportDetail);
+	List<ReportDetailVO> selectReportDetail();
+	List<ReportDetailVO> selectReportDetailByReportYMD(ReportDetailVO reportDetail);
+	
+	String selectApiKey(String apiKey);
 }

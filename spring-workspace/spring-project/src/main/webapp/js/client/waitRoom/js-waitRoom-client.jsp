@@ -4,9 +4,10 @@
 		console.log('${userVO.id}');
 		var host = 'https://192.168.217.52';
 		var port = '1337';
-		//var url = 'https://192.168.217.52:1337'
+		var nodeUrl = 'https://192.168.217.52:1337'
+		var springUrl = 'https://192.168.217.52:8811'
 		//var url = 'https://localhost:1337'
-		var url = 'https://192.168.0.7:1337';
+		//var url = 'https://192.168.0.7:1337';
 		var socket;
 		
 		var bool = true;
@@ -22,16 +23,17 @@
 			};
 			//var url = "http://" + host + ":" + port;
 			//var url = "https://" + host + ":" + port;
-			println(url);
-			socket = io.connect(url, options);
+			//println(url);
+			//socket = io.connect(url, options);
+			socket = io.connect(nodeUrl, options);
 
 			socket.on('connect', function() {
 				
-				println("웹 소켓 서버에 연결되었습니다. : " + url);
+				//println("웹 소켓 서버에 연결되었습니다. : " + nodeUrl);
 				
 				socket.on('check', function(event) {
 					console.log(event);
-					println('check Event');
+					//println('check Event');
 					//socket.emit('type', 'client:' + 'jinwoo11')
 					socket.emit('waitRoom', 'client:' + '${userVO.id}' + ':' + jobType)
 				})
@@ -39,7 +41,9 @@
 				socket.on('ready', function(id) {
 					println('ready Event');
 					//location.href="https://localhost:8811/spring-project/bankCounter";
-					location.href= "https://192.168.0.7:8811/spring-project/bankCounter";
+					//location.href= "https://192.168.0.7:8811/spring-project/bankCounter";
+					//location.href= "https://192.168.217.52:8811/spring-project/bankCounter";
+					location.href= springUrl + "/spring-project/bankCounter";
 				})
 				
 				socket.on('waitingClients', function(event) {

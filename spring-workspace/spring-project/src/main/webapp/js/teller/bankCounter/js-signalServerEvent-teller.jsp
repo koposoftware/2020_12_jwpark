@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script>
-	//var url = 'https://192.168.217.52:1337';
 	//var url = 'https://localhost:1337';
-	var url = 'https://192.168.0.7:1337';
+	//var url = 'https://192.168.0.7:1337';
+	var nodeUrl = 'https://192.168.217.52:1337';
+	var springUrl = 'https://192.168.217.52:8811';
+	
 	
 	var room = '${clientVO.id}';
 	var socket;
@@ -107,12 +109,12 @@
 		};
 		//var url = "http://" + host + ":" + port;
 		//var url = "https://" + host + ":" + port;
-		println(url);
-		socket = io.connect(url, options);
+		//println(nodeUrl);
+		socket = io.connect(nodeUrl, options);
 	
 		socket.on('connect', function() {
 			
-			println("웹 소켓 서버에 연결되었습니다. : " + url);
+			//println("웹 소켓 서버에 연결되었습니다. : " + nodeUrl);
 			
 			///////////////////// socket server로부터의 이벤트 정의 //////////////////
 		
@@ -535,7 +537,10 @@
 					var values = new Array();
 					values.push('${clientVO.id}');
 					
-					post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+					//post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+					//post_to_url("https://192.168.217.52:8811/spring-project/teller/report/insert", keys, values);
+					//post_to_url("https://192.168.217.52:8811/spring-project/teller/report/insert", keys, values);
+					post_to_url(springUrl + "/spring-project/teller/report/insert", keys, values);
 				})
 				/*
 				$("#modal-btn-si").on("click", function(){
@@ -1044,7 +1049,8 @@
 			var values = new Array();
 			values.push('${clientVO.id}');
 			
-			post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+			//post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+			post_to_url(springUrl + "/spring-project/teller/report/insert", keys, values);
 		})
 		
 		/*
@@ -1058,7 +1064,7 @@
 			var values = new Array();
 			values.push('${clientVO.id}');
 			
-			post_to_url("https://192.168.0.7:8811/spring-project/teller/report/insert", keys, values);
+			post_to_url(springUrl + "/spring-project/teller/report/insert", keys, values);
 		});
 		*/
 		

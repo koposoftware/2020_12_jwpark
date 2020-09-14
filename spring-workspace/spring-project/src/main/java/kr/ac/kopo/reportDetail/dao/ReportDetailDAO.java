@@ -8,4 +8,9 @@ public interface ReportDetailDAO {
 
 	List<ReportDetailVO> selectReportDetailByEmpNo(ReportDetailVO reportDetail);
 	List<ReportDetailVO> selectReportCountByEmpNo(ReportDetailVO reportDetail);
+	
+	List<ReportDetailVO> selectReportDetail();
+	List<ReportDetailVO> selectReportDetailByReportYMD(ReportDetailVO reportDetail);
+	
+	String selectApiKey(String apiKey);
 }
