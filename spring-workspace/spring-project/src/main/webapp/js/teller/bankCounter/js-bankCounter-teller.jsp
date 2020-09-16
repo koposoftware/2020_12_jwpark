@@ -149,38 +149,69 @@
 	
 	$("#work_selectMenu1008").bind('click', function(event) {
 		
-		
-		////////////////////////////////////		
-		
-		console.log('dd');
-		$('#workBtns').empty();
-//		$('#workDiv').empty();
+		$('#workTitle').text('체크 카드 상담')
 		let content = '';
+		content +=     '<button class="btn btn-info" id="checkCardBtn">체크카드 안내</button>&nbsp;&nbsp;&nbsp;&nbsp;';
 		
-		//content += '<div id="workName">예금 가입</div>';
-		
-		$('#workTitle').text('전자 금융 가입')
-		if('${clientVO.elecFinanceStatus}' == 'T') {
-			content +=     '<button class="btn btn-info" id="selectElecFinanceUserInfo">전자금융 가입 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
-			//content +=     '<button class="btn btn-info" id="changeElecFinanceUserPass">전자금융 비밀번호 변경</button>&nbsp;&nbsp;&nbsp;&nbsp;';
-		} else {
-			content +=     '<button class="btn btn-info" id="insertElecFinanceUser">전자금융 가입</button>';
-			$("#insertElecFinanceUser").trigger("click");
-		}
-		
-		
-//		$('#workDiv').empty();
+		$('#workBtns').empty();
 		$('#workBtns').append(content)
+		$('#workDiv').empty();
 		
-		if('${clientVO.elecFinanceStatus}' == 'T') {
-			//content +=     '<button class="btn btn-info" id="selectElecFinanceUserInfo">전자금융 가입 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
-			$("#selectElecFinanceUserInfo").trigger("click");
-		} else {
-			//content +=     '<button class="btn btn-info" id="insertElecFinanceUser">전자금융 가입</button>';
-			$("#insertElecFinanceUser").trigger("click");
-		}
-		
+		$("#checkCardBtn").trigger("click");
 	})
+	
+	$("#work_selectMenu1009").bind('click', function(event) {
+		
+		$('#workTitle').text('신용 카드 상담')
+		let content = '';
+		content +=     '<button class="btn btn-info" id="creditCardBtn">신용카드 안내</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		
+		$('#workBtns').empty();
+		$('#workBtns').append(content)
+		$('#workDiv').empty();
+		
+		$("#creditCardBtn").trigger("click");
+	})
+	
+	$("#work_selectMenu1010").bind('click', function(event) {
+		
+		$('#workTitle').text('대출 상담')
+		let content = '';
+		content +=     '<button class="btn btn-info" id="loanBtn">대출 안내</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		
+		$('#workBtns').empty();
+		$('#workBtns').append(content)
+		$('#workDiv').empty();
+		
+		$("#loanBtn").trigger("click");
+	})
+	
+	$("#work_selectMenu1011").bind('click', function(event) {
+		
+		$('#workTitle').text('펀드 상담')
+		let content = '';
+		content +=     '<button class="btn btn-info" id="fundBtn">펀드 안내</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		
+		$('#workBtns').empty();
+		$('#workBtns').append(content)
+		$('#workDiv').empty();
+		
+		$("#fundBtn").trigger("click");
+	})
+	
+	$("#work_selectMenu1012").bind('click', function(event) {
+		
+		$('#workTitle').text('방카슈랑스 상담')
+		let content = '';
+		content +=     '<button class="btn btn-info" id="insuranceBtn">방카슈랑스 안내</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		
+		$('#workBtns').empty();
+		$('#workBtns').append(content)
+		$('#workDiv').empty();
+		
+		$("#insuranceBtn").trigger("click");
+	})
+	
 	
 	$("#searchWork").bind('click', function(event) {
 		
@@ -202,10 +233,17 @@
 			$("#work_selectMenu1006").trigger("click");
 		else if(workCode.value == '1007')
 			$("#work_selectMenu1007").trigger("click");
-		/*
 		else if(workCode.value == '1008')
 			$("#work_selectMenu1008").trigger("click");
-		*/
+		else if(workCode.value == '1009')
+			$("#work_selectMenu1009").trigger("click");
+		else if(workCode.value == '1010')
+			$("#work_selectMenu1010").trigger("click");
+		else if(workCode.value == '1011')
+			$("#work_selectMenu1011").trigger("click");
+		else if(workCode.value == '1012')
+			$("#work_selectMenu1012").trigger("click");
+		
 	})
 	
 	document.addEventListener('keydown', function(e){

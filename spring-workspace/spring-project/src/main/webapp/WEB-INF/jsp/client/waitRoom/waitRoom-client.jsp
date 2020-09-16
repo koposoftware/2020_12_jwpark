@@ -168,8 +168,9 @@
 							<input type="button" class="job" id="cardJob" value="카드 업무">
 							<br>
 							<br>
-							<input type="button" class="job" id="efJob" value="전자금융 업무">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="button" class="job" id="certificationJob" value="증명서 발급 업무">
+							<input type="button" class="job" id="loanJob" value="대출 업무">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<!-- <input type="button" class="job" id="certificationJob" value="증명서 발급 업무">  -->
+							<input type="button" class="job" id="efJob" value="전자금융 업무">
     					</div>
 	    			</div>
 	    			<div class="stmInfo">

@@ -638,9 +638,16 @@
 				if(job == 'bankJob') {
 					$("#work_selectMenu1000").trigger("click");
 				}
+				else if(job == 'cardJob') {
+					$("#work_selectMenu1009").trigger("click");
+				}
 				else if(job == 'efJob') {
 					$("#work_selectMenu1007").trigger("click");
 				}
+				else if(job == 'loanJob') {
+					$("#work_selectMenu1010").trigger("click");
+				}
+				
 				/* 요게 원래거.
 				remoteVideo.srcObject = event.streams[0];
 				*/
