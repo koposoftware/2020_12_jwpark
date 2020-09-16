@@ -124,8 +124,8 @@ public class TellerController {
 			
 			String expired = format.format(time.getTime());
 			
-			reportDetail.setEmpNo(tellerVO.getEmpNo());
-			reportDetail.setReportYMD(expired);
+			reportDetail.setEmpno(tellerVO.getEmpNo());
+			reportDetail.setReportYmd(expired);
 			
 			int reportCount = reportDetailService.selectReportCountByEmpNo(reportDetail);
 			
@@ -224,8 +224,8 @@ public class TellerController {
 		String today = format.format(time.getTime());
 		
 		ReportDetailVO reportDetail = new ReportDetailVO();
-		reportDetail.setEmpNo(tellerVO.getEmpNo());
-		reportDetail.setReportYMD(today);
+		reportDetail.setEmpno(tellerVO.getEmpNo());
+		reportDetail.setReportYmd(today);
 		
 		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(reportDetail);
 		
@@ -266,8 +266,8 @@ public class TellerController {
 		String today = format.format(time.getTime());
 		
 		ReportDetailVO reportDetail = new ReportDetailVO();
-		reportDetail.setEmpNo(tellerVO.getEmpNo());
-		reportDetail.setReportYMD(today);
+		reportDetail.setEmpno(tellerVO.getEmpNo());
+		reportDetail.setReportYmd(today);
 		
 		List<ReportDetailVO> list = reportDetailService.selectReportDetailByEmpNo(reportDetail);
 		
@@ -294,5 +294,7 @@ public class TellerController {
 		
 		return mav;
 	}
+	
+	
 	
 }

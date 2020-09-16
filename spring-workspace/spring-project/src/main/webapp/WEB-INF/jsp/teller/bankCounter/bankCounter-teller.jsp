@@ -277,7 +277,7 @@
     		<a class="list-group-item list-group-item-action bg-light">계좌 이체(1005)</a>
     		<a id="work_selectMenu1006" class="list-group-item list-group-item-action bg-light">계좌 제신고(1006)</a>
     		<a id="work_selectMenu1007" class="list-group-item list-group-item-action bg-light">전자금융(1007)</a>
-    		<a class="list-group-item list-group-item-action bg-light">카드 조회(1008)</a>
+    		<a id="work_selectMenu1008" class="list-group-item list-group-item-action bg-light">카드 상담(1008)</a>
     		<a class="list-group-item list-group-item-action bg-light">체크 카드 업무(1009)</a>
     		<a class="list-group-item list-group-item-action bg-light">신용 카드 업무(1010)</a>
     		<a class="list-group-item list-group-item-action bg-light">카드 제신고(1011)</a>

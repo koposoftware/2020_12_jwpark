@@ -39,6 +39,22 @@ public class ReportDetailDAOImpl implements ReportDetailDAO {
 	}
 
 	@Override
+	public List<ReportDetailVO> selectReportDetailByCategoryAndReportYMD(ReportDetailVO reportDetail) {
+		
+		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByCategoryAndReportYMD", reportDetail);
+		
+		return list;
+	}
+	
+	@Override
+	public List<ReportDetailVO> selectReportDetailByCategory(ReportDetailVO reportDetail) {
+		
+		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByCategory", reportDetail);
+		
+		return list;
+	}
+	
+	@Override
 	public List<ReportDetailVO> selectReportDetailByReportYMD(ReportDetailVO reportDetail) {
 		
 		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByReportYMD", reportDetail);

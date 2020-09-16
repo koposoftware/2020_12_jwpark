@@ -418,7 +418,7 @@
 		let content = '';
 		content += '손님에게 비밀번호 입력 화면을 출력하였습니다.';
 		$('#workModal').append(content);
-		$("#modal").fadeIn();
+		$("#modal").fadeIn(); 
 		
 	})
 	

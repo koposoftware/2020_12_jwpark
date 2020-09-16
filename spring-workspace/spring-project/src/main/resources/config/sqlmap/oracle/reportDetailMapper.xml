@@ -9,8 +9,8 @@
 		<result column="middle_category" property="middleCategory"/>
 		<result column="consulting_report" property="consultingReport"/>
 		<result column="admin_name" property="adminName"/>
-		<result column="consulting_date" property="reportYMD"/>
-		<result column="c_date" property="reportYMD"/>
+		<result column="consulting_date" property="reportYmd"/>
+		<result column="c_date" property="reportYmd"/>
 	</resultMap>
 
 	<select id="selectReportDetailByEmpNo" resultMap="reportDetailMap" resultType="reportDetailVO" parameterType="reportDetailVO">
@@ -23,13 +23,13 @@
 			title,
 			consulting_report,
 			(select name from t_hana_teller where emp_no = e.teller_emp_no) as admin_name,
-			teller_emp_no as empNo,
+			teller_emp_no as empno,
 			<!-- to_char(consulting_date, 'yy-mm-dd') as consulting_date  -->
 			
-			case when to_char(to_date(#{reportYMD}), 'yyyy-mm-dd') = to_char(consulting_date, 'yyyy-mm-dd') then to_char(consulting_date, 'hh24:mi:ss') else to_char(consulting_date, 'yyyy-mm-dd') end as c_date
+			case when to_char(to_date(#{reportYmd}), 'yyyy-mm-dd') = to_char(consulting_date, 'yyyy-mm-dd') then to_char(consulting_date, 'hh24:mi:ss') else to_char(consulting_date, 'yyyy-mm-dd') end as c_date
 			
 		from t_hana_report e
-		where teller_emp_no = #{empNo}
+		where teller_emp_no = #{empno}
 		order by consulting_date desc
 	</select>
 	
@@ -38,7 +38,7 @@
 			client_id as id,
 			to_char(consulting_date, 'yy-mm-dd') as consulting_date
 		from t_hana_report
-		where teller_emp_no = #{empNo} and to_char(consulting_date, 'yyyy-mm-dd') = #{reportYMD}
+		where teller_emp_no = #{empno} and to_char(consulting_date, 'yyyy-mm-dd') = #{reportYmd}
 	</select>
 	
 	<select id="selectReportDetail" resultMap="reportDetailMap" resultType="reportDetailVO">
@@ -51,15 +51,34 @@
 			title,
 			consulting_report,
 			(select name from t_hana_teller where emp_no = e.teller_emp_no) as admin_name,
-			teller_emp_no as empNo,
+			teller_emp_no as empno,
 			<!-- to_char(consulting_date, 'yy-mm-dd') as consulting_date  -->
 			to_char(consulting_date, 'yyyy-mm-dd') as c_date
 			
 		from t_hana_report e
-		order by consulting_date desc
+		order by consulting_date desc  
 	</select>
 	
 	<select id="selectReportDetailByReportYMD" resultMap="reportDetailMap" resultType="reportDetailVO">
+		select 
+			client_id as id, 
+			(select name from t_hana_user where id= e.client_id) as name,
+			substr((select reg_no from t_hana_user where id = e.client_id), 1, 6) as birth,
+			main_category,
+			(SELECT code_val  FROM t_hana_code_table WHERE code_key = middle_category AND code_category = 4) as middle_category,
+			title,
+			consulting_report,
+			(select name from t_hana_teller where emp_no = e.teller_emp_no) as admin_name,
+			teller_emp_no as empno,
+			<!-- to_char(consulting_date, 'yy-mm-dd') as consulting_date  -->
+			to_char(consulting_date, 'yyyy-mm-dd') as c_date
+			
+		from t_hana_report e
+		where to_date(consulting_date) between to_date(#{reportYmd}) and to_date(#{reportYMD2})
+		order by consulting_date desc
+	</select>	
+	
+	<select id="selectReportDetailByCategory" resultMap="reportDetailMap" resultType="reportDetailVO">
 		select 
 			client_id as id, 
 			(select name from t_hana_user where id= e.client_id) as name,
@@ -69,15 +88,33 @@
 			title,
 			consulting_report,
 			(select name from t_hana_teller where emp_no = e.teller_emp_no) as admin_name,
-			teller_emp_no as empNo,
+			teller_emp_no as empno,
 			<!-- to_char(consulting_date, 'yy-mm-dd') as consulting_date  -->
 			to_char(consulting_date, 'yyyy-mm-dd') as c_date
 			
 		from t_hana_report e
-		where consulting_date between to_date(#{reportYMD}) and to_date(#{reportYMD2})
+		where middle_category = #{middleCategory} 
 		order by consulting_date desc
-	</select>	
+	</select>
 	
+	<select id="selectReportDetailByCategoryAndReportYMD" resultMap="reportDetailMap" resultType="reportDetailVO">
+		select 
+			client_id as id, 
+			(select name from t_hana_user where id= e.client_id) as name,
+			substr((select reg_no from t_hana_user where id = e.client_id), 1, 6) as birth,
+			main_category,
+			(SELECT code_val  FROM t_hana_code_table WHERE code_key = #{middleCategory} AND code_category = 4) as middle_category,
+			title,
+			consulting_report,
+			(select name from t_hana_teller where emp_no = e.teller_emp_no) as admin_name,
+			teller_emp_no as empno,
+			<!-- to_char(consulting_date, 'yy-mm-dd') as consulting_date  -->
+			to_char(consulting_date, 'yyyy-mm-dd') as c_date
+			
+		from t_hana_report e
+		where (to_date(consulting_date) between to_date(#{reportYmd}) and to_date(#{reportYMD2})) and middle_category = #{middleCategory}
+		order by consulting_date desc
+	</select>
 	
 	<select id="selectApiKey" resultType="string" parameterType="string">
 		select id from t_hana_api_key where id = #{apiKey}

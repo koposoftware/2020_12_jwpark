@@ -63,8 +63,8 @@
 								<td>${record.middleCategory}</td>
 								<td>${record.title}</td>
 								<td>${record.consultingReport}</td>
-								<td>${record.adminName}(${record.empNo})</td>
-								<td>${record.reportYMD}</td>
+								<td>${record.adminName}(${record.empno})</td>
+								<td>${record.reportYmd}</td>
 							</tr>
 						</c:forEach>
 					</table>

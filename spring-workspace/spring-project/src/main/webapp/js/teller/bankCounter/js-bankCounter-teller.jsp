@@ -145,6 +145,40 @@
 			$("#insertElecFinanceUser").trigger("click");
 		}
 		
+	})
+	
+	$("#work_selectMenu1008").bind('click', function(event) {
+		
+		
+		////////////////////////////////////		
+		
+		console.log('dd');
+		$('#workBtns').empty();
+//		$('#workDiv').empty();
+		let content = '';
+		
+		//content += '<div id="workName">예금 가입</div>';
+		
+		$('#workTitle').text('전자 금융 가입')
+		if('${clientVO.elecFinanceStatus}' == 'T') {
+			content +=     '<button class="btn btn-info" id="selectElecFinanceUserInfo">전자금융 가입 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+			//content +=     '<button class="btn btn-info" id="changeElecFinanceUserPass">전자금융 비밀번호 변경</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+		} else {
+			content +=     '<button class="btn btn-info" id="insertElecFinanceUser">전자금융 가입</button>';
+			$("#insertElecFinanceUser").trigger("click");
+		}
+		
+		
+//		$('#workDiv').empty();
+		$('#workBtns').append(content)
+		
+		if('${clientVO.elecFinanceStatus}' == 'T') {
+			//content +=     '<button class="btn btn-info" id="selectElecFinanceUserInfo">전자금융 가입 정보</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+			$("#selectElecFinanceUserInfo").trigger("click");
+		} else {
+			//content +=     '<button class="btn btn-info" id="insertElecFinanceUser">전자금융 가입</button>';
+			$("#insertElecFinanceUser").trigger("click");
+		}
 		
 	})
 	

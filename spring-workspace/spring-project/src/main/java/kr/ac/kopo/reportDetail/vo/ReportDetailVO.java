@@ -10,11 +10,10 @@ public class ReportDetailVO {
 	private String title;
 	private String consultingReport;
 	private String adminName;
-	private String empNo;
-	private String channel;
-	private String reportYMD;
+	private String empno;
+	private String consultingChannel;
+	private String reportYmd;
 	private String reportYMD2;
-	
 	public String getId() {
 		return id;
 	}
@@ -63,23 +62,23 @@ public class ReportDetailVO {
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
 	}
-	public String getEmpNo() {
-		return empNo;
+	public String getEmpno() {
+		return empno;
 	}
-	public void setEmpNo(String empNo) {
-		this.empNo = empNo;
+	public void setEmpno(String empno) {
+		this.empno = empno;
 	}
-	public String getChannel() {
-		return channel;
+	public String getConsultingChannel() {
+		return consultingChannel;
 	}
-	public void setChannel(String channel) {
-		this.channel = channel;
+	public void setConsultingChannel(String consultingChannel) {
+		this.consultingChannel = consultingChannel;
 	}
-	public String getReportYMD() {
-		return reportYMD;
+	public String getReportYmd() {
+		return reportYmd;
 	}
-	public void setReportYMD(String reportYMD) {
-		this.reportYMD = reportYMD;
+	public void setReportYmd(String reportYmd) {
+		this.reportYmd = reportYmd;
 	}
 	public String getReportYMD2() {
 		return reportYMD2;
@@ -91,8 +90,8 @@ public class ReportDetailVO {
 	public String toString() {
 		return "ReportDetailVO [id=" + id + ", name=" + name + ", birth=" + birth + ", mainCategory=" + mainCategory
 				+ ", middleCategory=" + middleCategory + ", title=" + title + ", consultingReport=" + consultingReport
-				+ ", adminName=" + adminName + ", empNo=" + empNo + ", channel=" + channel + ", reportYMD=" + reportYMD
-				+ ", reportYMD2=" + reportYMD2 + "]";
+				+ ", adminName=" + adminName + ", empno=" + empno + ", consultingChannel=" + consultingChannel
+				+ ", reportYmd=" + reportYmd + ", reportYMD2=" + reportYMD2 + "]";
 	}
 	
 	

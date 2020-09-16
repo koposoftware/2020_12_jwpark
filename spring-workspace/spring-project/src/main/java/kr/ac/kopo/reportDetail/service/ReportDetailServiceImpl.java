@@ -33,9 +33,21 @@ public class ReportDetailServiceImpl implements ReportDeatilService{
 	}
 
 	@Override
+	public List<ReportDetailVO> selectReportDetailByCategoryAndReportYMD(ReportDetailVO reportDetail) {
+		
+		return reportDetailDAO.selectReportDetailByCategoryAndReportYMD(reportDetail);
+	}
+	
+	@Override
 	public List<ReportDetailVO> selectReportDetailByReportYMD(ReportDetailVO reportDetail) {
 		
 		return reportDetailDAO.selectReportDetailByReportYMD(reportDetail);
+	}
+	
+	@Override
+	public List<ReportDetailVO> selectReportDetailByCategory(ReportDetailVO reportDetail) {
+		
+		return reportDetailDAO.selectReportDetailByCategory(reportDetail);
 	}
 
 	@Override

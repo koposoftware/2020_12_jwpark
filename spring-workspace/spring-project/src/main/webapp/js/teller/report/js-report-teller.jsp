@@ -11,6 +11,25 @@
 			return false;
 		if($('#reportArea').val() == '')
 			return false;
+		/*
+		$.ajax({
+			url : 'http:192.168.217.41:9999/Mission-Spring/videoConsulting',
+			type : 'get',
+			async : false,
+			data : {
+				
+			},
+			success : function(data) {
+				
+				alert("dd")
+				return false;
+			},error : function(data) {
+				
+				alert("ss")
+				return false;
+			}
+		})
+		*/
 	}
 	
 </script>
