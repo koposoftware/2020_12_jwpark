@@ -29,13 +29,11 @@
 
 |이름 |박진우|  
 |![gdKO](/gdko.jpg)|  
-|연락처 | 2060340015(@)kopo.ac.kr|
-|skill set
-| Frontend - HTML, CSS, Javascript|
-| Backend - Java, C, C++, Spring, Oracle, NodeJS
-|자격증|  |
-|수상| 스마트 시티 해커톤 대상|
-|특기사항|  TOEIC 990 |
+|연락처 | 2060340015(@)kopo.ac.kr|  
+|skill set  
+| Frontend - HTML, CSS, Javascript|  
+| Backend - Java, C, C++, Spring, Oracle, NodeJS  
+|수상| 스마트 시티 해커톤 대상|  
 
 # 5. 기타
 그외 프로젝트를 더욱 설명할수 있는 것들을 추가하세요
