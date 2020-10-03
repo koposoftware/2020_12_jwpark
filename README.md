@@ -26,10 +26,9 @@
 
 # 4. 본인 소개
 
-본인 소개를 추가하세요
 
-|이름 |박진우|
-|![gdKO](/gdko.jpg)|
+|이름 |박진우|  
+|![gdKO](/gdko.jpg)|  
 |연락처 | 2060340015(@)kopo.ac.kr|
 |skill set
 | Frontend - HTML, CSS, Javascript|
