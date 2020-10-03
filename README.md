@@ -10,8 +10,8 @@
 
 프로젝트 제안서를 설명하세요. 발표자료와 동영상을 추가하세요. 시스템의 아키텍쳐 설명도 추가하세요.
 
-   <img src="ppt.jpg"/>[발표자료](/project.pptx)<br>
-   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/6LxbdIjWP04" frameborder="0"></iframe>
+   <img src="ppt.jpg"/>[발표자료](/하나금융티아이 발표자료_git Upload.pptx)<br>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/QUlPbA2wbb4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
  
 
 # 3. 프로젝트 결과
@@ -28,11 +28,11 @@
 
 
 |이름 |박진우|  
-|![gdKO](/gdko.jpg)|  
+|![박진우](/박진우.jpg)|  
 |연락처 | 2060340015(@)kopo.ac.kr|  
 |skill set  
 | Frontend - HTML, CSS, Javascript|  
-| Backend - Java, C, C++, Spring, Oracle, NodeJS  
+| Backend - Java(Spring), Oracle, NodeJS(Express), C, C++, Pro*c
 |수상| 스마트 시티 해커톤 대상|  
 
 # 5. 기타
