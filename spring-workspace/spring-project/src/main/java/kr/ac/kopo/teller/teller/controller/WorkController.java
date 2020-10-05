@@ -447,15 +447,19 @@ public class WorkController {
 
 	public String saveFileAndDoOCR(MultipartFile file, String directoryPath, String id, String name) throws IOException {
 		
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		Calendar time = Calendar.getInstance();
+		String sTime = format.format(time.getTime());
+		
 		//String saveFolder = "D:/hanaProject-workspace/spring-workspace/spring-project/src/main/webapp/resources/images/capturedID";
 		// parent directory를 찾는다.
-		File saveFile = new File(directoryPath, id + "_" + name + "_" + "id.png");
+		File saveFile = new File(directoryPath, sTime + "_" + id + "_" + name + "_" + "idCard.png");
 		
 		String text = "";
 		try {
 			file.transferTo(saveFile);
 			
-			BufferedImage image = ImageIO.read(new File(directoryPath, id + "_" + name + "_" + "id.png"));
+			BufferedImage image = ImageIO.read(new File(directoryPath, sTime + "_" + id + "_" + name + "_" + "idCard.png"));
 			
 			int avgRGB = 0;
 			int count = 0;
@@ -515,7 +519,7 @@ public class WorkController {
 		
 		//hr.setContentType("text/html;charset=UTF-8");
 		
-		String saveFolder = "D:/hanaProject-workspace/spring-workspace/spring-project/src/main/webapp/resources/images/capturedID";
+		String saveFolder = "D:/hanaProject-workspace/idCard";
 		String text="";
 		
 		try {
