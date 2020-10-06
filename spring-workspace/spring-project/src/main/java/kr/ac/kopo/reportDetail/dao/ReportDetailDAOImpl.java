@@ -61,6 +61,14 @@ public class ReportDetailDAOImpl implements ReportDetailDAO {
 		
 		return list;
 	}
+	
+	@Override
+	public List<ReportDetailVO> selectReportDetailByCategoryAndReportYMDUserID(ReportDetailVO reportDetail) {
+
+		List<ReportDetailVO> list = session.selectList("reportDetail.dao.ReportDetailDAO.selectReportDetailByCategoryAndReportYMDUserID", reportDetail);
+		
+		return list;
+	}
 
 	@Override
 	public String selectApiKey(String apiKey) {

@@ -42,8 +42,34 @@ public class RestAPIController {
 		List<ReportDetailVO> list = null;
 		String api = reportDetailService.selectApiKey(apiKey);
 		
-		
-		if(telegram.length() > 16) {
+		if(telegram.length() > 18) {
+			String startDate = telegram.substring(0,8);
+			String endDate = telegram.substring(8,16);
+			String middleCategory = telegram.substring(16,18);
+			String userId = telegram.substring(18);
+			
+			if(middleCategory.substring(0, 1).equals("0"))
+				middleCategory = middleCategory.substring(1, 2);
+			
+			if(api != null) {
+				ReportDetailVO reportDetail = new ReportDetailVO();
+				reportDetail.setMiddleCategory(middleCategory);
+				reportDetail.setReportYmd(startDate);
+				reportDetail.setReportYMD2(endDate);
+				reportDetail.setId(userId);
+				
+				//list = reportDetailService.selectReportDetailByCategoryAndReportYMD(reportDetail);
+				list = reportDetailService.selectReportDetailByCategoryAndReportYMDUserID(reportDetail);
+				
+				for(int i = 0; i < list.size(); i++) {
+					list.get(i).setConsultingChannel("원격");
+				}
+			}
+			else {
+				list = null;
+			}
+		}
+		else if(telegram.length() > 16) {
 			String startDate = telegram.substring(0,8);
 			String endDate = telegram.substring(8,16);
 			String middleCategory = telegram.substring(16,18);
@@ -58,6 +84,7 @@ public class RestAPIController {
 				reportDetail.setReportYMD2(endDate);
 				
 				list = reportDetailService.selectReportDetailByCategoryAndReportYMD(reportDetail);
+				//list = reportDetailService.selectReportDetailByCategoryAndReportYMDUserID(reportDetail);
 				
 				for(int i = 0; i < list.size(); i++) {
 					list.get(i).setConsultingChannel("원격");

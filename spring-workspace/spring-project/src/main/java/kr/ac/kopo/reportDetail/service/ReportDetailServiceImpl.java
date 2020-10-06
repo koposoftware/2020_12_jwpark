@@ -51,6 +51,12 @@ public class ReportDetailServiceImpl implements ReportDeatilService{
 	}
 
 	@Override
+	public List<ReportDetailVO> selectReportDetailByCategoryAndReportYMDUserID(ReportDetailVO reportDetail) {
+		
+		return reportDetailDAO.selectReportDetailByCategoryAndReportYMDUserID(reportDetail);
+	}
+
+	@Override
 	public String selectApiKey(String apiKey) {
 		
 		return reportDetailDAO.selectApiKey(apiKey);

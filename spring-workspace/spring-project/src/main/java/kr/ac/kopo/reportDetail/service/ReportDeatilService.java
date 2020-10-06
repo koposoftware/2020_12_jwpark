@@ -12,6 +12,7 @@ public interface ReportDeatilService {
 	List<ReportDetailVO> selectReportDetailByReportYMD(ReportDetailVO reportDetail);
 	List<ReportDetailVO> selectReportDetailByCategoryAndReportYMD(ReportDetailVO reportDetail);
 	List<ReportDetailVO> selectReportDetailByCategory(ReportDetailVO reportDetail);
+	List<ReportDetailVO> selectReportDetailByCategoryAndReportYMDUserID(ReportDetailVO reportDetail);
 	
 	String selectApiKey(String apiKey);
 }
