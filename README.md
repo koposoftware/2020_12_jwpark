@@ -2,14 +2,13 @@
 
 # 1. 프로젝트 개요
 
-<img src="필요성.JPG"/><br>
-<img src="필요성2.JPG"/><br>
+<img width="560" height="315" src="필요성.JPG"/><br>
+<img width="560" height="315" src="필요성2.JPG"/><br>
 
 # 2. 프로젝트 제안서
 
-프로젝트 제안서를 설명하세요. 발표자료와 동영상을 추가하세요. 시스템의 아키텍쳐 설명도 추가하세요.
 
-   <img src="ppt.jpg"/>[발표자료](/하나금융티아이 발표자료_git Upload.pptx)<br>
+   <img src="ppt.jpg"/>[자료](/2060340015_박진우_프로젝트 제안서.pptx)<br>
    <iframe width="560" height="315" src="https://www.youtube.com/embed/QUlPbA2wbb4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
  
 
