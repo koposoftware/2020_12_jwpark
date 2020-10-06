@@ -2,8 +2,8 @@
 
 # 1. 프로젝트 개요
 
-<img src="필요성.jpg"/><br>
-<img src="필요성2.jpg"/><br>
+<img src="필요성.JPG"/><br>
+<img src="필요성2.JPG"/><br>
 
 # 2. 프로젝트 제안서
 
