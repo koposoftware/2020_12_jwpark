@@ -1,7 +1,5 @@
 # 하나은행 화상창구
 
-[프로젝트 홈페이지 - https://koposoftware.github.io/template/](https://koposoftware.github.io/template/)
-
 # 1. 프로젝트 개요
 
 <img src="필요성.jpg"/><br>
