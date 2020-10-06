@@ -8,8 +8,7 @@
 # 2. 프로젝트 제안서
 
 
-   <img src="ppt.jpg"/>[자료](/2060340015_박진우_프로젝트 제안서.pptx)<br>
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/QUlPbA2wbb4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   <img src="제안서 포스터.JPG"/>[자료](/2060340015_박진우_프로젝트_제안서.pptx)<br>
  
 
 # 3. 프로젝트 결과
